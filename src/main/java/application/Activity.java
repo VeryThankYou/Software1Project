@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Activity
 {
-
+    private Project project;
     private String name;
     private int startDate;
     private int endDate;
@@ -16,12 +16,13 @@ public class Activity
     private int processInfo;
 
 
-    public Activity(String name, int sDate, int eDate, double hourEst)
+    public Activity(String name, int sDate, int eDate, double hourEst, Project newProject)
     {
         this.name = name;
         this.startDate = sDate;
         this.endDate = eDate;
         this.hourEstimate = hourEst;
+        this.project = newProject;
     }
 
     public void addDev(Developer dev)
@@ -108,4 +109,8 @@ public class Activity
     return devAvailability;
     }
     
+    public Project getProject()
+    {
+        return project;
+    }
 }

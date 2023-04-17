@@ -68,13 +68,19 @@ public class Activity
 
     public Map<Integer, ArrayList<Developer>> showAvailableDevs(ArrayList<Developer> devList)
     {
+        // inits map of week and most available devs that week
         Map<Integer, ArrayList<Developer>> devAvailability = new HashMap<Integer, ArrayList<Developer>>();
+        // inits temp list of devs to add to the map at end of loop
         ArrayList<Developer> weekDevs = new ArrayList<>();
+        // loops over each week of Activity
         for (int i = startDate; i <= endDate; i++)
         {
+            // resets temp fields
             int j = 0;
             weekDevs.clear();
-            while (weekDevs.size() < 10 && j < 5)
+            // loops until 5 loops or more than 10 devs are found
+            // loop variable represents other Activities for given week. The returned list is sorted by adding to it in ascending order.
+            while (weekDevs.size() <= 10 && j <= 5)
             {
                 for (int k = 0; k < devList.size() ; k++)
                 {

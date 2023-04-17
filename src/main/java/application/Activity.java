@@ -32,6 +32,12 @@ public class Activity
             }
     }
 
+    public int[] getDates()
+    {
+        int[] out = {startDate, endDate};
+        return out;
+    }
+
     public double computeHoursSpent()
     {
         double hoursSpent = 0; 

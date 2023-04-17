@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Developer 
 
@@ -11,7 +12,7 @@ public class Developer
     private Activity activity;
 
 
-    public void viewSchedule(int weeknum)
+    public ArrayList<Activity> viewSchedule(int weeknum)
     {
         // TODO implement here
 

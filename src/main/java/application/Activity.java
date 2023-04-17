@@ -1,8 +1,10 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Activity 
+public class Activity
 {
 
     private String name;
@@ -60,19 +62,29 @@ public class Activity
         }
     }
 
-    public void showAvailableDevs()
+    public Map<Integer, ArrayList<Developer>> showAvailableDevs(ArrayList<Developer> devList)
     {
-        ArrayList<Developer> availableDevs = new ArrayList<>();
+        Map<Integer, ArrayList<Developer>> devAvailability = new HashMap<Integer, ArrayList<Developer>>();
+        ArrayList<Developer> weekDevs = new ArrayList<>();
         for (int i = startDate; i <= endDate; i++)
         {
-            for (int j = 0; j < devs.size(); j++)
+            int j = 0;
+            weekDevs.clear();
+            while (weekDevs.size() < 10 && j < 5)
             {
-                devs.get(j).viewSchedule(i);
+                for (int k = 0; k < devList.size() ; k++)
+                {
+                    if (devList.get(k).viewSchedule(i).size() <= j)
+                    {
+                        weekDevs.add(devList.get(k));
+                    }
+                }
+                j++;
             }
+            devAvailability.put(i, weekDevs);
         }  
 
+    return devAvailability;
     }
-
-
     
 }

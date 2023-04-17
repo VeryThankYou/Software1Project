@@ -30,13 +30,13 @@ public class LogPlan {
         // TODO implement here
     }
 
-    public getReport(Project project)
+    public void getReport(Project project)
     {
         for (int i = 0; i < projectList.size(); i++)
         {
             if (projectList.get(i) == project)
             {
-                return project.makeReport();
+                project.makeReport();
             }
         }
     }

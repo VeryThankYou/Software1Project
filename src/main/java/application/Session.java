@@ -15,4 +15,9 @@ public class Session
     {
         // TODO implement here
     }
+
+    public double getLength()
+    {
+        return length;
+    }
 }

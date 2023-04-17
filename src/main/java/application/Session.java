@@ -11,7 +11,7 @@ public class Session
     private Double length;
     private LocalDate date;
 
-    private void updateInfo()
+    public void updateInfo()
     {
         // TODO implement here
     }

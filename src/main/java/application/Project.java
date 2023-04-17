@@ -61,4 +61,14 @@ public class Project
         }
         return false;
     }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public int getId()
+    {
+        return projectID;
+    }
 }

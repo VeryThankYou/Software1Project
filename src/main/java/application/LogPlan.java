@@ -41,4 +41,17 @@ public class LogPlan {
         }
     }
     
+    public ArrayList<Project> searchProjects(String searchString)
+    {
+        ArrayList<Project> projects = new ArrayList<Project>();
+        for (int i = 0; i < projectList.size(); i++)
+        {
+            String idAsString = Integer.toString(projectList.get(i).getId());
+            if (projectList.get(i).getName().contains(searchString) || idAsString.contains(searchString))
+            {
+                projects.add(projectList.get(i));
+            }
+            
+        }
+    }
 }

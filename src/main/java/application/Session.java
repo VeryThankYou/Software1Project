@@ -5,36 +5,32 @@ import java.time.LocalDate;
 public class Session 
 
 {
-
-    private Developer developer;
-    private Activity activity;
     private Double length;
     private LocalDate date;
 
-    public void updateInfo()
+    public Session(Double newTime, LocalDate newDate)
     {
-    // Get current date
-    LocalDate currentDate = LocalDate.now();
-
-    // Update date to current date
-    setDate(currentDate);
-
-    // Update length based on developer's activity
-    if (activity == Activity.HOUR) 
-    {
-        setLength(length + 1.0); // Add 1.0 to the current length for hour activity
-    } else if (activity == Activity.HALFHOUR) 
-    {
-        setLength(length + 0.5); // Add 0.5 to the current length for halfhour activity
+        length = newTime;
+        date = newDate;
     }
 
-    // Display updated information
-    System.out.println("Session updated: Developer: " + developer.getName() +
-            ", Activity: " + activity + ", Length: " + length + ", Date: " + date);
+    public void setDate(LocalDate newDate)
+    {
+        date = newDate;
+    }
+
+    public void setLength(double newTime)
+    {
+        length = newTime;
     }
 
     public double getLength()
     {
         return length;
+    }
+
+    public LocalDate getDate()
+    {
+        return date;
     }
 }

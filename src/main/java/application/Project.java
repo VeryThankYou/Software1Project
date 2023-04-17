@@ -21,9 +21,12 @@ public class Project
         projectLeader = leader;
     }
 
-    private void updateLeader(Developer dev)
+    private void updateLeader(Developer dev, Developer loggedIn)
     {
-        // TODO: implement method
+        if (isProjectLeader(loggedIn))
+        {
+            projectLeader = dev;
+        }
     }
 
     private void addActivity()
@@ -32,9 +35,12 @@ public class Project
         activities.add(act);
     }
 
-    private void updateInfo()
+    private void updateName(Developer loggedIn, String newName)
     {
-        // TODO: implement method
+        if (isProjectLeader(loggedIn))
+        {
+            name = newName;
+        }
     }
 
     public void makeReport()

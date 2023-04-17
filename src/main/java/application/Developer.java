@@ -14,6 +14,7 @@ public class Developer
     public void viewSchedule(int weeknum)
     {
         // TODO implement here
+
     }
 
     public void viewProjects()
@@ -24,6 +25,7 @@ public class Developer
     public void markHours(Activity activity, LocalDate date, Double time)
     {
         // TODO implement here
+
     }
     
 }

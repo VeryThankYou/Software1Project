@@ -40,7 +40,7 @@ public class Developer
     {
         Session session = new Session(time, date);
         activity.addSession(session);
-        sessions.add(session)
+        sessions.add(session);
     }
     
     public String getId()

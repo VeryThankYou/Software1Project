@@ -35,7 +35,7 @@ public class LogPlan {
         {
             if (projectList.get(i) == project)
             {
-                project.makeReport();
+                return project.makeReport();
             }
         }
     }

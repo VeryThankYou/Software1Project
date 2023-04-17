@@ -7,7 +7,7 @@ public class LogPlan {
     private ArrayList<Project> projectList;
     private Developer signedIn;
 
-    public void addDeveloper(String credentials);
+    public void addDeveloper(String credentials)
     {
         for (int i = 0; i < developerList.size(); i++)
         {
@@ -16,20 +16,21 @@ public class LogPlan {
                 return;
             }
         }
+        Developer dev = new Developer(credentials);
 
     }
 
-    public void createProject(String name);
+    public void createProject(String name)
     {
         // TODO implement here
     }
 
-    public void viewSchedule(Developer dev);
+    public void viewSchedule(Developer dev)
     {
         // TODO implement here
     }
 
-    public getReport(Project project);
+    public getReport(Project project)
     {
         for (int i = 0; i < projectList.size(); i++)
         {

@@ -7,17 +7,17 @@ public class LogPlan {
     private ArrayList<Project> projectList;
     private Developer signedIn;
 
-    public void addDeveloper(String credentials)
+    public void addDeveloper(String credentials, String name)
     {
         for (int i = 0; i < developerList.size(); i++)
         {
-            if (developerList.get(i).getCredentials() == credentials)
+            if (developerList.get(i).getId().equals(credentials))
             {
                 return;
             }
         }
-        Developer dev = new Developer(credentials);
-
+        Developer dev = new Developer(credentials, name);
+        developerList.add(dev);
     }
 
     public void createProject(String name)

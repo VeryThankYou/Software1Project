@@ -11,6 +11,11 @@ public class Developer
     private Session session;
     private Activity activity;
 
+    public Developer(String newId, String newName)
+    {
+        id = newId;
+        name = newName;
+    }
 
     public ArrayList<Activity> viewSchedule(int weeknum)
     {
@@ -29,4 +34,8 @@ public class Developer
 
     }
     
+    public String getId()
+    {
+        return id;
+    }
 }

@@ -45,7 +45,12 @@ public class Project
 
     public void makeReport()
     {
-        // TODO: implement method
+        double workedHours = 0;
+        for (int i = 0; i < activities.size(); i++)
+        {
+            workedHours = workedHours + activities.get(i).computeHoursSpent();
+        }
+        System.out.println(workedHours);
     }
 
     public Boolean isProjectLeader(Developer dev)

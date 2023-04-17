@@ -50,8 +50,8 @@ public class LogPlan {
             if (projectList.get(i).getName().contains(searchString) || idAsString.contains(searchString))
             {
                 projects.add(projectList.get(i));
-            }
-            
+            }       
         }
+        return projects;
     }
 }

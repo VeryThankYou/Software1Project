@@ -31,7 +31,7 @@ public class Project
 
     private void addActivity(String newName, int sDate, int eDate, double hourEst)
     {
-        Activity act = new Activity(newName, sDate, eDate, hourEst);
+        Activity act = new Activity(newName, sDate, eDate, hourEst, this);
         activities.add(act);
     }
 

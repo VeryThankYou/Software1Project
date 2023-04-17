@@ -32,4 +32,9 @@ public class Session
     System.out.println("Session updated: Developer: " + developer.getName() +
             ", Activity: " + activity + ", Length: " + length + ", Date: " + date);
     }
+
+    public double getLength()
+    {
+        return length;
+    }
 }

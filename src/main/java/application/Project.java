@@ -29,9 +29,9 @@ public class Project
         }
     }
 
-    private void addActivity()
+    private void addActivity(String newName, int sDate, int eDate, double hourEst)
     {
-        Activity act = new Activity();
+        Activity act = new Activity(newName, sDate, eDate, hourEst);
         activities.add(act);
     }
 
@@ -45,7 +45,12 @@ public class Project
 
     public void makeReport()
     {
-        // TODO: implement method
+        double workedHours = 0;
+        for (int i = 0; i < activities.size(); i++)
+        {
+            workedHours = workedHours + activities.get(i).computeHoursSpent();
+        }
+        System.out.println(workedHours);
     }
 
     public Boolean isProjectLeader(Developer dev)

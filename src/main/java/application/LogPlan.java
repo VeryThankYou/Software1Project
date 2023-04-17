@@ -1,29 +1,44 @@
 package application;
+import java.util.ArrayList;
 
 public class LogPlan {
 
-    private Developer() developerList;
-    private Project() projectList;
-    private Developer() signedIn;
+    private ArrayList<Developer> developerList;
+    private ArrayList<Project> projectList;
+    private Developer signedIn;
 
-    public void addDeveloper(String credentials);
+    public void addDeveloper(String credentials)
+    {
+        for (int i = 0; i < developerList.size(); i++)
+        {
+            if (developerList.get(i).getCredentials() == credentials)
+            {
+                return;
+            }
+        }
+        Developer dev = new Developer(credentials);
+
+    }
+
+    public void createProject(String name)
     {
         // TODO implement here
     }
 
-    public void createProject(String name);
+    public void viewSchedule(Developer dev)
     {
         // TODO implement here
     }
 
-    public void viewSchedule(Developer dev);
+    public getReport(Project project)
     {
-        // TODO implement here
-    }
-
-    public getReport(Project project);
-    {
-        // TODO implement here
+        for (int i = 0; i < projectList.size(); i++)
+        {
+            if (projectList.get(i) == project)
+            {
+                return project.makeReport();
+            }
+        }
     }
     
 }

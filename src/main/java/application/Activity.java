@@ -44,10 +44,14 @@ public class Activity
 
     public void setStartEndDate(int start, int end)
     {
-        if (start > -1 && start < 54 && end > -1 && end < 54)
+        if (start > -1 && start < 54 && end > -1 && end < 54) 
         {
             startDate = start;
             endDate = end;
+        } //Throw invalid date exception
+        else 
+        {
+            System.out.println("Invalid date");
         }
     }
 

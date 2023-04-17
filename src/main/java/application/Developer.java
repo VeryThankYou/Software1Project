@@ -8,8 +8,8 @@ public class Developer
 {
     private String id;
     private String name;
-    private Session session;
-    private Activity activity;
+    private ArrayList<Activity> activities = new ArrayList<>();
+    private ArrayList<Session> sessions = new ArrayList<>();
 
     public Developer(String newId, String newName)
     {
@@ -19,8 +19,16 @@ public class Developer
 
     public ArrayList<Activity> viewSchedule(int weeknum)
     {
-        // TODO implement here
-
+        ArrayList<Activity> weekActs = new ArrayList<>();
+        for (int i = 0 ; i < activities.size() ; i++)
+        {
+            int[] frame = activities.get(i).getDates();
+            if(weeknum >= frame[1] && weeknum <= frame[0])
+            {
+                weekActs.add(activities.get(i));
+            }    
+        }
+        return weekActs;
     }
 
     public void viewProjects()

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class LogPlan {
 
-    private Arraylist<Developer> developerList;
+    private ArrayList<Developer> developerList;
     private ArrayList<Project> projectList;
     private Developer signedIn;
 

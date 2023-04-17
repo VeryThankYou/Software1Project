@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 public class Activity 
 {
 
@@ -7,26 +9,26 @@ public class Activity
     private int startDate;
     private int endDate;
     private double hourEstimate;
-    private Developer() developer;
-    private Session() session;
+    private Developer developer;
+    private Session session;
     private int processInfo;
 
-    public void addDev(Developer dev);
+    public void addDev(Developer dev)
     {
         // TODO implement here
     }
 
-    public void computeHoursSpent();
+    public void computeHoursSpent()
     {
         // TODO implement here
     }
 
-    public void updateInfo(int i);
+    public void updateInfo(int i)
     {
         // TODO implement here
     }
 
-    public showAvailableDevs();
+    public ArrayList<Developer> showAvailableDevs()
     {
         // TODO implement here
     }

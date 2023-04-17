@@ -9,7 +9,14 @@ public class LogPlan {
 
     public void addDeveloper(String credentials);
     {
-        // TODO implement here
+        for (int i = 0; i < developerList.size(); i++)
+        {
+            if (developerList.get(i).getCredentials() == credentials)
+            {
+                return;
+            }
+        }
+
     }
 
     public void createProject(String name);
@@ -24,7 +31,13 @@ public class LogPlan {
 
     public getReport(Project project);
     {
-        // TODO implement here
+        for (int i = 0; i < projectList.size(); i++)
+        {
+            if (projectList.get(i) == project)
+            {
+                project.makeReport();
+            }
+        }
     }
     
 }

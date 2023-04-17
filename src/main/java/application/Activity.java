@@ -32,6 +32,11 @@ public class Activity
             }
     }
 
+    public void addSession(Session session)
+    {
+        sessions.add(session);
+    }
+
     public int[] getDates()
     {
         int[] out = {startDate, endDate};

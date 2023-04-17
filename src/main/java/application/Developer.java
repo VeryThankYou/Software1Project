@@ -38,8 +38,9 @@ public class Developer
 
     public void markHours(Activity activity, LocalDate date, Double time)
     {
-        // TODO implement here
-
+        Session session = new Session(time, date);
+        activity.addSession(session);
+        sessions.add(session)
     }
     
     public String getId()

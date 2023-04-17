@@ -29,9 +29,9 @@ public class Project
         }
     }
 
-    private void addActivity()
+    private void addActivity(String newName, int sDate, int eDate, double hourEst)
     {
-        Activity act = new Activity();
+        Activity act = new Activity(newName, sDate, eDate, hourEst);
         activities.add(act);
     }
 

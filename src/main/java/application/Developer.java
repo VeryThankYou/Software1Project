@@ -7,8 +7,8 @@ public class Developer
 {
     private String id;
     private String name;
-    private Session() session;
-    private Activity() activity;
+    private Session session;
+    private Activity activity;
 
 
     public void viewSchedule(int weeknum)

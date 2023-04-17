@@ -31,9 +31,18 @@ public class Developer
         return weekActs;
     }
 
-    public void viewProjects()
+    public ArrayList<Project> viewProjects(int weeknum)
     {
-        // TODO implement here
+        ArrayList<Project> projects = new ArrayList<Project>();
+        for (int i = 0; i < viewSchedule(weeknum).size(); i++)
+        {
+            Project proj = viewSchedule(weeknum).get(i).getProject();
+            if (!projects.contains(proj))
+            {
+                projects.add(proj);
+            }
+        }
+        return projects;
     }
 
     public void markHours(Activity activity, LocalDate date, Double time)

@@ -1,10 +1,11 @@
 package application;
+import java.util.ArrayList;
 
 public class LogPlan {
 
-    private Developer() developerList;
-    private Project() projectList;
-    private Developer() signedIn;
+    private Arraylist<Developer> developerList;
+    private ArrayList<Project> projectList;
+    private Developer signedIn;
 
     public void addDeveloper(String credentials);
     {

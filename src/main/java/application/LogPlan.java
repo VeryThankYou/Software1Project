@@ -36,6 +36,7 @@ public class LogPlan
             if (developerList.get(i).getId().equals(id))
             {
                 this.signedIn = developerList.get(i);
+                System.out.println(id);
                 return;
             }
         }

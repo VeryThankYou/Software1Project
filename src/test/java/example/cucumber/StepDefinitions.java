@@ -15,6 +15,9 @@ import application.LogPlan;
 import application.Project;
 import application.Activity;
 import application.Developer;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class StepDefinitions {
@@ -25,10 +28,11 @@ public class StepDefinitions {
 	private String devID;
 	private Project project;
 
-	public StepDefinitions(LogPlan logplan) {
-		this.logPlan = logplan;
+	public StepDefinitions(LogPlan logplan) throws FileNotFoundException, IOException 
+	{
+		this.logPlan = new LogPlan();
 	}
-	@Given("there is a developer with id {string} and name {string")
+	@Given("there is a developer with id {string} and name {string}")
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
 		devID = id;
@@ -38,7 +42,7 @@ public class StepDefinitions {
 	@Given("a developer is logged in")
 	public void theDeveloperIsLoggedIn()
 	{
-		logPlan.signIn("ebuch");
+		logPlan.signIn("ebuc");
 	}
 
 	@When("the developer creates new project with name {string}")

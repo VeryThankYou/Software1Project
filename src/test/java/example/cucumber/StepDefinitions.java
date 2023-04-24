@@ -11,7 +11,7 @@ import application.LogPlan;
 
 public class StepDefinitions {
 
-	private LogPlan logPlan
+	private LogPlan logPlan;
 
 	@When("I do nothing")
 	public void iDoNothing() {
@@ -25,7 +25,7 @@ public class StepDefinitions {
 	@Given("there is a developer with id {string} and name {string")
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
-		LogPlan.addDeveloper(id, name)
+		logPlan.addDeveloper(id, name);
 	}
 
 	@When("a developer is added to an activity")

@@ -7,6 +7,11 @@ public class LogPlan {
     private ArrayList<Project> projectList;
     private Developer signedIn;
 
+    public void signIn(Developer signee) 
+    {
+        signedIn = signee;
+    }
+
     public void addDeveloper(String credentials, String name)
     {
         for (int i = 0; i < developerList.size(); i++)

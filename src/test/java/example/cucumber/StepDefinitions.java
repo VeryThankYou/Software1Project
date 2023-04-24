@@ -1,6 +1,7 @@
 package example.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class StepDefinitions {
 		logPlan.signIn(devID);
 	}
 
-	@When("the developer creates new project with name {name}")
+	@When("the developer creates new project with name {string}")
 	public void theDeveloperCreatesNewProject(String name)
 	{
 		logPlan.createProject(name);
@@ -85,6 +86,12 @@ public class StepDefinitions {
 		assertTrue(project.isProjectLeader(logPlan.getSignedIn()));
 	}
 
+	@Given("the developer who is logged in is not project leader for the project")
+	public void theLoggedInDeveloperIsNotProjectLeader()
+	{
+		assertFalse(project.isProjectLeader(logPlan.getSignedIn()));
+	}
+
 	@When("the developer adds activity with name {String}, enddate {int}, startdate {int} and hour estimate {double} to the project")
 	public void theDeveloperAddsActivityToTheProject(String name, int eDate, int sDate, double hourEst)
 	{
@@ -103,8 +110,31 @@ public class StepDefinitions {
 				b = true;
 			}
 		}
-		
 		assertTrue(b);
+	}
+
+	@Given("there is no project leader")
+	public void thereIsNoProjectLeader()
+	{
+		assertTrue(project.getProjectLeader() == null);
+	}
+
+	@Given("there is a project leader")
+	public void thereIsAProjectLeader()
+	{
+		assertTrue(project.getProjectLeader() != null);
+	}
+
+	@When("the developer sets themself as project leader")
+	public void theDeveloperAddsAProjectLeader() 
+	{
+		project.updateLeader(developer, logPlan.getSignedIn());
+	}
+
+	@Then("the developer is project leader")
+	public void theDeveloperIsProjectLeader()
+	{
+		assertTrue(project.getProjectLeader().getId().equals(developer.getId()));
 	}
 	
 	@When("the developer logs the number of hours {double} worked on an activity {Activity}")
@@ -125,7 +155,7 @@ public class StepDefinitions {
 		developer.markHours(activity, date, null);
 	}
 
-	@Then (" the system outputs an error message {string}")
+	@Then ("the system outputs an error message {string}")
 	public void theSystemOutputsAnErrorMessage(String message)
 	{
 		assertTrue(message == "Error: Hours field is empty");
@@ -135,5 +165,7 @@ public class StepDefinitions {
     public void the_developer_logs_hours_worked_on_the(String s, String s2) {
         // Write code here that turns the phrase above into concrete actions
     }
+
+
 
 }

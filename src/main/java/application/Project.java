@@ -21,7 +21,7 @@ public class Project
         projectLeader = leader;
     }
 
-    private void updateLeader(Developer dev, Developer loggedIn)
+    public void updateLeader(Developer dev, Developer loggedIn)
     {
         if (isProjectLeader(loggedIn))
         {
@@ -80,5 +80,10 @@ public class Project
     public ArrayList<Activity> getActivities()
     {
         return activities;
+    }
+
+    public Developer getProjectLeader()
+    {
+        return projectLeader;
     }
 }

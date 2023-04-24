@@ -2,15 +2,15 @@ Feature: Add Project Leader
 
 Scenario: A developer adds project leader to project
     Given a developer is logged in
-    And the project has been created
+    And there is a project with name "TicTacToe" and id 22001
     And there is no project leader
-    When the developer adds an project leader to project 
-    Then a project leader is added to project
+    When the developer sets themself as project leader 
+    Then the developer is project leader
 
 Scenario: A developer adds project leader to project with a leader
     Given a developer is logged in
-    And the project has been created
-    And the project has a project leader
-    And a different developer has been assigned as project leader 
-    When the developer adds an project leader to project
-    Then the system outputs an error message
+    And there is a project with name "TicTacToe" and id 22001
+    And there is a project leader
+    And the developer who is logged in is not project leader for the project 
+    When the developer sets themself as project leader
+    Then the system outputs an error message "Not Project Leader Error"

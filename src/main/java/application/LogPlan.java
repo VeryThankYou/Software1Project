@@ -115,4 +115,14 @@ public class LogPlan
         return developerList;
     }
 
+    public ArrayList<Project> getProjectList()
+    {
+        return projectList;
+    }
+
+    public Developer getSignedIn()
+    {
+        return signedIn;
+    }
+
 }

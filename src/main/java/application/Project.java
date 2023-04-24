@@ -29,7 +29,7 @@ public class Project
         }
     }
 
-    private void addActivity(String newName, int sDate, int eDate, double hourEst)
+    public void addActivity(String newName, int sDate, int eDate, double hourEst)
     {
         Activity act = new Activity(newName, sDate, eDate, hourEst, this);
         activities.add(act);
@@ -70,5 +70,10 @@ public class Project
     public int getId()
     {
         return projectID;
+    }
+
+    public ArrayList<Activity> getActivities()
+    {
+        return activities;
     }
 }

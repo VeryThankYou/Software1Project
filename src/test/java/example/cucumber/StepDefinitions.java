@@ -21,6 +21,8 @@ public class StepDefinitions {
 	private LogPlan logPlan;
 	private Activity activity;
 	private Developer developer;
+	private String devID;
+	private Project project;
 
 	@When("I do nothing")
 	public void iDoNothing() {
@@ -34,13 +36,14 @@ public class StepDefinitions {
 	@Given("there is a developer with id {string} and name {string")
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
+		devID = id;
 		logPlan.addDeveloper(id, name);
 	}
 
-	@Given("the developer with id {String} logs in")
-	public void theDeveloperIsLoggedIn(String id)
+	@Given("a developer is logged in")
+	public void theDeveloperIsLoggedIn()
 	{
-		logPlan.signIn(id);
+		logPlan.signIn(devID);
 	}
 
 	@When("the developer creates new project with name {name}")
@@ -63,10 +66,45 @@ public class StepDefinitions {
 		assertTrue(b);
 	}
 
-	@When("a developer is added to an activity")
-	public void addDevToAct()
+	@When("the developer creates project without a name {null}")
+	public void theDeveloperCreatesProjectWithoutAName()
 	{
-		
+		logPlan.createProject(null);
+	}
+
+	@Given("there is a project with name {string} and id {int}")
+	public void thereIsAProjectWithNameAndId(String name, int id)
+	{
+		boolean b = false;
+		ArrayList<Project> projList = logPlan.getProjectList();
+		for (int i = 0; i < projList.size(); i++) 
+		{
+			if (projList.get(i).getId() == id && projList.get(i).getName().equals(name)) 
+			{
+				b = true;
+				project = projList.get(i);
+			}
+		}
+		assertTrue(b);
+	}
+
+	@Given("the developer who is logged in is project leader for the project")
+	public void theLoggedInDeveloperIsProjectLeader()
+	{
+		assertTrue(project.isProjectLeader(logPlan.getSignedIn()));
+	}
+
+	@When("the developer adds activity with name {String}, enddate {int}, startdate {int} and hour estimate {double} to the project")
+	public void theDeveloperAddsActivityToTheProject(String name, int eDate, int sDate, double hourEst)
+	{
+		project.addActivity(name, eDate, sDate, hourEst);
+	}
+
+	@Then("the activity is added to the project")
+	public void theActivityIsAddedToTheProject()
+	{
+		project.getActivities()
+		assertTrue();
 	}
 	
 	@When("the developer logs the number of hours {double} worked on an activity {Activity}")

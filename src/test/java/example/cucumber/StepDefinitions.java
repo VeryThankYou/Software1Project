@@ -137,4 +137,10 @@ public class StepDefinitions {
         // Write code here that turns the phrase above into concrete actions
     }
 
+    @Given("they have selected an activity")
+    public void they_have_selected_an_activity(Activity activity) {
+        // Write code here that turns the phrase above into concrete actions
+		activity = new Activity(devID, 0, 0, 0, project, 0);
+    }
+
 }

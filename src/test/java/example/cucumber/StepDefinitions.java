@@ -121,12 +121,13 @@ public class StepDefinitions {
 	}
 
 	@When ("leaves the log hours field empty {null}")
+	@When ("the developer logs {null} hours worked on the activity")
 	public void leaveLogHoursFieldEmpty(LocalDate date)
 	{
 		developer.markHours(activity, date, null);
 	}
 
-	@Then (" the system outputs an error message {string}")
+	@Then ("the system outputs {string}")
 	public void theSystemOutputsAnErrorMessage(String message)
 	{
 		assertTrue(message == "Error: Hours field is empty");

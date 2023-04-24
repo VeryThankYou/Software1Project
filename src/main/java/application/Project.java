@@ -35,6 +35,11 @@ public class Project
         activities.add(act);
     }
 
+    public void addActivity(Activity act)
+    {
+        activities.add(act);
+    }
+
     private void updateName(Developer loggedIn, String newName)
     {
         if (isProjectLeader(loggedIn))

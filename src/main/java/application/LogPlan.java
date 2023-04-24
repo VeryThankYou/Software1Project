@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,8 +20,13 @@ public class LogPlan
     public LogPlan() throws FileNotFoundException, IOException
     {
         developerList = new ArrayList<Developer>();
+        projectList = new ArrayList<Project>();
         signedIn = null;
         addCsvDevelopers();
+        addCsvProjects();
+        addCsvActivities();
+        activityUserConnection();
+        addCsvSessions();
     }
 
     public void signIn(String id) 
@@ -66,6 +72,11 @@ public class LogPlan
         }
     }
 
+    private void loadProject(int id, String name)
+    {
+        Project proj = new Project(id, name);
+        projectList.add(proj);
+    }
     public void viewSchedule(Developer dev)
     {
         // TODO implement here
@@ -96,7 +107,7 @@ public class LogPlan
         return projects;
     }
 
-    public void addCsvDevelopers() throws FileNotFoundException, IOException
+    private void addCsvDevelopers() throws FileNotFoundException, IOException
     {
         File file = new File("csvfiles\\developers.csv");
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
@@ -125,4 +136,110 @@ public class LogPlan
         return signedIn;
     }
 
+    private void addCsvProjects() throws FileNotFoundException, IOException
+    {
+        File file = new File("csvfiles\\projects.csv");
+        BufferedReader csvReader = new BufferedReader(new FileReader(file));
+        String row = csvReader.readLine();
+        while (row != null)
+        {
+            String[] line = row.split(",");
+            loadProject(Integer.parseInt(line[0]), line[1]);
+            row = csvReader.readLine();
+        }
+        csvReader.close();
+    }
+
+    private void addCsvActivities() throws FileNotFoundException, IOException
+    {
+        File file = new File("csvfiles\\activities.csv");
+        BufferedReader csvReader = new BufferedReader(new FileReader(file));
+        String row = csvReader.readLine();
+        while (row != null)
+        {
+            String[] line = row.split(",");
+            Project proj = getProject(Integer.parseInt(line[4]));
+            Activity act = new Activity(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), Double.parseDouble(line[3]), proj, Integer.parseInt(line[5]));
+            proj.addActivity(act);
+            row = csvReader.readLine();
+        }
+        csvReader.close();
+    }
+
+    private void activityUserConnection() throws FileNotFoundException, IOException
+    {
+        File file = new File("csvfiles\\activity_developer.csv");
+        BufferedReader csvReader = new BufferedReader(new FileReader(file));
+        String row = csvReader.readLine();
+        while (row != null)
+        {
+            String[] line = row.split(",");
+            Activity act = findActivity(Integer.parseInt(line[0]));
+            Developer dev = getDeveloper(line[1]);
+            dev.addActivity(act);
+            act.addDev(dev);
+            row = csvReader.readLine();
+        }
+        csvReader.close();
+    }
+
+    public Project getProject(int id)
+    {
+        for(int i = 0; i < projectList.size(); i ++)
+        {
+            if(id == projectList.get(i).getId())
+            {
+                return projectList.get(i);
+            }
+        }
+        return null;
+    }
+
+    public Developer getDeveloper(String id)
+    {
+        for(int i = 0; i < developerList.size(); i ++)
+        {
+            if(id.equals(developerList.get(i).getId()))
+            {
+                return developerList.get(i);
+            }
+        }
+        return null;
+    }
+
+    private void addCsvSessions() throws FileNotFoundException, IOException, NumberFormatException
+    {
+        File file = new File("csvfiles\\Session.csv");
+        BufferedReader csvReader = new BufferedReader(new FileReader(file));
+        String row = csvReader.readLine();
+        while (row != null)
+        {
+            String[] line = row.split(",");
+            String[] datedate = line[1].split(".");
+            LocalDate date = LocalDate.of(Integer.parseInt(datedate[0]), Integer.parseInt(datedate[1]), Integer.parseInt(datedate[2]));
+            Session sess = new Session(Double.parseDouble(line[0]), date);
+            Activity act = findActivity(Integer.parseInt(line[3]));
+            Developer dev = getDeveloper(line[2]);
+            act.addSession(sess);
+            dev.addSession(sess);
+            
+            row = csvReader.readLine();
+        } 
+        csvReader.close();
+    }
+
+    private Activity findActivity(int id)
+    {
+        for(int i1 = 0; i1 < projectList.size(); i1 ++)
+        {
+            for (int i2 = 0; i2 < projectList.get(i1).getActivities().size(); i2 ++)
+            {
+                if(projectList.get(i1).getActivities().get(i2).getId() == id)
+                {
+                    return projectList.get(i1).getActivities().get(i2);
+                }
+            }
+        }
+        return null;
+    }
 }

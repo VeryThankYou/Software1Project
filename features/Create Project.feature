@@ -1,8 +1,8 @@
-Feature:
+Feature: Create Project
 
 Scenario: Developer creates a new project
     Given a developer is logged in
-    When they create a new project
+    When the developer creates new project with name "testProj"
     And they enter the project details
     Then the new project should be created 
     And added to the list of active projects

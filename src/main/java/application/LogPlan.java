@@ -55,13 +55,17 @@ public class LogPlan
         developerList.add(dev);
     }
 
-    public void createProject(String name)
+    public void createProject(String name) throws Exception
     {
+        if(name == null)
+        {
+            throw new Exception("More information needed");
+        }
         Date d = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(d);
         int y = c.get(Calendar.YEAR);
-    
+        
         for (int i = projectList.size()-1; i >= 0; i--) {
             int projID = projectList.get(i).getId();
             int projYear = projID/1000; 
@@ -71,6 +75,7 @@ public class LogPlan
                 projectList.add(p);
             }
         }
+
     }
 
     private void loadProject(int id, String name)

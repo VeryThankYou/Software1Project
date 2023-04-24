@@ -51,7 +51,14 @@ public class StepDefinitions {
 	@When("the developer creates new project with name {string}")
 	public void theDeveloperCreatesNewProject(String name)
 	{
-		logPlan.createProject(name);
+		try
+		{
+			logPlan.createProject(name);
+		}
+		catch (Exception e)
+		{
+			this.message = e.getMessage();
+		}
 	}
 
 	@Then("the project with name {string} is added to the list of projects")
@@ -72,7 +79,14 @@ public class StepDefinitions {
 	@When("the developer creates project without a name")
 	public void theDeveloperCreatesProjectWithoutAName()
 	{
-		logPlan.createProject(null);
+		try
+		{
+			logPlan.createProject(null);
+		}
+		catch (Exception e)
+		{
+			this.message = e.getMessage();
+		}
 	}
 
 	@Given("there is a project with name {string} and id {int}")

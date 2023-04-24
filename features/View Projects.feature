@@ -1,7 +1,7 @@
 Feature: View Projets
 
 Scenario: Project leader views project progress
-    Given a project leader is logged in
+    Given the developer who is logged in is project leader for the project
     And the project has been created
     And activities have been assigned to the project
     When the project leader views the project progress

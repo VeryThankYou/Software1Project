@@ -17,6 +17,7 @@ public class App
         {
             Project proj = app.getProjectList().get(i);
             System.out.println(proj.getName());
+            System.out.println(proj.getId());
             for(int i2 = 0; i2 < proj.getActivities().size(); i2 ++)
             {
                 Activity act = proj.getActivities().get(i2);

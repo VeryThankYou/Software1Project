@@ -13,6 +13,7 @@ import io.cucumber.java.en.When;
 import application.Developer;
 import application.LogPlan;
 import application.Project;
+import application.UserNotLeaderException;
 import application.Activity;
 import application.Developer;
 
@@ -27,6 +28,7 @@ public class StepDefinitions {
 	private Developer developer;
 	private String devID;
 	private Project project;
+	private String message;
 
 	public StepDefinitions(LogPlan logplan) throws FileNotFoundException, IOException 
 	{
@@ -43,6 +45,7 @@ public class StepDefinitions {
 	public void theDeveloperIsLoggedIn()
 	{
 		logPlan.signIn("ebuc");
+		developer = logPlan.getSignedIn();
 	}
 
 	@When("the developer creates new project with name {string}")
@@ -154,15 +157,33 @@ public class StepDefinitions {
 	}
 
 	@Given("there is a project leader")
-	public void thereIsAProjectLeader()
+	public void thereIsAProjectLeader() throws UserNotLeaderException
 	{
+		if(project.getProjectLeader() == null)
+		{
+			Developer dev2 = logPlan.getDeveloper("mbic");
+			try
+			{
+				project.updateLeader(dev2, logPlan.getSignedIn());
+			}
+			catch(UserNotLeaderException e)
+			{}
+			
+		}
 		assertTrue(project.getProjectLeader() != null);
 	}
 
 	@When("the developer sets themself as project leader")
 	public void theDeveloperAddsAProjectLeader() 
 	{
-		project.updateLeader(developer, logPlan.getSignedIn());
+		try
+		{
+			project.updateLeader(developer, logPlan.getSignedIn());
+		}
+		catch (UserNotLeaderException e)
+		{
+			message = e.getMessage();
+		}
 	}
 
 	@Then("the developer is project leader")
@@ -192,7 +213,7 @@ public class StepDefinitions {
 	@Then ("the system outputs {string}")
 	public void theSystemOutputsAnErrorMessage(String message)
 	{
-		assertTrue(message == "Error: Hours field is empty");
+		assertTrue(this.message.equals(message));
 	}
 
     @When("the developer logs {string} hours worked on the {string}")

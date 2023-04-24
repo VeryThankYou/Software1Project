@@ -10,25 +10,27 @@ public class Project
 
     public Project(int id, String newName)
     {
-        name = newName;
-        projectID = id;
-        activities = new ArrayList<Activity>();
+        this.name = newName;
+        this.projectID = id;
+        this.activities = new ArrayList<Activity>();
+        this.projectLeader = null;
     }
 
     public Project(int id, String newName, Developer leader)
     {
-        name = newName;
-        projectID = id;
-        projectLeader = leader;
-        activities = new ArrayList<Activity>();
+        this.name = newName;
+        this.projectID = id;
+        this.projectLeader = leader;
+        this.activities = new ArrayList<Activity>();
     }
 
-    public void updateLeader(Developer dev, Developer loggedIn)
+    public void updateLeader(Developer dev, Developer loggedIn) throws UserNotLeaderException
     {
         if (isProjectLeader(loggedIn))
         {
-            projectLeader = dev;
+            this.projectLeader = dev;
         }
+        throw new UserNotLeaderException("Not Project Leader Error");
     }
 
     public void addActivity(String newName, int sDate, int eDate, double hourEst, int nextId)
@@ -62,7 +64,7 @@ public class Project
 
     public Boolean isProjectLeader(Developer dev)
     {
-        if (projectLeader == null||projectLeader == dev)
+        if (this.projectLeader == null||projectLeader.getId().equals(dev.getId()))
         {
             return true;
         }

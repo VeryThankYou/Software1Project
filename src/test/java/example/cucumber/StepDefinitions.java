@@ -131,4 +131,9 @@ public class StepDefinitions {
 		assertTrue(message == "Error: Hours field is empty");
 	}
 
+    @When("the developer logs {string} hours worked on the {string}")
+    public void the_developer_logs_hours_worked_on_the(String s, String s2) {
+        // Write code here that turns the phrase above into concrete actions
+    }
+
 }

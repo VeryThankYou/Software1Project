@@ -120,8 +120,8 @@ public class StepDefinitions {
 		assertTrue(activity.getActivityCompHours(activity) == hours);
 	}
 
-	@When ("the developer logs {null} hours worked on the activity")
-	public void leaveLogHoursFieldEmpty(LocalDate date)
+	@When ("the developer does not log any hours worked on the activity")
+	public void leaveLogHoursFieldEmpty(LocalDate date, Activity activity)
 	{
 		developer.markHours(activity, date, null);
 	}

@@ -12,6 +12,7 @@ public class Project
     {
         name = newName;
         projectID = id;
+        activities = new ArrayList<Activity>();
     }
 
     public Project(int id, String newName, Developer leader)
@@ -19,6 +20,7 @@ public class Project
         name = newName;
         projectID = id;
         projectLeader = leader;
+        activities = new ArrayList<Activity>();
     }
 
     private void updateLeader(Developer dev, Developer loggedIn)
@@ -29,9 +31,9 @@ public class Project
         }
     }
 
-    public void addActivity(String newName, int sDate, int eDate, double hourEst)
+    public void addActivity(String newName, int sDate, int eDate, double hourEst, int nextId)
     {
-        Activity act = new Activity(newName, sDate, eDate, hourEst, this);
+        Activity act = new Activity(newName, sDate, eDate, hourEst, this, nextId);
         activities.add(act);
     }
 

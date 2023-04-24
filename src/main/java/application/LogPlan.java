@@ -12,7 +12,6 @@ import java.util.Date;
 
 public class LogPlan 
 {
-
     private ArrayList<Developer> developerList;
     private ArrayList<Project> projectList;
     private Developer signedIn;
@@ -160,7 +159,7 @@ public class LogPlan
         {
             String[] line = row.split(",");
             Project proj = getProject(Integer.parseInt(line[4]));
-            Activity act = new Activity(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), Double.parseDouble(line[3]), proj, Integer.parseInt(line[5]));
+            Activity act = new Activity(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), Double.parseDouble(line[3]), proj, Integer.parseInt(line[5]), Integer.parseInt(line[6]));
             proj.addActivity(act);
             if(act.getId() >= activityNextId)
             {
@@ -214,20 +213,19 @@ public class LogPlan
 
     private void addCsvSessions() throws FileNotFoundException, IOException, NumberFormatException
     {
-        File file = new File("csvfiles\\Session.csv");
+        File file = new File("csvfiles\\session.csv");
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
         String row = csvReader.readLine();
         while (row != null)
         {
             String[] line = row.split(",");
-            String[] datedate = line[1].split(".");
+            String[] datedate = line[1].split("&");
             LocalDate date = LocalDate.of(Integer.parseInt(datedate[0]), Integer.parseInt(datedate[1]), Integer.parseInt(datedate[2]));
             Session sess = new Session(Double.parseDouble(line[0]), date);
             Activity act = findActivity(Integer.parseInt(line[3]));
             Developer dev = getDeveloper(line[2]);
             act.addSession(sess);
             dev.addSession(sess);
-            
             row = csvReader.readLine();
         } 
         csvReader.close();

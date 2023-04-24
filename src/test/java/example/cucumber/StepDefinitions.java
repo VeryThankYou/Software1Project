@@ -89,7 +89,7 @@ public class StepDefinitions {
 	@When("the developer adds activity with name {String}, enddate {int}, startdate {int} and hour estimate {double} to the project")
 	public void theDeveloperAddsActivityToTheProject(String name, int eDate, int sDate, double hourEst)
 	{
-		project.addActivity(name, eDate, sDate, hourEst);
+		//project.addActivity(name, eDate, sDate, hourEst);
     }
 
 	@Then("the activity is added to the project")

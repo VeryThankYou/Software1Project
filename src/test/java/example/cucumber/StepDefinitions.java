@@ -175,15 +175,8 @@ public class StepDefinitions {
 		activity = new Activity(devID, 0, 0, 0, project, 0);
     }
 
-    @Then("the system generates a report of the hours worked on each activity and the expected rest work on the project.")
-    public void the_system_generates_a_report_of_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() {
-        // Write code here that turns the phrase above into concrete actions
-		// checking that no exception is thrown when generating report
-
-    }
-
-    @When("the project leader click on ”Generate Report”")
-    public void the_project_leader_click_on_Generate_Report() {
+    @When("clicked on ”Generate Report”")
+    public void clicked_on_Generate_Report() {
         // Write code here that turns the phrase above into concrete actions
 		project.makeReport();
     }
@@ -202,5 +195,13 @@ public class StepDefinitions {
 
 
     }
+
+    @Then("the system outputs an error message: {string}")
+    public void the_system_outputs_an_error_message(String message) {
+        // Write code here that turns the phrase above into concrete actions
+		assertTrue(message == "Error: Not Allowed. You are not the project leader");
+
+    }
+
 
 }

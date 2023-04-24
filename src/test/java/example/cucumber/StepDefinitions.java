@@ -25,7 +25,9 @@ public class StepDefinitions {
 	private String devID;
 	private Project project;
 
-
+	public StepDefinitions(LogPlan logplan) {
+		this.logPlan = logplan;
+	}
 	@Given("there is a developer with id {string} and name {string")
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
@@ -36,7 +38,7 @@ public class StepDefinitions {
 	@Given("a developer is logged in")
 	public void theDeveloperIsLoggedIn()
 	{
-		logPlan.signIn(devID);
+		logPlan.signIn("ebuch");
 	}
 
 	@When("the developer creates new project with name {string}")

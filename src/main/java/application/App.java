@@ -13,5 +13,15 @@ public class App
             Developer dev = app.getDeveloperList().get(i);
             System.out.println(dev.getId());
         }
+        for(int i = 0; i < app.getProjectList().size(); i++)
+        {
+            Project proj = app.getProjectList().get(i);
+            System.out.println(proj.getName());
+            for(int i2 = 0; i2 < proj.getActivities().size(); i2 ++)
+            {
+                Activity act = proj.getActivities().get(i2);
+                System.out.println(act.getName());
+            }
+        }
     }
 }

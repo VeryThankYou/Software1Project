@@ -62,7 +62,7 @@ public class LogPlan
         c.setTime(d);
         int y = c.get(Calendar.YEAR);
     
-        for (int i = projectList.size(); i > 0; i--) {
+        for (int i = projectList.size()-1; i >= 0; i--) {
             int projID = projectList.get(i).getId();
             int projYear = projID/1000; 
             if (projYear == y) 

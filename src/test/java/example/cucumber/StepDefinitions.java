@@ -55,8 +55,9 @@ public class StepDefinitions {
 	public void theNewProjectIsAddedToTheListOfProjects(String name)
 	{
 		boolean b = false;
-		ArrayList<Project> searchList = logPlan.searchProjects(name);
-		for (int i = 0; i < searchList.size(); i++) {
+		ArrayList<Project> searchList = logPlan.getProjectList();
+		for (int i = 0; i < searchList.size(); i++) 
+		{
 			if (searchList.get(i).getName().equals(name) ) 
 			{
 				b = true;
@@ -108,7 +109,7 @@ public class StepDefinitions {
 	@When("a project leader checks the activity for available developers")
 	public void aProjectLeaderChecksTheActivityForAvailableDevelopers()
 	{
-		activity.showAvailableDevs(logPlan.getDeveloperList())
+		activity.showAvailableDevs(logPlan.getDeveloperList());
 	}
 
 	@Then("the system outputs a list of developers")
@@ -231,8 +232,6 @@ public class StepDefinitions {
     public void the_system_outputs_an_error_message(String message) {
         // Write code here that turns the phrase above into concrete actions
 		assertTrue(message == "Error: Not Allowed. You are not the project leader");
-
     }
-
 
 }

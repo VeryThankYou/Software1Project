@@ -114,6 +114,17 @@ public class StepDefinitions {
 	@Given("the developer who is logged in is not project leader for the project")
 	public void theLoggedInDeveloperIsNotProjectLeader()
 	{
+
+		if(project.isProjectLeader(logPlan.getSignedIn()) && project.getProjectLeader() == null)
+		{
+			try
+			{
+				Developer dev2 = logPlan.getDeveloper("waca");
+				project.updateLeader(dev2, logPlan.getSignedIn());
+			}
+			catch(Exception e)
+			{}
+		}
 		assertFalse(project.isProjectLeader(logPlan.getSignedIn()));
 	}
 
@@ -207,21 +218,38 @@ public class StepDefinitions {
 	}
 	
 	@When("the developer logs {float} hours worked on the activity")
-	public void theDeveloperLogsTheNumberOfHoursWorkedOnAnActivity(Float hours, Activity activity, LocalDate date)
+	public void theDeveloperLogsTheNumberOfHoursWorkedOnAnActivity(Float hours)
 	{
-		developer.markHours(activity, date, (double) hours);
+		LocalDate date = LocalDate.now();
+		try
+		{
+			developer.markHours(activity, date, (double) hours);
+		}
+		catch (Exception e)
+		{
+			this.message = e.getMessage();
+		}
 	}
 
 	@Then("the system records {float} hours worked on the activity")
 	public void theSystemRecordsTheHoursWorkedOnTheActivity(Float hours, Activity activity)
 	{
+		double doob = hours;
 		assertTrue(activity.getActivityCompHours(activity) == hours);
 	}
 
 	@When ("the developer does not log any hours worked on the activity")
-	public void leaveLogHoursFieldEmpty(LocalDate date, Activity activity)
+	public void leaveLogHoursFieldEmpty()
 	{
-		developer.markHours(activity, date, null);
+		LocalDate date = LocalDate.now();
+		try
+		{
+			developer.markHours(activity, date, null);
+		}
+		catch (Exception e)
+		{
+			this.message = e.getMessage();
+		}
 	}
 
 	@Then ("the system outputs {string}")
@@ -236,10 +264,10 @@ public class StepDefinitions {
     }
 
     @Given("they have selected an activity")
-    public void they_have_selected_an_activity(Activity activity) {
+    public void they_have_selected_an_activity() 
+	{
         // Write code here that turns the phrase above into concrete actions
-
-		activity = new Activity(devID, 0, 0, 0, project, 0);
+		this.activity = new Activity("TestActivity", 0, 0, 0, project, 0);
     }
 
     @When("clicked on ”Generate Report”")
@@ -268,5 +296,19 @@ public class StepDefinitions {
         // Write code here that turns the phrase above into concrete actions
 		assertTrue(message == "Error: Not Allowed. You are not the project leader");
     }
+
+    @When("the developer adds activity with name {string}, enddate {int}, startdate {int} and hour estimate {float} to the project")
+    public void the_developer_adds_activity_with_name_enddate_startdate_and_hour_estimate_to_the_project(String s, int i, int i2, float f) {
+		try
+		{
+			activity = new Activity(s, i, i2, (double) f, project, logPlan.getActivityNextId());
+			logPlan.addActivityToProject(project, activity);
+		}
+		catch(UserNotLeaderException e)
+		{
+			this.message = e.getMessage();
+		}
+	}
+
 
 }

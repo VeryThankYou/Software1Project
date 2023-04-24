@@ -45,8 +45,12 @@ public class Developer
         return projects;
     }
 
-    public void markHours(Activity activity, LocalDate date, Double time)
+    public void markHours(Activity activity, LocalDate date, Double time) throws Exception
     {
+        if(time == null)
+        {
+            throw new Exception("Error: Hours field is empty");
+        }
         Session session = new Session(time, date);
         activity.addSession(session);
         sessions.add(session);

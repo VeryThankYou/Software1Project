@@ -251,4 +251,23 @@ public class LogPlan
         }
         return null;
     }
+
+    public void addActivityToProject(Project proj, String newName, int sDate, int eDate, double hourEst) throws UserNotLeaderException
+    {
+        Developer loggedIn = this.signedIn;
+        proj.addActivity(newName, sDate, eDate, hourEst, this.activityNextId, loggedIn);
+        this.activityNextId = this.activityNextId + 1;
+    }
+
+    public void addActivityToProject(Project proj, Activity act) throws UserNotLeaderException
+    {
+        Developer loggedIn = this.signedIn;
+        proj.addActivity(act, signedIn);
+        this.activityNextId = this.activityNextId + 1;
+    }
+
+    public int getActivityNextId() 
+    {
+        return activityNextId;
+    }
 }

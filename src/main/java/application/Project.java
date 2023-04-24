@@ -33,10 +33,23 @@ public class Project
         throw new UserNotLeaderException("Not Project Leader Error");
     }
 
-    public void addActivity(String newName, int sDate, int eDate, double hourEst, int nextId)
+    public void addActivity(String newName, int sDate, int eDate, double hourEst, int nextId, Developer loggedIn) throws UserNotLeaderException
     {
-        Activity act = new Activity(newName, sDate, eDate, hourEst, this, nextId);
-        activities.add(act);
+        if(isProjectLeader(loggedIn))
+        {
+            Activity act = new Activity(newName, sDate, eDate, hourEst, this, nextId);
+            activities.add(act);
+        }
+        throw new UserNotLeaderException("Not project leader error");
+    }
+
+    public void addActivity(Activity act, Developer loggedIn) throws UserNotLeaderException
+    {
+        if(isProjectLeader(loggedIn))
+        {
+            activities.add(act);
+        }
+        throw new UserNotLeaderException("Not project leader error");
     }
 
     public void addActivity(Activity act)

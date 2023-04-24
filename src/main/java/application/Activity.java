@@ -18,7 +18,7 @@ public class Activity
     private int id;
 
 
-    public Activity(String name, int sDate, int eDate, double hourEst, Project newProject)
+    public Activity(String name, int sDate, int eDate, double hourEst, Project newProject, int id)
     {
         this.name = name;
         this.startDate = sDate;

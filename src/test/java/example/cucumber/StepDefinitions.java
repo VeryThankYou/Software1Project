@@ -151,8 +151,8 @@ public class StepDefinitions {
 		assertTrue(activity.getActivityCompHours(activity) == hours);
 	}
 
-	@When ("the developer logs {null} hours worked on the activity")
-	public void leaveLogHoursFieldEmpty(LocalDate date)
+	@When ("the developer does not log any hours worked on the activity")
+	public void leaveLogHoursFieldEmpty(LocalDate date, Activity activity)
 	{
 		developer.markHours(activity, date, null);
 	}
@@ -168,6 +168,11 @@ public class StepDefinitions {
         // Write code here that turns the phrase above into concrete actions
     }
 
+    @Given("they have selected an activity")
+    public void they_have_selected_an_activity(Activity activity) {
+        // Write code here that turns the phrase above into concrete actions
 
+		activity = new Activity(devID, 0, 0, 0, project, 0);
+    }
 
 }

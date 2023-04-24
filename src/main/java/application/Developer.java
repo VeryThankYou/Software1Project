@@ -51,9 +51,19 @@ public class Developer
         activity.addSession(session);
         sessions.add(session);
     }
+
+    public void addSession(Session sess)
+    {
+        sessions.add(sess);
+    }
     
     public String getId()
     {
         return id;
+    }
+
+    public void addActivity(Activity act)
+    {
+        activities.add(act);
     }
 }

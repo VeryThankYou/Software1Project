@@ -15,15 +15,17 @@ public class Activity
     private ArrayList<Developer> devs = new ArrayList<>();
     private ArrayList<Session> sessions = new ArrayList<>();
     private int processInfo;
+    private int id;
 
 
-    public Activity(String name, int sDate, int eDate, double hourEst, Project newProject)
+    public Activity(String name, int sDate, int eDate, double hourEst, Project newProject, int id)
     {
         this.name = name;
         this.startDate = sDate;
         this.endDate = eDate;
         this.hourEstimate = hourEst;
         this.project = newProject;
+        this.id = id;
     }
 
     public void addDev(Developer dev)
@@ -120,4 +122,8 @@ public class Activity
 		return activity.computeHoursSpent();
 	}
 
+    public int getId()
+    {
+        return id;
+    }
 }

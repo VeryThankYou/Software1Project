@@ -16,6 +16,7 @@ public class LogPlan
     private ArrayList<Developer> developerList;
     private ArrayList<Project> projectList;
     private Developer signedIn;
+    private int activityNextId;
 
     public LogPlan() throws FileNotFoundException, IOException
     {
@@ -156,6 +157,10 @@ public class LogPlan
             Project proj = getProject(Integer.parseInt(line[4]));
             Activity act = new Activity(line[0], Integer.parseInt(line[1]), Integer.parseInt(line[2]), Double.parseDouble(line[3]), proj, Integer.parseInt(line[5]));
             proj.addActivity(act);
+            if(act.getId() >= activityNextId)
+            {
+                activityNextId = act.getId() + 1;
+            }
             row = csvReader.readLine();
         }
         csvReader.close();

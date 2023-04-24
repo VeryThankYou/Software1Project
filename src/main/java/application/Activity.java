@@ -28,6 +28,16 @@ public class Activity
         this.id = id;
     }
 
+    public Activity(String name, int sDate, int eDate, double hourEst, Project newProject, int id, int proc)
+    {
+        this.name = name;
+        this.startDate = sDate;
+        this.endDate = eDate;
+        this.hourEstimate = hourEst;
+        this.project = newProject;
+        this.id = id;
+    }
+
     public void addDev(Developer dev)
     {
         if (devs.contains(dev) == false) 
@@ -125,5 +135,10 @@ public class Activity
     public int getId()
     {
         return id;
+    }
+
+    public String getName() 
+    {
+        return name;
     }
 }

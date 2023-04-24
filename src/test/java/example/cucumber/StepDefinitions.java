@@ -182,6 +182,33 @@ public class StepDefinitions {
 		activity = new Activity(devID, 0, 0, 0, project, 0);
     }
 
+    @When("clicked on ”Generate Report”")
+    public void clicked_on_Generate_Report() {
+        // Write code here that turns the phrase above into concrete actions
+		project.makeReport();
+    }
+
+    @Given("activities have been assigned to the project")
+    public void activities_have_been_assigned_to_the_project() {
+        // Write code here that turns the phrase above into concrete actions
+		activity = new Activity(devID, 0, 0, 0, project, 0);
+		project.addActivity(activity);
+    }
+
+    @Given("the project has been created")
+    public void the_project_has_been_created() {
+        // Write code here that turns the phrase above into concrete actions
+		project = new Project(0, devID);
+
+
+    }
+
+    @Then("the system outputs an error message: {string}")
+    public void the_system_outputs_an_error_message(String message) {
+        // Write code here that turns the phrase above into concrete actions
+		assertTrue(message == "Error: Not Allowed. You are not the project leader");
+
+    }
 
 
 }

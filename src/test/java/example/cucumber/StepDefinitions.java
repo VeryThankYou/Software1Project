@@ -24,6 +24,7 @@ public class StepDefinitions {
 	private String devID;
 	private Project project;
 
+
 	@Given("there is a developer with id {string} and name {string")
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
@@ -78,18 +79,18 @@ public class StepDefinitions {
 		}
 		assertTrue(b);
 	}
-
+		
 	@Given("the developer who is logged in is project leader for the project")
 	public void theLoggedInDeveloperIsProjectLeader()
 	{
 		assertTrue(project.isProjectLeader(logPlan.getSignedIn()));
 	}
-
+	
 	@When("the developer adds activity with name {String}, enddate {int}, startdate {int} and hour estimate {double} to the project")
 	public void theDeveloperAddsActivityToTheProject(String name, int eDate, int sDate, double hourEst)
 	{
 		//project.addActivity(name, eDate, sDate, hourEst);
-	}
+    }
 
 	@Then("the activity is added to the project")
 	public void theActivityIsAddedToTheProject()
@@ -107,14 +108,14 @@ public class StepDefinitions {
 		assertTrue(b);
 	}
 	
-	@When("the developer logs the number of hours {double} worked on an activity {Activity}")
-	public void theDeveloperLogsTheNumberOfHoursWorkedOnAnActivity(double hours, Activity activity, LocalDate date)
+	@When("the developer logs {float} hours worked on the activity")
+	public void theDeveloperLogsTheNumberOfHoursWorkedOnAnActivity(Float hours, Activity activity, LocalDate date)
 	{
-		developer.markHours(activity, date, hours);
+		developer.markHours(activity, date, (double) hours);
 	}
 
-	@Then("the system records the hours {double} worked on the activity {Activity}")
-	public void theSystemRecordsTheHoursWorkedOnTheActivity(double hours, Activity activity)
+	@Then("the system records {float} hours worked on the activity")
+	public void theSystemRecordsTheHoursWorkedOnTheActivity(Float hours, Activity activity)
 	{
 		assertTrue(activity.getActivityCompHours(activity) == hours);
 	}
@@ -130,5 +131,10 @@ public class StepDefinitions {
 	{
 		assertTrue(message == "Error: Hours field is empty");
 	}
+
+    @When("the developer logs {string} hours worked on the {string}")
+    public void the_developer_logs_hours_worked_on_the(String s, String s2) {
+        // Write code here that turns the phrase above into concrete actions
+    }
 
 }

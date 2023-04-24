@@ -24,15 +24,6 @@ public class StepDefinitions {
 	private String devID;
 	private Project project;
 
-	@When("I do nothing")
-	public void iDoNothing() {
-	}
-
-	@Then("everything is okay")
-	public void everythingIsOkay() {
-		assertTrue(true);
-	}
-
 	@Given("there is a developer with id {string} and name {string")
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
@@ -103,8 +94,17 @@ public class StepDefinitions {
 	@Then("the activity is added to the project")
 	public void theActivityIsAddedToTheProject()
 	{
-		project.getActivities()
-		assertTrue();
+		boolean b = false;
+		ArrayList<Activity> actList = project.getActivities();
+		for (int i = 0; i < actList.size(); i++) 
+		{
+			if (actList.get(i).getId() == activity.getId()) 
+			{
+				b = true;
+			}
+		}
+		
+		assertTrue(b);
 	}
 	
 	@When("the developer logs the number of hours {double} worked on an activity {Activity}")

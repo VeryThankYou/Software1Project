@@ -3,11 +3,9 @@ Feature: Create Project
 Scenario: Developer creates a new project
     Given a developer is logged in
     When the developer creates new project with name "testProj"
-    And they enter the project details
-    Then the new project should be created 
-    And added to the list of active projects
+    Then the project with name "testProj" is added to the list of projects
 
 Scenario: Developer fails to creates a new project
     Given a developer is logged in
-    When they create a new project
-    And leaves the project details empty Then the system outputs an error message
+    When the developer creates project without a name
+    Then the system outputs "More information needed"

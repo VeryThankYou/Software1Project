@@ -45,7 +45,7 @@ public class StepDefinitions {
 		logPlan.createProject(name);
 	}
 
-	@Then("the project with name {String} is added to the list of projects")
+	@Then("the project with name {string} is added to the list of projects")
 	public void theNewProjectIsAddedToTheListOfProjects(String name)
 	{
 		boolean b = false;
@@ -59,7 +59,7 @@ public class StepDefinitions {
 		assertTrue(b);
 	}
 
-	@When("the developer creates project without a name {null}")
+	@When("the developer creates project without a name")
 	public void theDeveloperCreatesProjectWithoutAName()
 	{
 		logPlan.createProject(null);

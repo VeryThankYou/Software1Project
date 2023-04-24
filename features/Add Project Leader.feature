@@ -13,4 +13,4 @@ Scenario: A developer adds project leader to project with a leader
     And there is a project leader
     And the developer who is logged in is not project leader for the project 
     When the developer sets themself as project leader
-    Then the system outputs an error message "Not Project Leader Error"
+    Then the system outputs "Not Project Leader Error"

@@ -132,6 +132,11 @@ public class LogPlan
         return projectList;
     }
 
+    public Developer getSignedIn()
+    {
+        return signedIn;
+    }
+
     private void addCsvProjects() throws FileNotFoundException, IOException
     {
         File file = new File("csvfiles\\projects.csv");
@@ -234,7 +239,7 @@ public class LogPlan
         {
             for (int i2 = 0; i2 < projectList.get(i1).getActivities().size(); i2 ++)
             {
-                if(projectList.get(i1).getActivities().get(i2).getId == id)
+                if(projectList.get(i1).getActivities().get(i2).getId() == id)
                 {
                     return projectList.get(i1).getActivities().get(i2);
                 }

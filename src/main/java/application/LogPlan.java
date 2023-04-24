@@ -19,6 +19,10 @@ public class LogPlan
         signedIn = null;
         addCsvDevelopers();
     }
+    public void signIn(Developer signee) 
+    {
+        signedIn = signee;
+    }
 
     public void addDeveloper(String credentials, String name)
     {

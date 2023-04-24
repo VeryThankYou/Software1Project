@@ -59,7 +59,7 @@ public class LogPlan
         Date d = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(d);
-        int y = c.get(Calendar.YEAR)/100;
+        int y = c.get(Calendar.YEAR);
     
         for (int i = projectList.size(); i > 0; i--) {
             int projID = projectList.get(i).getId();

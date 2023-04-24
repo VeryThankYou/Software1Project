@@ -62,6 +62,11 @@ public class Developer
         return id;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
     public void addActivity(Activity act)
     {
         activities.add(act);

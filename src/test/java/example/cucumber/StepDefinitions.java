@@ -93,12 +93,36 @@ public class StepDefinitions {
 		assertFalse(project.isProjectLeader(logPlan.getSignedIn()));
 	}
 
-	
-	@When("the developer adds activity with name {string}, enddate {int}, startdate {int} and hour estimate {float} to the project")
-	public void theDeveloperAddsActivityToTheProject(String name, int eDate, int sDate, double hourEst)
+	@Given("there are available developers for an activity")
+	public void thereAreAvailableDevelopersForActivity()
 	{
-		//project.addActivity(name, eDate, sDate, hourEst);
-    }
+		logPlan.addDeveloper("sjul", "Simon Julendal");
+	}
+
+	@When("a project leader checks the activity for available developers")
+	public void aProjectLeaderChecksTheActivityForAvailableDevelopers()
+	{
+		activity.showAvailableDevs(logPlan.getDeveloperList())
+	}
+
+	@Then("the system outputs a list of developers")
+	public void theSystemOutputsAListOfDevelopers()
+	{
+		
+	}
+
+	@Given("there are no available developers for an activity")
+	public void thereAreNoAvailableDevelopersForAnActivity()
+	{
+	}
+
+	@Then("the system shows that there are no available developers for the activity")
+	public void theSystemShowsThatThereAreNoAvailableDevelopersForTheActivity()
+	{
+		activity.showAvailableDevs(new ArrayList<Developer>());
+	}
+
+
 
 
 	@Then("the activity is added to the project")

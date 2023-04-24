@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class Activity
             devs.add(dev);
             }
     }
+
 
     public void addSession(Session session)
     {
@@ -113,4 +115,9 @@ public class Activity
     {
         return project;
     }
+
+    public double getActivityCompHours(Activity activity) {
+		return activity.computeHoursSpent();
+	}
+
 }

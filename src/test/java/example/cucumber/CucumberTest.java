@@ -18,7 +18,6 @@ For example, the class name CucumberTests (Test with an s) will be ignored by Ma
 		 ,features={"features"}
 		 ,snippets = SnippetType.CAMELCASE
 		 ,publish= false
-		 ,glue = { "dtu.library.acceptance_tests", "dtu.library.student_tests"}
 		 )
 public class CucumberTest {
 }

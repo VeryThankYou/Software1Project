@@ -1,14 +1,27 @@
 package application;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
 
-public class LogPlan {
+public class LogPlan 
+{
 
     private ArrayList<Developer> developerList;
     private ArrayList<Project> projectList;
     private Developer signedIn;
+
+    public LogPlan() throws FileNotFoundException, IOException
+    {
+        developerList = new ArrayList<Developer>();
+        signedIn = null;
+        addCsvDevelopers();
+    }
 
     public void signIn(String id) 
     {
@@ -82,4 +95,24 @@ public class LogPlan {
         }
         return projects;
     }
+
+    public void addCsvDevelopers() throws FileNotFoundException, IOException
+    {
+        File file = new File("csvfiles\\developers.csv");
+        BufferedReader csvReader = new BufferedReader(new FileReader(file));
+        String row = csvReader.readLine();
+        while (row != null)
+        {
+            String[] line = row.split(",");
+            addDeveloper(line[0], line[1]);
+            row = csvReader.readLine();
+        }
+        csvReader.close();
+    }
+
+    public ArrayList<Developer> getDeveloperList()
+    {
+        return developerList;
+    }
+
 }

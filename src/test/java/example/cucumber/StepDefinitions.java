@@ -175,4 +175,32 @@ public class StepDefinitions {
 		activity = new Activity(devID, 0, 0, 0, project, 0);
     }
 
+    @Then("the system generates a report of the hours worked on each activity and the expected rest work on the project.")
+    public void the_system_generates_a_report_of_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() {
+        // Write code here that turns the phrase above into concrete actions
+		// checking that no exception is thrown when generating report
+
+    }
+
+    @When("the project leader click on ”Generate Report”")
+    public void the_project_leader_click_on_Generate_Report() {
+        // Write code here that turns the phrase above into concrete actions
+		project.makeReport();
+    }
+
+    @Given("activities have been assigned to the project")
+    public void activities_have_been_assigned_to_the_project() {
+        // Write code here that turns the phrase above into concrete actions
+		activity = new Activity(devID, 0, 0, 0, project, 0);
+		project.addActivity(activity);
+    }
+
+    @Given("the project has been created")
+    public void the_project_has_been_created() {
+        // Write code here that turns the phrase above into concrete actions
+		project = new Project(0, devID);
+
+
+    }
+
 }

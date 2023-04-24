@@ -25,7 +25,9 @@ public class StepDefinitions {
 	private String devID;
 	private Project project;
 
-
+	public StepDefinitions(LogPlan logplan) {
+		this.logPlan = logplan;
+	}
 	@Given("there is a developer with id {string} and name {string")
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
@@ -36,7 +38,7 @@ public class StepDefinitions {
 	@Given("a developer is logged in")
 	public void theDeveloperIsLoggedIn()
 	{
-		logPlan.signIn(devID);
+		logPlan.signIn("ebuch");
 	}
 
 	@When("the developer creates new project with name {string}")
@@ -45,7 +47,7 @@ public class StepDefinitions {
 		logPlan.createProject(name);
 	}
 
-	@Then("the project with name {String} is added to the list of projects")
+	@Then("the project with name {string} is added to the list of projects")
 	public void theNewProjectIsAddedToTheListOfProjects(String name)
 	{
 		boolean b = false;
@@ -59,7 +61,7 @@ public class StepDefinitions {
 		assertTrue(b);
 	}
 
-	@When("the developer creates project without a name {null}")
+	@When("the developer creates project without a name")
 	public void theDeveloperCreatesProjectWithoutAName()
 	{
 		logPlan.createProject(null);
@@ -94,11 +96,12 @@ public class StepDefinitions {
 	}
 
 	
-	@When("the developer adds activity with name {String}, enddate {int}, startdate {int} and hour estimate {double} to the project")
+	@When("the developer adds activity with name {string}, enddate {int}, startdate {int} and hour estimate {float} to the project")
 	public void theDeveloperAddsActivityToTheProject(String name, int eDate, int sDate, double hourEst)
 	{
 		//project.addActivity(name, eDate, sDate, hourEst);
     }
+
 
 	@Then("the activity is added to the project")
 	public void theActivityIsAddedToTheProject()

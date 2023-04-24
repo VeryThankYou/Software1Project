@@ -15,6 +15,7 @@ public class Activity
     private ArrayList<Developer> devs = new ArrayList<>();
     private ArrayList<Session> sessions = new ArrayList<>();
     private int processInfo;
+    private int id;
 
 
     public Activity(String name, int sDate, int eDate, double hourEst, Project newProject)
@@ -24,6 +25,7 @@ public class Activity
         this.endDate = eDate;
         this.hourEstimate = hourEst;
         this.project = newProject;
+        this.id = id;
     }
 
     public void addDev(Developer dev)
@@ -120,4 +122,8 @@ public class Activity
 		return activity.computeHoursSpent();
 	}
 
+    public int getId()
+    {
+        return id;
+    }
 }

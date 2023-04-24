@@ -1,5 +1,8 @@
 package application;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class LogPlan {
 
@@ -7,9 +10,16 @@ public class LogPlan {
     private ArrayList<Project> projectList;
     private Developer signedIn;
 
-    public void signIn(Developer signee) 
+    public void signIn(String id) 
     {
-        signedIn = signee;
+        for (int i = 0; i < developerList.size(); i++)
+        {
+            if (developerList.get(i).getId().equals(id))
+            {
+                this.signedIn = developerList.get(i);
+                return;
+            }
+        }
     }
 
     public void addDeveloper(String credentials, String name)
@@ -27,7 +37,20 @@ public class LogPlan {
 
     public void createProject(String name)
     {
-        // TODO implement here
+        Date d = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        int y = c.get(Calendar.YEAR)/100;
+    
+        for (int i = projectList.size(); i > 0; i--) {
+            int projID = projectList.get(i).getId();
+            int projYear = projID/1000; 
+            if (projYear == y) 
+            {
+                Project p = new Project(projID+1,name);
+                projectList.add(p);
+            }
+        }
     }
 
     public void viewSchedule(Developer dev)

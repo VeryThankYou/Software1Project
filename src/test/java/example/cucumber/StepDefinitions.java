@@ -7,6 +7,7 @@ import org.picocontainer.behaviors.Storing;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import application.Developer;
 import application.LogPlan;
 
 public class StepDefinitions {
@@ -26,6 +27,12 @@ public class StepDefinitions {
 	public void thereIsADeveloperWithIdAndName(String id, String name)
 	{
 		logPlan.addDeveloper(id, name);
+	}
+
+	@Given("the developer with id {String} logs in")
+	public void theDeveloperIsLoggedIn(String id)
+	{
+		logPlan.signIn(id);
 	}
 
 	@When("a developer is added to an activity")

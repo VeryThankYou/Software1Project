@@ -235,7 +235,7 @@ public class StepDefinitions {
 	public void theSystemRecordsTheHoursWorkedOnTheActivity(Float hours, Activity activity)
 	{
 		double doob = hours;
-		assertTrue(activity.getActivityCompHours(activity) == hours);
+		assertTrue(activity.getActivityCompHours(activity) == doob);
 	}
 
 	@When ("the developer does not log any hours worked on the activity")

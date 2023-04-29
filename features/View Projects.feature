@@ -1,4 +1,4 @@
-Feature: View Projets
+Feature: View Projects
 
 Scenario: Project leader views project progress
     Given the developer who is logged in is project leader for the project

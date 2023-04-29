@@ -156,4 +156,12 @@ public class Activity
     {
         return hourEstimate;
     }
+
+    // Get Developer ArrayList
+    public ArrayList<Developer> getDeveloperList() 
+    {
+        return devs;
+    }
+
+
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import org.picocontainer.behaviors.Storing;
 
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -380,15 +381,17 @@ public class StepDefinitions {
     }
 
     @Then("the system displays the hours worked on each activity and the expected rest work on the project.")
-    public void the_system_displays_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() {
-        // Write code here that turns the phrase above into concrete actions
+    public void the_system_displays_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() 
+	{
+        assertTrue(schedule.equals(project.getActivities()));
     }
 
 
     @When("the developer views the project progress")
-    public void the_developer_views_the_project_progress() {
-        // Write code here that turns the phrase above into concrete actions
-    }
+    public void the_developer_views_the_project_progress() 
+	{
+		schedule = logPlan.showProject(project);
+	}
 
     @Then("the system generates a report of the hours worked on each activity and the expected rest work on the project.")
     public void the_system_generates_a_report_of_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() {

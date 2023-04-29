@@ -272,18 +272,8 @@ public class LogPlan
         return activityNextId - 1;
     }
 
-    public void showProject(Project proj)
+    public ArrayList<Activity> showProject(Project proj)
     {
-        double totalwork = 0;
-        double expectedworkleft = 0;
-        for(int i = 0; i < proj.getActivities().size(); i++)
-        {
-            Activity act = proj.getActivities().get(i);
-            System.out.println(act.getName());
-            System.out.println("Hours spent: " + act.computeHoursSpent());
-            totalwork = totalwork + act.computeHoursSpent();
-            expectedworkleft = expectedworkleft + act.getHourEstimate() - act.computeHoursSpent();
-        }
-        System.out.println("Expected work left: " + Double.toString(expectedworkleft));
+        return proj.getActivities();
     }
 }

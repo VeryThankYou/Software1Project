@@ -48,33 +48,20 @@ public class App extends Application
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
-        System.out.println("Loader created");
-        Parent root = loader.load();
-        System.out.println("Root created");
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("logIn.fxml"));
+        //Parent root = loader.load();
+        LoginController loginController = loader.getController();
+        loginController.initControler(primaryStage);
 
-        //Parent root = FXMLLoader.load(getClass().getResource("logIn.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        //Scene scene = new Scene(root);
+        //primaryStage.setScene(scene);
+        //primaryStage.show();
+
+
+
     }
 
 
-/*@Override
-public void start(Stage primaryStage) {
-    Button btn = new Button();
-    btn.setText("Say 'Hello World'");
-    btn.setOnAction(event -> System.out.println("Hello World!"));
 
-    StackPane root = new StackPane();
-    root.getChildren().add(btn);
-
-    Scene scene = new Scene(root, 300, 250);
-
-    primaryStage.setTitle("My JavaFX App");
-    primaryStage.setScene(scene);
-    primaryStage.show();
-}
-*/
 
 }

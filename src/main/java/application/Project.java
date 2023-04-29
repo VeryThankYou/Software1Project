@@ -77,7 +77,16 @@ public class Project
         System.out.println("Project ID: " + projectID);
 
         // project leader
-        System.out.println("Project Leader: " + projectLeader.getName());
+
+        if (projectLeader == null)
+        {
+            System.out.println("Project Leader: None");
+
+        }
+        else 
+        {
+            System.out.println("Project Leader: " + projectLeader.getName());
+        }
 
         // start date (from activity)
         System.out.println("Start Date: " + activities.get(0).getEndDate());

@@ -232,7 +232,7 @@ public class StepDefinitions {
 	}
 
 	@Then("the system records {float} hours worked on the activity")
-	public void theSystemRecordsTheHoursWorkedOnTheActivity(Float hours, Activity activity)
+	public void theSystemRecordsTheHoursWorkedOnTheActivity(Float hours)
 	{
 		double doob = hours;
 		assertTrue(activity.getActivityCompHours(activity) == doob);

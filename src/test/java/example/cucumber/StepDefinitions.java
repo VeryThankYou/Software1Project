@@ -119,7 +119,8 @@ public class StepDefinitions {
 	@Given("the developer who is logged in is not project leader for the project")
 	public void theLoggedInDeveloperIsNotProjectLeader()
 	{
-
+		logPlan.signIn("ebuc");
+		developer = logPlan.getSignedIn();
 		if(project.isProjectLeader(logPlan.getSignedIn()) && project.getProjectLeader() == null)
 		{
 			try
@@ -300,7 +301,15 @@ public class StepDefinitions {
     @When("clicked on ”Generate Report”")
     public void clicked_on_Generate_Report() {
         // Write code here that turns the phrase above into concrete actions
-		project.makeReport();
+		try
+		{
+			project.makeReport(logPlan.getSignedIn());
+		}
+		catch (UserNotLeaderException e)
+		{
+			this.message = e.getMessage();
+		}
+		
     }
 
     @Given("activities have been assigned to the project")

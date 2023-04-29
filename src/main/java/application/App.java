@@ -26,6 +26,14 @@ public class App
         }
 
         Project project = app.getProject(2023001);
-        project.makeReport();
+        try
+        {
+            project.makeReport(app.getSignedIn());
+        }
+        catch (UserNotLeaderException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
     }
 }

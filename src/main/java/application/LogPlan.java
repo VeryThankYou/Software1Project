@@ -88,13 +88,13 @@ public class LogPlan
         // TODO implement here
     }
 
-    public void getReport(Project project)
+    public void getReport(Project project) throws UserNotLeaderException
     {
         for (int i = 0; i < projectList.size(); i++)
         {
             if (projectList.get(i) == project)
             {
-                project.makeReport();
+                project.makeReport(signedIn);
             }
         }
     }

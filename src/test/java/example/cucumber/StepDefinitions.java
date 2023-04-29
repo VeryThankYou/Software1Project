@@ -373,10 +373,6 @@ public class StepDefinitions {
         // Write code here that turns the phrase above into concrete actions
     }
 
-    @When("the project leader views the project progress")
-    public void the_project_leader_views_the_project_progress() {
-        // Write code here that turns the phrase above into concrete actions
-    }
 
     @When("the developer views the project progress")
     public void the_developer_views_the_project_progress() {

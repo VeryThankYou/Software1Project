@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Activity
 {
@@ -93,33 +96,52 @@ public class Activity
         }
     }
 
-    public Map<Integer, ArrayList<Developer>> showAvailableDevs(ArrayList<Developer> devList)
+    public Map<Integer, Developer> showAvailableDevs(ArrayList<Developer> devList)
     {
         // inits map of week and most available devs that week
-        Map<Integer, ArrayList<Developer>> devAvailability = new HashMap<Integer, ArrayList<Developer>>();
+        Map<Integer, Developer> devAvailability = new HashMap<Integer, Developer>();
         // inits temp list of devs to add to the map at end of loop
-        ArrayList<Developer> weekDevs = new ArrayList<>();
         // loops over each week of Activity
-        for (int i = startDate; i <= endDate; i++)
+        for (int i1 = 0; i1 < devList.size(); i1++)
         {
             // resets temp fields
-            int j = 0;
-            weekDevs.clear();
+            Developer dev = devList.get(i1);
+            int maxactivities = 0;
             // loops until 5 loops or more than 10 devs are found
             // loop variable represents other Activities for given week. The returned list is sorted by adding to it in ascending order.
-            while (weekDevs.size() <= 10 && j <= 5)
+            for(int i2 = this.startDate; i2 <= this.endDate; i2++)
             {
-                for (int k = 0; k < devList.size() ; k++)
+                
+                int tempactivities = 0;
+                tempactivities = tempactivities + dev.viewSchedule(i2).size();
+                if(tempactivities > maxactivities)
                 {
-                    if (devList.get(k).viewSchedule(i).size() <= j)
-                    {
-                        weekDevs.add(devList.get(k));
-                    }
+                    maxactivities = tempactivities;
                 }
-                j++;
             }
-            devAvailability.put(i, weekDevs);
-        }  
+            devAvailability.put(maxactivities, dev);
+        }
+        
+        SortedSet<Integer> keys = new TreeSet<>(devAvailability.keySet());
+        
+        for (int key: keys)
+        {
+            Developer dev = devAvailability.get(key);
+            if(this.devs.contains(dev))
+            {
+                devAvailability.remove(key);
+            }
+        }
+        keys = new TreeSet<>(devAvailability.keySet());
+        int numchosen = 0;
+        for (int key: keys)
+        {
+            if(numchosen > 10)
+            {
+                devAvailability.remove(key);
+            }
+            numchosen = numchosen + 1;
+        }
 
     return devAvailability;
     }

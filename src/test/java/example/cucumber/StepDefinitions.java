@@ -31,7 +31,7 @@ public class StepDefinitions {
 	private Project project;
 	private String message;
 	private ArrayList<Activity> schedule;
-	private Map<Integer, ArrayList<Developer>> avdevs;
+	private Map<Integer, Developer> avdevs;
 
 	public StepDefinitions(LogPlan logplan) throws FileNotFoundException, IOException 
 	{
@@ -146,18 +146,40 @@ public class StepDefinitions {
 	@Then("the system outputs a list of developers")
 	public void theSystemOutputsAListOfDevelopers()
 	{
-		for(int i = 0; i < avdevs.size(); i++)
+		boolean contains = false;
+		for(Developer dev: avdevs.values())
+		{
+			if(dev.getId().equals("sjul"))
+			{
+				contains = true;
+			}
+		}
+		assertTrue(contains);
 	}
 
 	@Given("there are no available developers for an activity")
 	public void thereAreNoAvailableDevelopersForAnActivity()
 	{
+		Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+		LocalDate date = LocalDate.now();
+		calendar.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+		int weeknum = calendar.get(Calendar.WEEK_OF_YEAR);
+		try
+		{
+			activity = new Activity("newActivity", date.getYear() * 100 + weeknum, date.getYear() * 100 + weeknum, 2.0, project, logPlan.getActivityNextId());
+			project.addActivity(activity, developer);
+		} catch (Exception e){}
+		for(int i = 0; i < logPlan.getDeveloperList().size(); i++)
+		{
+			Developer dev1 = logPlan.getDeveloperList().get(i);
+			activity.addDev(dev1);
+		}
 	}
 
 	@Then("the system shows that there are no available developers for the activity")
 	public void theSystemShowsThatThereAreNoAvailableDevelopersForTheActivity()
 	{
-		activity.showAvailableDevs(new ArrayList<Developer>());
+		assertTrue(avdevs.size() == 0);
 	}
 
 

@@ -108,12 +108,24 @@ public void makeReport() {
             writer.write(noActivities + "\n");
         } else {
             // start date (from activity)
-            String startDate = "Start Date: " + activities.get(0).getEndDate();
+            int earliestDate = 1000000;
+            for (int i = 0; i < activities.size(); i++) {
+                if (activities.get(i).getStartDate() < earliestDate) {
+                    earliestDate = activities.get(i).getStartDate();
+                }
+            }
+            String startDate = "Start Date: " + earliestDate;
             System.out.println(startDate);
             writer.write(startDate + "\n");
 
             // end date (from activity)
-            String endDate = "End Date: " + activities.get(0).getEndDate();
+            int latestDate = 0;
+            for (int i = 0; i < activities.size(); i++) {
+                if (activities.get(i).getEndDate() > latestDate) {
+                    latestDate = activities.get(i).getEndDate();
+                }
+            }
+            String endDate = "End Date: " + latestDate;
             System.out.println(endDate);
             writer.write(endDate + "\n");
 

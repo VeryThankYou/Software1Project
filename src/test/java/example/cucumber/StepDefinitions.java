@@ -30,6 +30,7 @@ public class StepDefinitions {
 	private String devID;
 	private Project project;
 	private String message;
+	private ArrayList<Activity> schedule;
 
 	public StepDefinitions(LogPlan logplan) throws FileNotFoundException, IOException 
 	{
@@ -314,7 +315,11 @@ public class StepDefinitions {
     @Then("the system displays the schedule")
     public void the_system_displays_the_schedule() 
 	{
-		
+		ArrayList<Activity> acts = new ArrayList<Activity>();
+		acts.add(activity);
+		System.out.println(acts.toString());
+		System.out.println(schedule.toString());
+		assertTrue(schedule.equals(acts));
 	}
 
     @When("the developer views their daily schedule")
@@ -324,7 +329,20 @@ public class StepDefinitions {
 		LocalDate date = LocalDate.now();
 		calendar.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
 		int weeknum = calendar.get(Calendar.WEEK_OF_YEAR);
-        developer.viewSchedule(date.getYear() * 100 + weeknum);
+		try
+		{
+			logPlan.createProject("newProject");
+		}
+		catch (Exception e){}
+		ArrayList<Project> search = logPlan.searchProjects("newProject");
+		project = search.get(0);
+		try
+		{
+			activity = new Activity("newActivity", date.getYear() * 100 + weeknum, date.getYear() * 100 + weeknum, 2.0, project, logPlan.getActivityNextId());
+			project.addActivity(activity, developer);
+		} catch (Exception e){}
+		activity.addDev(developer);
+        this.schedule = developer.viewSchedule(date.getYear() * 100 + weeknum);
     }
 
 

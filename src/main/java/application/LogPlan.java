@@ -268,6 +268,7 @@ public class LogPlan
 
     public int getActivityNextId() 
     {
-        return activityNextId;
+        activityNextId = activityNextId + 1;
+        return activityNextId - 1;
     }
 }

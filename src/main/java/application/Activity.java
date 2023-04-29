@@ -42,6 +42,7 @@ public class Activity
     {
         if (devs.contains(dev) == false) 
             {
+            dev.addActivity(this);
             devs.add(dev);
             }
     }

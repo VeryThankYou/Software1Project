@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
 
 public class LogPlan 
 {
@@ -16,6 +17,7 @@ public class LogPlan
     private ArrayList<Project> projectList;
     private Developer signedIn;
     private int activityNextId;
+    private Scanner scanner = new Scanner(System.in);
 
     public LogPlan() throws FileNotFoundException, IOException
     {
@@ -40,6 +42,7 @@ public class LogPlan
                 return;
             }
         }
+        System.out.println("Invalid user ID. Please try again.\n");
     }
 
     public void addDeveloper(String credentials, String name)
@@ -275,5 +278,60 @@ public class LogPlan
     public ArrayList<Activity> showProject(Project proj)
     {
         return proj.getActivities();
+    }
+
+    public void loginPage()
+    {
+        System.out.println("Welcome to LogPlan!");
+        while(true)
+        {
+            System.out.println("Please sign in:");
+            System.out.print("User ID: ");
+            String s = scanner.nextLine();
+            this.signIn(s);
+            if(!(signedIn == null))
+            {
+                break;
+            }
+        }
+        this.menu1();
+    }
+
+    public void menu1()
+    {
+        System.out.println("Welcome " + signedIn.getName() + "!");
+        String s;
+        while(true)
+        {
+            System.out.println("What would you like to do?");
+            System.out.println("1. View your schedule");
+            System.out.println("2. View a project");
+            System.out.println("3. Exit LogPlan");
+            System.out.print("To select an option, write the corresponding number and press enter: ");
+            s = scanner.nextLine();
+            if((s.equals("1") || s.equals("2")) || s.equals("3"))
+            {
+                break;
+            }
+            System.out.println("Not a valid input, please try again.\n");
+        }
+        if(s.equals("1"))
+        {
+            this.scheduleMenu();
+        } 
+        else if(s.equals("1"))
+        {
+            this.projectSearch();
+        }
+    }
+
+    public void scheduleMenu()
+    {
+        System.out.println("Here is your schedule for the current week:");
+    }
+
+    public void projectSearch()
+    {
+        System.out.println("Which project are you looking for?");
     }
 }

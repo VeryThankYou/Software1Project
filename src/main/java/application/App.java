@@ -8,59 +8,7 @@ public class App
     public static void main(String[] args) throws FileNotFoundException, IOException
     {
         LogPlan app = new LogPlan();
-        for(int i = 0; i < app.getDeveloperList().size(); i++)
-        {
-            Developer dev = app.getDeveloperList().get(i);
-            System.out.println(dev.getId());
-        }
-        for(int i = 0; i < app.getProjectList().size(); i++)
-        {
-            Project proj = app.getProjectList().get(i);
-            System.out.println(proj.getName());
-            System.out.println(proj.getId());
-            for(int i2 = 0; i2 < proj.getActivities().size(); i2 ++)
-            {
-                Activity act = proj.getActivities().get(i2);
-                System.out.println(act.getName());
-            }
-        }
-
-        Project project = app.getProject(2023001);
-        try
-        {
-            project.makeReport(app.getSignedIn());
-        }
-        catch (UserNotLeaderException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        Project project2 = app.getProject(2022001);
-        try
-        {
-            project2.makeReport(app.getSignedIn());
-        }
-        catch (UserNotLeaderException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        Project project3 = app.getProject(2023002);
-        try
-        {
-            project3.makeReport(app.getSignedIn());
-        }
-        catch (UserNotLeaderException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        Project project4 = app.getProject(2023003);
-        try
-        {
-            project4.makeReport(app.getSignedIn());
-        }
-        catch (UserNotLeaderException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        app.loginPage();
         
     }
 }

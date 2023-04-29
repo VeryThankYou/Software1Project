@@ -4,7 +4,7 @@ Scenario: Project leader views project progress
     Given the project has been created
     And the developer who is logged in is project leader for the project
     And activities have been assigned to the project
-    When the project leader views the project progress
+    When the developer views the project progress
     Then the system displays the hours worked on each activity and the expected rest work on the project.
 
 Scenario: Developer views project progress

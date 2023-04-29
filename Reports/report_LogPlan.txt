@@ -1,8 +1,8 @@
 Project Report for LogPlan
 Project ID: 2023001
 Project Leader: None
-Start Date: 6
-End Date: 6
+Start Date: 202306
+End Date: 202306
 Hours estimated for project: 11.5
 Hours spent on project: 3.0
 Hours spent on activity: 

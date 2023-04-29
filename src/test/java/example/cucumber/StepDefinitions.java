@@ -345,5 +345,25 @@ public class StepDefinitions {
         this.schedule = developer.viewSchedule(date.getYear() * 100 + weeknum);
     }
 
+    @Then("the system displays the hours worked on each activity and the expected rest work on the project.")
+    public void the_system_displays_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() {
+        // Write code here that turns the phrase above into concrete actions
+    }
+
+    @When("the project leader views the project progress")
+    public void the_project_leader_views_the_project_progress() {
+        // Write code here that turns the phrase above into concrete actions
+    }
+
+    @When("the developer views the project progress")
+    public void the_developer_views_the_project_progress() {
+        // Write code here that turns the phrase above into concrete actions
+    }
+
+    @Then("the system generates a report of the hours worked on each activity and the expected rest work on the project.")
+    public void the_system_generates_a_report_of_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() {
+        // Write code here that turns the phrase above into concrete actions
+    }
+
 
 }

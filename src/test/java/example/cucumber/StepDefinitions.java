@@ -31,6 +31,7 @@ public class StepDefinitions {
 	private Project project;
 	private String message;
 	private ArrayList<Activity> schedule;
+	private Map<Integer, ArrayList<Developer>> avdevs;
 
 	public StepDefinitions(LogPlan logplan) throws FileNotFoundException, IOException 
 	{
@@ -139,13 +140,13 @@ public class StepDefinitions {
 	@When("a project leader checks the activity for available developers")
 	public void aProjectLeaderChecksTheActivityForAvailableDevelopers()
 	{
-		activity.showAvailableDevs(logPlan.getDeveloperList());
+		avdevs = activity.showAvailableDevs(logPlan.getDeveloperList());
 	}
 
 	@Then("the system outputs a list of developers")
 	public void theSystemOutputsAListOfDevelopers()
 	{
-		
+		for(int i = 0; i < avdevs.size(); i++)
 	}
 
 	@Given("there are no available developers for an activity")
@@ -296,7 +297,7 @@ public class StepDefinitions {
     @Then("the system outputs an error message: {string}")
     public void the_system_outputs_an_error_message(String message) {
         // Write code here that turns the phrase above into concrete actions
-		assertTrue(message == "Error: Not Allowed. You are not the project leader");
+		assertTrue(this.message.equals(message));
     }
 
     @When("the developer adds activity with name {string}, enddate {int}, startdate {int} and hour estimate {float} to the project")

@@ -34,6 +34,33 @@ public class App
         {
             System.out.println(e.getMessage());
         }
+        Project project2 = app.getProject(2022001);
+        try
+        {
+            project2.makeReport(app.getSignedIn());
+        }
+        catch (UserNotLeaderException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        Project project3 = app.getProject(2023002);
+        try
+        {
+            project3.makeReport(app.getSignedIn());
+        }
+        catch (UserNotLeaderException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        Project project4 = app.getProject(2023003);
+        try
+        {
+            project4.makeReport(app.getSignedIn());
+        }
+        catch (UserNotLeaderException e)
+        {
+            System.out.println(e.getMessage());
+        }
         
     }
 }

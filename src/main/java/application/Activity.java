@@ -141,4 +141,19 @@ public class Activity
     {
         return name;
     }
+
+    public int getStartDate() 
+    {
+        return startDate;
+    }
+
+    public int getEndDate() 
+    {
+        return endDate;
+    }
+
+    public double getHourEstimate() 
+    {
+        return hourEstimate;
+    }
 }

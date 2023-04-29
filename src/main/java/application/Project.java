@@ -1,5 +1,7 @@
 package application;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+
+import io.cucumber.java.tlh.vaj; 
 
 public class Project 
 {
@@ -67,12 +69,45 @@ public class Project
 
     public void makeReport()
     {
+
+        // Project report - name of project
+        System.out.println("Project report for " + name);
+
+        // project id
+        System.out.println("Project ID: " + projectID);
+
+        // project leader
+        System.out.println("Project Leader: " + projectLeader.getName());
+
+        // start date (from activity)
+        System.out.println("Start Date: " + activities.get(0).getEndDate());
+
+        // end date (from activity)
+        System.out.println("End Date: " + activities.get(0).getEndDate());
+
+        // hours estimated for project
+
+        double estHours = 0;
+        for (int i = 0; i < activities.size(); i++)
+        {
+            estHours = estHours + activities.get(i).getHourEstimate();
+        }
+        System.out.println("Hours estimated for project: " + estHours);
+
+        // hours spent on project
         double workedHours = 0;
         for (int i = 0; i < activities.size(); i++)
         {
             workedHours = workedHours + activities.get(i).computeHoursSpent();
         }
-        System.out.println(workedHours);
+        System.out.println("Hours spent on project: " + workedHours);
+
+        // hours spent on each activity
+        for (int i = 0; i < activities.size(); i++)
+        {
+            System.out.println("Hours spent on activity " + activities.get(i).getName() + ": " + activities.get(i).computeHoursSpent());
+        }
+
     }
 
     public Boolean isProjectLeader(Developer dev)

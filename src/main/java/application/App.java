@@ -24,5 +24,8 @@ public class App
                 System.out.println(act.getName());
             }
         }
+
+        Project project = app.getProject(2023001);
+        project.makeReport();
     }
 }

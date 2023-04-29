@@ -1,5 +1,7 @@
 package application;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+
+import io.cucumber.java.tlh.vaj; 
 
 public class Project 
 {
@@ -67,12 +69,84 @@ public class Project
 
     public void makeReport()
     {
-        double workedHours = 0;
-        for (int i = 0; i < activities.size(); i++)
+
+        // Project report - name of project
+        System.out.println("Project Report for " + name);
+
+        // project id
+        System.out.println("Project ID: " + projectID);
+
+        // project leader
+
+        if (projectLeader == null)
         {
-            workedHours = workedHours + activities.get(i).computeHoursSpent();
+            System.out.println("Project Leader: None");
+
         }
-        System.out.println(workedHours);
+        else 
+        {
+            System.out.println("Project Leader: " + projectLeader.getName());
+        }
+
+        if (activities.size() == 0)
+
+        {
+            System.out.println("No activities in project");
+        }
+
+
+        else
+        {
+
+            // start date (from activity)
+            System.out.println("Start Date: " + activities.get(0).getEndDate());
+
+            // end date (from activity)
+            System.out.println("End Date: " + activities.get(0).getEndDate());
+
+            // hours estimated for project
+
+            double estHours = 0;
+            for (int i = 0; i < activities.size(); i++)
+         {
+            estHours = estHours + activities.get(i).getHourEstimate();
+            }
+            System.out.println("Hours estimated for project: " + estHours);
+
+            // hours spent on project
+            double workedHours = 0;
+            for (int i = 0; i < activities.size(); i++)
+            {
+            workedHours = workedHours + activities.get(i).computeHoursSpent();
+            }
+            System.out.println("Hours spent on project: " + workedHours);
+
+            // hours spent on each activity
+            System.out.println("Hours spent on activity: ");
+            for (int i = 0; i < activities.size(); i++)
+            {
+            System.out.println("          " + (i+1) + ") " + activities.get(i).getName() + ": " + activities.get(i).computeHoursSpent());
+            }
+
+        }
+            // Developer list
+            for (int i = 0; i < activities.size(); i++)
+            {
+                if (activities.get(i).getDeveloperList().size() == 0)
+                {
+                    System.out.println("No developers assigned to the activity " + activities.get(i).getName());
+                }
+                else
+                {
+                    System.out.println("Developers assigned to the activity " +  activities.get(i).getName() + ": ");
+                    for (int i2 = 0; i2 < activities.get(i).getDeveloperList().size(); i2++)
+                    {
+                        System.out.println("          " + (i2+1) + ") " + activities.get(i).getDeveloperList().get(i2).getName());
+                    }
+                }
+            }
+
+
     }
 
     public Boolean isProjectLeader(Developer dev)

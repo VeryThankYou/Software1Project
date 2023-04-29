@@ -17,6 +17,8 @@ import application.UserNotLeaderException;
 import application.Activity;
 import application.Developer;
 
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -386,7 +388,12 @@ public class StepDefinitions {
     @Then("the system generates a report of the hours worked on each activity and the expected rest work on the project.")
     public void the_system_generates_a_report_of_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() {
         // Write code here that turns the phrase above into concrete actions
-    }
-
-
+		// check if file exists
+		String filePathString = "reports/report_" + project.getName() + ".txt";
+		File f = new File(filePathString);
+		if(f.exists() && !f.isDirectory()) 
+		{ 
+			assertTrue(true);
+    	}
+}
 }

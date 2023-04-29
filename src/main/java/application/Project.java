@@ -72,129 +72,154 @@ public class Project
     }
 
 
-public void makeReport() {
-    // Create a FileWriter object to write to a file
-    try {
-        // Directory for reports
-        File dir = new File("Reports");
-        dir.mkdir();
+public void makeReport(Developer loggedIn) throws UserNotLeaderException 
+{
+    if (isProjectLeader(loggedIn))
+    {
         // Create a FileWriter object to write to a file
-        FileWriter writer = new FileWriter("Reports/report_"+name+".txt");
+        try 
+        {
+            // Directory for reports
+            File dir = new File("Reports");
+            dir.mkdir();
+            // Create a FileWriter object to write to a file
+            FileWriter writer = new FileWriter("Reports/report_"+name+".txt");
 
-        // Project report - name of project
-        String projectName = "Project Report for " + name;
-        System.out.println(projectName);
-        writer.write(projectName + "\n");
+            // Project report - name of project
+            String projectName = "Project Report for " + name;
+            System.out.println(projectName);
+            writer.write(projectName + "\n");
 
-        // project id
-        String projectIDString = "Project ID: " + projectID;
-        System.out.println(projectIDString);
-        writer.write(projectIDString + "\n");
+            // project id
+            String projectIDString = "Project ID: " + projectID;
+            System.out.println(projectIDString);
+            writer.write(projectIDString + "\n");
 
-        // project leader
-        if (projectLeader == null) {
-            String noProjectLeader = "Project Leader: None";
-            System.out.println(noProjectLeader);
-            writer.write(noProjectLeader + "\n");
-        } else {
-            String projectLeaderName = "Project Leader: " + projectLeader.getName();
-            System.out.println(projectLeaderName);
-            writer.write(projectLeaderName + "\n");
-        }
+            // project leader
+            if (projectLeader == null) 
+            {
+                String noProjectLeader = "Project Leader: None";
+                System.out.println(noProjectLeader);
+                writer.write(noProjectLeader + "\n");
+            } 
+            else 
+            {
+                String projectLeaderName = "Project Leader: " + projectLeader.getName();
+                System.out.println(projectLeaderName);
+                writer.write(projectLeaderName + "\n");
+            }
 
-        if (activities.size() == 0) {
-            String noActivities = "No activities in project";
-            System.out.println(noActivities);
-            writer.write(noActivities + "\n");
-        } else {
-            // start date (from activity)
-            // takes the earliest start date from all activities
-        int earliestDate = 1000000;
-            for (int i = 0; i < activities.size(); i++) {
-                if (activities.get(i).getStartDate() < earliestDate) {
-                    earliestDate = activities.get(i).getStartDate();
+            if (activities.size() == 0) 
+            {
+                String noActivities = "No activities in project";
+                System.out.println(noActivities);
+                writer.write(noActivities + "\n");
+            } 
+            else 
+            {
+                // start date (from activity)
+                // takes the earliest start date from all activities
+                int earliestDate = 1000000;
+                for (int i = 0; i < activities.size(); i++) 
+                {
+                    if (activities.get(i).getStartDate() < earliestDate) 
+                    {
+                        earliestDate = activities.get(i).getStartDate();
+                    }
+                }
+
+                // converts the earliest date to a year and week
+                int earliestDateYear = (int) Math.floor(earliestDate / 100);
+                int earliestDateYearMinus = (int) earliestDateYear*100;
+                int earliestDateWeek = earliestDate - earliestDateYearMinus;
+
+
+                String startDate = "Start Date: Week " + earliestDateWeek + ", " + earliestDateYear;
+                System.out.println(startDate);
+                writer.write(startDate + "\n");
+
+                // end date (from activity)
+                // takes the latest end date from all activities
+                int latestDate = 0;
+                for (int i = 0; i < activities.size(); i++) 
+                {
+                    if (activities.get(i).getEndDate() > latestDate) 
+                    {
+                        latestDate = activities.get(i).getEndDate();
+                    }
+                }
+
+                // converts the latest date to a year and week
+                int latestDateYear =  (int) Math.floor(latestDate / 100);
+                int latestDateYearMinus = (int)latestDateYear*100;
+                int latestDateWeek = latestDate - latestDateYearMinus;
+
+                String endDate = "End Date: Week " + latestDateWeek + ", " + latestDateYear;
+                System.out.println(endDate);
+                writer.write(endDate + "\n");
+
+                // hours estimated for project
+                double estHours = 0;
+                for (int i = 0; i < activities.size(); i++) 
+                {
+                    estHours = estHours + activities.get(i).getHourEstimate();
+                }
+                String estHoursString = "Hours estimated for project: " + estHours;
+                System.out.println(estHoursString);
+                writer.write(estHoursString + "\n");
+
+                // hours spent on project
+                double workedHours = 0;
+                for (int i = 0; i < activities.size(); i++) 
+                {
+                    workedHours = workedHours + activities.get(i).computeHoursSpent();
+                }
+                String workedHoursString = "Hours spent on project: " + workedHours;
+                System.out.println(workedHoursString);
+                writer.write(workedHoursString + "\n");
+
+                // hours spent on each activity
+                System.out.println("Hours spent on activity: ");
+                writer.write("Hours spent on activity: \n");
+                for (int i = 0; i < activities.size(); i++) 
+                {
+                    String activityHoursString = "          " + (i + 1) + ") " + activities.get(i).getName() + ": " + activities.get(i).computeHoursSpent();
+                    System.out.println(activityHoursString);
+                    writer.write(activityHoursString + "\n");
                 }
             }
 
-            // converts the earliest date to a year and week
-            int earliestDateYear = (int) Math.floor(earliestDate / 100);
-            int earliestDateYearMinus = (int) earliestDateYear*100;
-            int earliestDateWeek = earliestDate - earliestDateYearMinus;
-
-
-            String startDate = "Start Date: Week " + earliestDateWeek + ", " + earliestDateYear;
-            System.out.println(startDate);
-            writer.write(startDate + "\n");
-
-            // end date (from activity)
-            // takes the latest end date from all activities
-            int latestDate = 0;
-            for (int i = 0; i < activities.size(); i++) {
-                if (activities.get(i).getEndDate() > latestDate) {
-                    latestDate = activities.get(i).getEndDate();
+            // Developer list
+            for (int i = 0; i < activities.size(); i++) 
+            {
+                if (activities.get(i).getDeveloperList().size() == 0) 
+                {
+                    String noDevelopersString = "No developers assigned to the activity: " + activities.get(i).getName();
+                    System.out.println(noDevelopersString);
+                    writer.write(noDevelopersString + "\n");
+                }
+                else 
+                {
+                    String developersAssignedString = "Developers assigned to the activity, " + activities.get(i).getName() + ": ";
+                    System.out.println(developersAssignedString);
+                    writer.write(developersAssignedString + "\n");
+                    for (int j = 0; j < activities.get(i).getDeveloperList().size(); j++) 
+                    {
+                        String developerName = "          " + (j + 1) + ") " + activities.get(i).getDeveloperList().get(j).getName();
+                        System.out.println(developerName);
+                        writer.write(developerName + "\n");
+                    }
                 }
             }
-
-            // converts the latest date to a year and week
-            int latestDateYear =  (int) Math.floor(latestDate / 100);
-            int latestDateYearMinus = (int)latestDateYear*100;
-            int latestDateWeek = latestDate - latestDateYearMinus;
-
-            String endDate = "End Date: Week " + latestDateWeek + ", " + latestDateYear;
-            System.out.println(endDate);
-            writer.write(endDate + "\n");
-
-            // hours estimated for project
-            double estHours = 0;
-            for (int i = 0; i < activities.size(); i++) {
-                estHours = estHours + activities.get(i).getHourEstimate();
-            }
-            String estHoursString = "Hours estimated for project: " + estHours;
-            System.out.println(estHoursString);
-            writer.write(estHoursString + "\n");
-
-            // hours spent on project
-            double workedHours = 0;
-            for (int i = 0; i < activities.size(); i++) {
-                workedHours = workedHours + activities.get(i).computeHoursSpent();
-            }
-            String workedHoursString = "Hours spent on project: " + workedHours;
-            System.out.println(workedHoursString);
-            writer.write(workedHoursString + "\n");
-
-            // hours spent on each activity
-            System.out.println("Hours spent on activity: ");
-            writer.write("Hours spent on activity: \n");
-            for (int i = 0; i < activities.size(); i++) {
-                String activityHoursString = "          " + (i + 1) + ") " + activities.get(i).getName() + ": " + activities.get(i).computeHoursSpent();
-                System.out.println(activityHoursString);
-                writer.write(activityHoursString + "\n");
-            }
+            writer.close();
         }
-
-        // Developer list
-        for (int i = 0; i < activities.size(); i++) {
-            if (activities.get(i).getDeveloperList().size() == 0) {
-                String noDevelopersString = "No developers assigned to the activity: " + activities.get(i).getName();
-                System.out.println(noDevelopersString);
-                writer.write(noDevelopersString + "\n");
-            } else {
-                String developersAssignedString = "Developers assigned to the activity, " + activities.get(i).getName() + ": ";
-                System.out.println(developersAssignedString);
-                writer.write(developersAssignedString + "\n");
-                for (int j = 0; j < activities.get(i).getDeveloperList().size(); j++) {
-                    String developerName = "          " + (j + 1) + ") " + activities.get(i).getDeveloperList().get(j).getName();
-                    System.out.println(developerName);
-                    writer.write(developerName + "\n");
-                }
-            }
+        catch (IOException e) 
+        {
+            System.out.println("An error occurred in makeReport.");
+            e.printStackTrace();
         }
-        writer.close();
     }
-    catch (IOException e) {
-        System.out.println("An error occurred.");
-        e.printStackTrace();
-    }
+    throw new UserNotLeaderException("Not project leader error");
 }
 
     public Boolean isProjectLeader(Developer dev)

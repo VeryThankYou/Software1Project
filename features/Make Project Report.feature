@@ -13,4 +13,4 @@ Scenario: A developer fails to generate a report
     And the developer who is logged in is not project leader for the project
     And there is a project leader 
     When clicked on ”Generate Report”
-    Then the system outputs an error message: "An error occurred."
+    Then the system outputs an error message: "Not project leader error"

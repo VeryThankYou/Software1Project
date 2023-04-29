@@ -115,7 +115,7 @@ public class LogPlan
 
     private void addCsvDevelopers() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles\\developers.csv");
+        File file = new File("csvfiles/developers.csv");
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
         String row = csvReader.readLine();
         while (row != null)
@@ -144,7 +144,7 @@ public class LogPlan
 
     private void addCsvProjects() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles\\projects.csv");
+        File file = new File("csvfiles/projects.csv");
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
         String row = csvReader.readLine();
         while (row != null)
@@ -158,7 +158,7 @@ public class LogPlan
 
     private void addCsvActivities() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles\\activities.csv");
+        File file = new File("csvfiles/activities.csv");
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
         String row = csvReader.readLine();
         while (row != null)
@@ -178,7 +178,7 @@ public class LogPlan
 
     private void activityUserConnection() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles\\activity_developer.csv");
+        File file = new File("csvfiles/activity_developer.csv");
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
         String row = csvReader.readLine();
         while (row != null)
@@ -219,7 +219,7 @@ public class LogPlan
 
     private void addCsvSessions() throws FileNotFoundException, IOException, NumberFormatException
     {
-        File file = new File("csvfiles\\session.csv");
+        File file = new File("csvfiles/session.csv");
         BufferedReader csvReader = new BufferedReader(new FileReader(file));
         String row = csvReader.readLine();
         while (row != null)

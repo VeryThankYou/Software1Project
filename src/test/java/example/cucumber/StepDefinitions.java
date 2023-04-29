@@ -324,7 +324,7 @@ public class StepDefinitions {
 		LocalDate date = LocalDate.now();
 		calendar.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
 		int weeknum = calendar.get(Calendar.WEEK_OF_YEAR);
-        developer.viewSchedule(weeknum);
+        developer.viewSchedule(date.getYear() * 100 + weeknum);
     }
 
 

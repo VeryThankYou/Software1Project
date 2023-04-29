@@ -191,7 +191,6 @@ public class LogPlan
             String[] line = row.split(",");
             Activity act = findActivity(Integer.parseInt(line[0]));
             Developer dev = getDeveloper(line[1]);
-            dev.addActivity(act);
             act.addDev(dev);
             row = csvReader.readLine();
         }
@@ -334,7 +333,93 @@ public class LogPlan
     public void scheduleMenu(int weeknum)
     {
         int[] yearWeek = yearSlashWeek(weeknum);
-        System.out.println("Here is your schedule for week " + Integer.toString(yearWeek[1]) + ", " + Integer.toString(yearWeek[0]));
+        String s;
+        while(true)
+        {
+            System.out.println("Here is your schedule for week " + Integer.toString(yearWeek[1]) + ", " + Integer.toString(yearWeek[0]));
+            ArrayList<Activity> acts = getSignedIn().viewSchedule(weeknum);
+            if(acts.size() == 0)
+            {
+                System.out.println("No activities this week.");
+            }
+            for(int i = 0; i < acts.size(); i++)
+            {
+                System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName() + " from the project " + acts.get(i).getProject().getName());
+            }
+            System.out.println("\nWhat do you want to do?");
+            System.out.println("1. View schedule for another week");
+            System.out.println("2. View/edit your work sessions");
+            System.out.println("3. Go back");
+            System.out.println("l. Log hours on any of the activities above. To log hours, write 'l' plus the corresponding activity number. Eg: l1");
+            System.out.println("a. View project for one of the activities above. To view project, write 'a' plus the corresponding activity number. Eg: a1");
+            s = scanner.nextLine();
+            if(s.equals("1"))
+            {
+                int newWeekNum;
+                String s2;
+                while(true)
+                {
+                    System.out.println("Please write the year and week number of the week you want to view the schedule for.");
+                    System.out.println("Format is as follows: yyyyww. Eg: 202243");
+                    s2 = scanner.nextLine();
+                    try
+                    {
+                        newWeekNum = Integer.parseInt(s2);
+                        int[] yearweek = yearSlashWeek(newWeekNum);
+                        Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                        calendar.set(yearweek[0], 11, 31);
+                        int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                        if(s2.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0))
+                        {
+                            scheduleMenu(newWeekNum);
+                            return;
+                        }
+                    }
+                    catch (Exception e) {}
+                    System.out.println("Invalid input. Try again");
+                }
+            }
+            if(s.equals("2"))
+            {
+                sessionMenu();
+                return;
+            }
+            if(s.equals("3"))
+            {
+                menu1();
+                return;
+            }
+            if(s.substring(0,1).equals("l"))
+            {
+                try
+                {
+                    if(Integer.parseInt(s.substring(1,s.length())) - 1 < acts.size())
+                    {
+                        Activity act = acts.get(Integer.parseInt(s.substring(1,s.length())) - 1);
+                        logHoursMenu(act);
+                        return;
+                    }
+                }
+                catch (Exception e){}
+            }
+            if(s.substring(0,1).equals("a"))
+            {
+                try
+                {
+                    if(Integer.parseInt(s.substring(1,s.length())) - 1 < acts.size())
+                    {
+                        Activity act = acts.get(Integer.parseInt(s.substring(1,s.length())) - 1);
+                        viewProject(act.getProject());
+                        return;
+                    }
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            System.out.println("Invalid input. Try again.");
+        }
+        
     }
 
     public void projectSearch()
@@ -405,6 +490,16 @@ public class LogPlan
     public void viewProject(Project proj)
     {
         System.out.println(proj.getName());
+    }
+
+    public void logHoursMenu(Activity act)
+    {
+        System.out.println(act.getName());
+    }
+
+    public void sessionMenu()
+    {
+        System.out.println("Session menu");
     }
 
     public int currentWeeknum()

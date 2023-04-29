@@ -23,10 +23,7 @@ public class Developer
         for (int i = 0 ; i < activities.size() ; i++)
         {
             int[] frame = activities.get(i).getDates();
-            System.out.println(frame[0]);
-            System.out.println(frame[1]);
-            System.out.println(weeknum);
-            if(weeknum >= frame[1] && weeknum <= frame[0])
+            if(weeknum >= frame[0] && weeknum <= frame[1])
             {
                 weekActs.add(activities.get(i));
             }    

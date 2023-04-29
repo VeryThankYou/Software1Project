@@ -1,0 +1,10 @@
+Project Report for null
+Project ID: 0
+Project Leader: None
+Start Date: Week 0, 0
+End Date: Week 0, 0
+Hours estimated for project: 0.0
+Hours spent on project: 0.0
+Hours spent on activity: 
+          1) null: 0.0
+No developers assigned to the activity: null

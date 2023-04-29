@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.*;
+import javax.naming.directory.SearchResult;
 
 public class LogPlan 
 {
@@ -317,21 +319,107 @@ public class LogPlan
         }
         if(s.equals("1"))
         {
-            this.scheduleMenu();
+            this.scheduleMenu(currentWeeknum());
         } 
-        else if(s.equals("1"))
+        else if(s.equals("2"))
         {
             this.projectSearch();
         }
+        else if(s.equals("3"))
+        {
+            return;
+        }
     }
 
-    public void scheduleMenu()
+    public void scheduleMenu(int weeknum)
     {
-        System.out.println("Here is your schedule for the current week:");
+        int[] yearWeek = yearSlashWeek(weeknum);
+        System.out.println("Here is your schedule for week " + Integer.toString(yearWeek[1]) + ", " + Integer.toString(yearWeek[0]));
     }
 
     public void projectSearch()
     {
         System.out.println("Which project are you looking for?");
+        ArrayList<Project> projs;
+        String s;
+        while(true)
+        {
+            s = scanner.nextLine();
+            projs = searchProjects(s);
+            if(projs.size() == 0)
+            {
+                System.out.println("No projects found. What now?");
+                while(true)
+                {
+                    System.out.println("1. Search again");
+                    System.out.println("2. Go back");
+                    s = scanner.nextLine();
+                    if(s.equals("1"))
+                    {
+                        projectSearch();
+                        return;
+                    }
+                    if(s.equals("2"))
+                    {
+                        menu1();
+                        return;
+                    }
+                }
+            }
+            break;
+        }
+        while(true)
+        {
+            for(int i = 0; i < projs.size(); i++)
+            {
+                Project proj = projs.get(i);
+                System.out.println(Integer.toString(i + 1) + ". " + proj.getName());
+            }
+            System.out.println(Integer.toString(projs.size() + 1) + ". Search again");
+            System.out.println(Integer.toString(projs.size() + 2) + ". Go back");
+            System.out.println("Which project are you looking for?");
+            s = scanner.nextLine();
+            if(s.equals(Integer.toString(projs.size() + 1)))
+            {
+                projectSearch();
+                return;
+            }
+            if(s.equals(Integer.toString(projs.size() + 2)))
+            {
+                menu1();
+                return;
+            }
+            try
+            {
+                Project proj = projs.get(Integer.parseInt(s) - 1);
+                viewProject(proj);
+                return;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Invalid input. Try again.");
+            }
+        }
+    }
+    
+    public void viewProject(Project proj)
+    {
+        System.out.println(proj.getName());
+    }
+
+    public int currentWeeknum()
+    {
+        Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+		LocalDate date = LocalDate.now();
+		calendar.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+		int weeknum = calendar.get(Calendar.WEEK_OF_YEAR);
+        return date.getYear() * 100 + weeknum;
+    }
+
+    public int[] yearSlashWeek(int yearweeknum)
+    {
+        int year = yearweeknum / 100;
+        int week = yearweeknum - 100 * year;
+        return new int[]{year, week};
     }
 }

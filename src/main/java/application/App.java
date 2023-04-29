@@ -9,6 +9,5 @@ public class App
     {
         LogPlan app = new LogPlan();
         app.loginPage();
-        
     }
 }

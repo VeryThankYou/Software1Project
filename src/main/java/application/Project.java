@@ -1,6 +1,10 @@
 package application;
 import java.util.ArrayList;
 
+import java.io.FileWriter;
+import java.io.File;
+import java.io.IOException;
+
 import io.cucumber.java.tlh.vaj; 
 
 public class Project 
@@ -67,87 +71,104 @@ public class Project
         }
     }
 
-    public void makeReport()
-    {
+
+public void makeReport() {
+    // Create a FileWriter object to write to a file
+    try {
+        // Directory for reports
+        File dir = new File("Reports");
+        dir.mkdir();
+        // Create a FileWriter object to write to a file
+        FileWriter writer = new FileWriter("Reports/report_"+name+".txt");
 
         // Project report - name of project
-        System.out.println("Project Report for " + name);
+        String projectName = "Project Report for " + name;
+        System.out.println(projectName);
+        writer.write(projectName + "\n");
 
         // project id
-        System.out.println("Project ID: " + projectID);
+        String projectIDString = "Project ID: " + projectID;
+        System.out.println(projectIDString);
+        writer.write(projectIDString + "\n");
 
         // project leader
-
-        if (projectLeader == null)
-        {
-            System.out.println("Project Leader: None");
-
-        }
-        else 
-        {
-            System.out.println("Project Leader: " + projectLeader.getName());
-        }
-
-        if (activities.size() == 0)
-
-        {
-            System.out.println("No activities in project");
+        if (projectLeader == null) {
+            String noProjectLeader = "Project Leader: None";
+            System.out.println(noProjectLeader);
+            writer.write(noProjectLeader + "\n");
+        } else {
+            String projectLeaderName = "Project Leader: " + projectLeader.getName();
+            System.out.println(projectLeaderName);
+            writer.write(projectLeaderName + "\n");
         }
 
-
-        else
-        {
-
+        if (activities.size() == 0) {
+            String noActivities = "No activities in project";
+            System.out.println(noActivities);
+            writer.write(noActivities + "\n");
+        } else {
             // start date (from activity)
-            System.out.println("Start Date: " + activities.get(0).getEndDate());
+            String startDate = "Start Date: " + activities.get(0).getEndDate();
+            System.out.println(startDate);
+            writer.write(startDate + "\n");
 
             // end date (from activity)
-            System.out.println("End Date: " + activities.get(0).getEndDate());
+            String endDate = "End Date: " + activities.get(0).getEndDate();
+            System.out.println(endDate);
+            writer.write(endDate + "\n");
 
             // hours estimated for project
-
             double estHours = 0;
-            for (int i = 0; i < activities.size(); i++)
-         {
-            estHours = estHours + activities.get(i).getHourEstimate();
+            for (int i = 0; i < activities.size(); i++) {
+                estHours = estHours + activities.get(i).getHourEstimate();
             }
-            System.out.println("Hours estimated for project: " + estHours);
+            String estHoursString = "Hours estimated for project: " + estHours;
+            System.out.println(estHoursString);
+            writer.write(estHoursString + "\n");
 
             // hours spent on project
             double workedHours = 0;
-            for (int i = 0; i < activities.size(); i++)
-            {
-            workedHours = workedHours + activities.get(i).computeHoursSpent();
+            for (int i = 0; i < activities.size(); i++) {
+                workedHours = workedHours + activities.get(i).computeHoursSpent();
             }
-            System.out.println("Hours spent on project: " + workedHours);
+            String workedHoursString = "Hours spent on project: " + workedHours;
+            System.out.println(workedHoursString);
+            writer.write(workedHoursString + "\n");
 
             // hours spent on each activity
             System.out.println("Hours spent on activity: ");
-            for (int i = 0; i < activities.size(); i++)
-            {
-            System.out.println("          " + (i+1) + ") " + activities.get(i).getName() + ": " + activities.get(i).computeHoursSpent());
+            writer.write("Hours spent on activity: \n");
+            for (int i = 0; i < activities.size(); i++) {
+                String activityHoursString = "          " + (i + 1) + ") " + activities.get(i).getName() + ": " + activities.get(i).computeHoursSpent();
+                System.out.println(activityHoursString);
+                writer.write(activityHoursString + "\n");
             }
-
         }
-            // Developer list
-            for (int i = 0; i < activities.size(); i++)
-            {
-                if (activities.get(i).getDeveloperList().size() == 0)
-                {
-                    System.out.println("No developers assigned to the activity " + activities.get(i).getName());
-                }
-                else
-                {
-                    System.out.println("Developers assigned to the activity " +  activities.get(i).getName() + ": ");
-                    for (int i2 = 0; i2 < activities.get(i).getDeveloperList().size(); i2++)
-                    {
-                        System.out.println("          " + (i2+1) + ") " + activities.get(i).getDeveloperList().get(i2).getName());
-                    }
+
+        // Developer list
+        for (int i = 0; i < activities.size(); i++) {
+            if (activities.get(i).getDeveloperList().size() == 0) {
+                String noDevelopersString = "No developers assigned to the activity: " + activities.get(i).getName();
+                System.out.println(noDevelopersString);
+                writer.write(noDevelopersString + "\n");
+            } else {
+                String developersAssignedString = "Developers assigned to the activity, " + activities.get(i).getName() + ": ";
+                System.out.println(developersAssignedString);
+                writer.write(developersAssignedString + "\n");
+                for (int j = 0; j < activities.get(i).getDeveloperList().size(); j++) {
+                    String developerName = "          " + (j + 1) + ") " + activities.get(i).getDeveloperList().get(j).getName();
+                    System.out.println(developerName);
+                    writer.write(developerName + "\n");
                 }
             }
-
-
+        }
+        writer.close();
     }
+    catch (IOException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
+    }
+}
 
     public Boolean isProjectLeader(Developer dev)
     {

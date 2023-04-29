@@ -1,0 +1,18 @@
+Project Report for LogPlan
+Project ID: 2023001
+Project Leader: None
+Start Date: 6
+End Date: 6
+Hours estimated for project: 11.5
+Hours spent on project: 3.0
+Hours spent on activity: 
+          1) Define usecases: 2.0
+          2) Make classes: 1.0
+          3) Implement step-definitions: 0.0
+Developers assigned to the activity, Define usecases: 
+          1) Erik Buur Christensen
+          2) William Allerup Carlsen
+Developers assigned to the activity, Make classes: 
+          1) Marcus Bignut Christiansen
+Developers assigned to the activity, Implement step-definitions: 
+          1) Marcus Bignut Christiansen

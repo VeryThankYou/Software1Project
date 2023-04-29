@@ -20,6 +20,7 @@ import application.Developer;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.*;
 
 public class StepDefinitions {
 
@@ -309,6 +310,22 @@ public class StepDefinitions {
 			this.message = e.getMessage();
 		}
 	}
+
+    @Then("the system displays the schedule")
+    public void the_system_displays_the_schedule() 
+	{
+		
+	}
+
+    @When("the developer views their daily schedule")
+    public void the_developer_views_their_daily_schedule() 
+	{
+		Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+		LocalDate date = LocalDate.now();
+		calendar.set(date.getYear(), date.getMonthValue() - 1, date.getDayOfMonth());
+		int weeknum = calendar.get(Calendar.WEEK_OF_YEAR);
+        developer.viewSchedule(weeknum);
+    }
 
 
 }

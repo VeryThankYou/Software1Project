@@ -108,12 +108,39 @@ public void makeReport() {
             writer.write(noActivities + "\n");
         } else {
             // start date (from activity)
-            String startDate = "Start Date: " + activities.get(0).getEndDate();
+            // takes the earliest start date from all activities
+        int earliestDate = 1000000;
+            for (int i = 0; i < activities.size(); i++) {
+                if (activities.get(i).getStartDate() < earliestDate) {
+                    earliestDate = activities.get(i).getStartDate();
+                }
+            }
+
+            // converts the earliest date to a year and week
+            int earliestDateYear = (int) Math.floor(earliestDate / 100);
+            int earliestDateYearMinus = (int) earliestDateYear*100;
+            int earliestDateWeek = earliestDate - earliestDateYearMinus;
+
+
+            String startDate = "Start Date: Week " + earliestDateWeek + ", " + earliestDateYear;
             System.out.println(startDate);
             writer.write(startDate + "\n");
 
             // end date (from activity)
-            String endDate = "End Date: " + activities.get(0).getEndDate();
+            // takes the latest end date from all activities
+            int latestDate = 0;
+            for (int i = 0; i < activities.size(); i++) {
+                if (activities.get(i).getEndDate() > latestDate) {
+                    latestDate = activities.get(i).getEndDate();
+                }
+            }
+
+            // converts the latest date to a year and week
+            int latestDateYear =  (int) Math.floor(latestDate / 100);
+            int latestDateYearMinus = (int)latestDateYear*100;
+            int latestDateWeek = latestDate - latestDateYearMinus;
+
+            String endDate = "End Date: Week " + latestDateWeek + ", " + latestDateYear;
             System.out.println(endDate);
             writer.write(endDate + "\n");
 

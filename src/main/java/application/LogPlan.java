@@ -743,7 +743,7 @@ public class LogPlan
             System.out.println(hoursSpentString);
 
             // Estimated hours
-            String estHoursString = "          Estimated hours: " + proj.getActivities().get(i).getEstimatedHours();
+            String estHoursString = "          Estimated hours: " + proj.getActivities().get(i).getHourEstimate();
             System.out.println(estHoursString);
 
             // Developers assigned to activity

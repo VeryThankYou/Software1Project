@@ -310,4 +310,9 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
     {
         return projectLeader;
     }
+
+    public void deleteActivity(Activity act)
+    {
+        activities.remove(act);
+    }
 }

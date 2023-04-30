@@ -925,13 +925,113 @@ public class LogPlan
             }
             System.out.println("Invalid input. Please try again");
         }
-        
     }
 
     public void viewActivityMenuAsLeader(Project proj)
     {
         System.out.println(proj.getName() + " Activity menu");
         printActivitiesOverview(proj);
+        System.out.println("");
+        while(true)
+        {
+            System.out.println("1. Log hours on activity");
+            System.out.println("2. Add activity");
+            System.out.println("3. Delete activity");
+            System.out.println("4. Edit activity");
+            System.out.println("5. Go back");
+            System.out.println("Choose option by its corresponding number");
+            String s = scanner.nextLine();
+            ArrayList<Activity> acts = proj.getActivities();
+            if(s.equals("1"))
+            {
+                while(true)
+                {
+                    for(int i = 0; i < acts.size(); i++)
+                    {
+                        System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
+                    }
+                    System.out.println("");
+                    System.out.println("Choose activity you want to mark hours on by its number");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        int i = Integer.parseInt(s2) - 1;
+                        Activity act = acts.get(i);
+                        logHoursMenu(act);
+                        return;
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please try again");
+                    }
+                }
+            }
+            if(s.equals("2"))
+            {
+                addActivityMenu(proj);
+                return;
+            }
+            if(s.equals("3"))
+            {
+                while(true)
+                {
+                    for(int i = 0; i < acts.size(); i++)
+                    {
+                        System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
+                    }
+                    System.out.println("");
+                    System.out.println("Choose activity you want to delete by its number");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        int i = Integer.parseInt(s2) - 1;
+                        Activity act = acts.get(i);
+                        proj.deleteActivity(act);
+                        viewActivityMenu(proj);
+                        return;
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please try again");
+                    }
+                }
+            }
+            if(s.equals("4"))
+            {
+                while(true)
+                {
+                    for(int i = 0; i < acts.size(); i++)
+                    {
+                        System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
+                    }
+                    System.out.println("");
+                    System.out.println("Choose activity you want to edit by its number");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        int i = Integer.parseInt(s2) - 1;
+                        Activity act = acts.get(i);
+                        editActivityMenu(act);
+                        return;
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please try again");
+                    }
+                }
+            }
+            if(s.equals("5"))
+            {
+                viewProjectMenu(proj);
+                return;
+            }
+            System.out.println("Invalid input. Please try again");
+        }
+    }
+
+    public void editActivityMenu(Activity act)
+    {
+        System.out.println("Edit " + act.getName());
     }
 
     public int currentWeeknum()

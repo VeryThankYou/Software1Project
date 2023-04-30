@@ -5,6 +5,8 @@ Start Date: Week 4, 2023
 End Date: Week 7, 2023
 Hours estimated for project: 11.5
 Hours spent on project: 3.0
+Planned Activities:                               Current Activities:                               Done Activities:
+Define usecases                                   Make classes                                      Implement step-definitions
 Hours spent on activity: 
           1) Define usecases: 2.0
           2) Make classes: 1.0

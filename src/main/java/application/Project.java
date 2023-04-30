@@ -1,6 +1,7 @@
 package application;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.Collections;
 import java.io.FileWriter;
 import java.io.File;
 import java.io.IOException;
@@ -32,9 +33,11 @@ public class Project
 
     public void updateLeader(Developer dev, Developer loggedIn) throws UserNotLeaderException
     {
+        System.out.println("hej");
         if (isProjectLeader(loggedIn))
         {
             this.projectLeader = dev;
+            return;
         }
         throw new UserNotLeaderException("Not Project Leader Error");
     }
@@ -63,7 +66,7 @@ public class Project
         activities.add(act);
     }
 
-    private void updateName(Developer loggedIn, String newName)
+    public void updateName(Developer loggedIn, String newName)
     {
         if (isProjectLeader(loggedIn))
         {
@@ -178,6 +181,62 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
                 System.out.println(workedHoursString);
                 writer.write(workedHoursString + "\n");
 
+                ArrayList<Activity> plannedActivities = new ArrayList<Activity>();
+                ArrayList<Activity> currentActivities = new ArrayList<Activity>();
+                ArrayList<Activity> doneActivities = new ArrayList<Activity>();
+                for (int i = 0; i < this.getActivities().size(); i++) 
+                {
+                    Activity act = this.getActivities().get(i);
+                    int process = act.getProcess();
+                    switch(process)
+                    {
+                        case 0: plannedActivities.add(act);
+                                break;
+                        case 1: currentActivities.add(act);
+                                break;
+                        case 2: doneActivities.add(act);
+                                break;
+                    }
+                }
+                Integer[] sizes = new Integer[]{plannedActivities.size(), currentActivities.size(), doneActivities.size()};
+                int maxSize = Collections.max(Arrays.asList(sizes));
+                String sColumns = "";
+                sColumns = sColumns + "Planned Activities:";
+                for(int i = 0; i < 31; i++){sColumns = sColumns + " ";}
+                sColumns = sColumns + "Current Activities:";
+                for(int i = 0; i < 31; i++){sColumns = sColumns + " ";}
+                sColumns = sColumns + "Done Activities:";
+                System.out.println(sColumns);
+                writer.write(sColumns + "\n");
+                for(int i = 0; i < maxSize; i++)
+                {
+                    Activity pAct; 
+                    Activity cAct; 
+                    Activity dAct; 
+                    try
+                    {
+                        pAct = plannedActivities.get(i);
+                        sColumns = pAct.getName();
+                        for(int i2 = 0; i2 < 50 - pAct.getName().length(); i2++){sColumns = sColumns + " ";}
+                    }
+                    catch(Exception e){for(int i2 = 0; i2 < 50; i2++){sColumns = sColumns + " ";}}
+                    try
+                    {
+                        cAct = currentActivities.get(i);
+                        sColumns = sColumns + cAct.getName();
+                        for(int i2 = 0; i2 < 50 - cAct.getName().length(); i2++){sColumns = sColumns + " ";}
+                    }
+                    catch(Exception e){for(int i2 = 0; i2 < 50; i2++){sColumns = sColumns + " ";}}
+                    try
+                    {
+                        dAct = doneActivities.get(i);
+                        sColumns = sColumns + dAct.getName();
+                    }
+                    catch(Exception e){};
+                    System.out.println(sColumns);
+                    writer.write(sColumns + "\n");
+                }
+
                 // hours spent on each activity
                 System.out.println("Hours spent on activity: ");
                 writer.write("Hours spent on activity: \n");
@@ -218,6 +277,7 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
             System.out.println("An error occurred in makeReport.");
             e.printStackTrace();
         }
+        return;
     }
     throw new UserNotLeaderException("Not project leader error");
 }

@@ -516,7 +516,218 @@ public class LogPlan
     
     public void viewProjectMenu(Project proj)
     {
-        System.out.println(proj.getName());
+        // Prints the menu for a project
+        System.out.println("Project menu for project " + proj.getName());
+        // Prints the id of the project
+        System.out.println("Project id: " + proj.getId());
+        // Prints the project leader if there is one
+        if(proj.getProjectLeader() != null)
+        {
+            System.out.println("Project leader: " + proj.getProjectLeader().getName());
+        }
+        else
+        {
+            System.out.println("No project leader");
+        }
+        // Checks if there are any activities in the project
+
+        if (proj.getActivities().size() == 0) 
+            {
+                String noActivities = "No activities in project";
+                System.out.println(noActivities);
+            } 
+            else 
+            {
+                // start date (from activity)
+                // takes the earliest start date from all activities
+                int earliestDate = 1000000;
+                for (int i = 0; i < proj.getActivities().size(); i++) 
+                {
+                    if (proj.getActivities().get(i).getStartDate() < earliestDate) 
+                    {
+                        earliestDate = proj.getActivities().get(i).getStartDate();
+                    }
+                }
+
+                // converts the earliest date to a year and week
+                int earliestDateYear = (int) Math.floor(earliestDate / 100);
+                int earliestDateYearMinus = (int) earliestDateYear*100;
+                int earliestDateWeek = earliestDate - earliestDateYearMinus;
+
+
+                String startDate = "Start Date: Week " + earliestDateWeek + ", " + earliestDateYear;
+                System.out.println(startDate);
+
+                // end date (from activity)
+                // takes the latest end date from all activities
+                int latestDate = 0;
+                for (int i = 0; i < proj.getActivities().size(); i++) 
+                {
+                    if (proj.getActivities().get(i).getEndDate() > latestDate) 
+                    {
+                        latestDate = proj.getActivities().get(i).getEndDate();
+                    }
+                }
+
+                // converts the latest date to a year and week
+                int latestDateYear =  (int) Math.floor(latestDate / 100);
+                int latestDateYearMinus = (int)latestDateYear*100;
+                int latestDateWeek = latestDate - latestDateYearMinus;
+
+                String endDate = "End Date: Week " + latestDateWeek + ", " + latestDateYear;
+                System.out.println(endDate);
+
+                // hours estimated for project
+                double estHours = 0;
+                for (int i = 0; i < proj.getActivities().size(); i++) 
+                {
+                    estHours = estHours + proj.getActivities().get(i).getHourEstimate();
+                }
+                String estHoursString = "Hours estimated for project: " + estHours;
+                System.out.println(estHoursString);
+
+                // hours spent on project
+                double workedHours = 0;
+                for (int i = 0; i < proj.getActivities().size(); i++) 
+                {
+                    workedHours = workedHours + proj.getActivities().get(i).computeHoursSpent();
+                }
+                String workedHoursString = "Hours spent on project: " + workedHours;
+                System.out.println(workedHoursString);
+
+                // hours spent on each activity
+                System.out.println("Hours spent on activity: ");
+                for (int i = 0; i < proj.getActivities().size(); i++) 
+                {
+                    String activityHoursString = "          " + (i + 1) + ") " + proj.getActivities().get(i).getName() + ": " + proj.getActivities().get(i).computeHoursSpent();
+                    System.out.println(activityHoursString);
+                }
+            }
+
+        // Prints the menu options with a makeReport option if the user is a project leader and without if user is not the project leader. 
+        // The makeReport option is also available if the user is not a project leader but the project has no project leader.
+
+        int menu = 0;
+        while(true)
+        {
+            if(proj.getProjectLeader() == null || proj.getProjectLeader().equals(this.signedIn)) // Checks if the user is the project leader or if the project has no project leader
+            {
+                System.out.println("1. View activity");
+                System.out.println("2. Edit project");
+                System.out.println("3. Make report");
+                System.out.println("4. Back");
+                menu = 1;
+            }
+            if(proj.getProjectLeader() == null && !proj.getProjectLeader().equals(this.signedIn)) // Checks if the project has no project leader and if the user is not the project leader
+            {
+                System.out.println("1. View activity");
+                System.out.println("2. Edit project");
+                System.out.println("3. Make report");
+                System.out.println("4. Assign project leader");
+                System.out.println("5. Back");
+                menu = 2;
+            }
+            else // If the user is not the project leader and the project has a project leader
+            {
+                System.out.println("1. View activity");
+                System.out.println("2. Back");
+                menu = 3;
+            }
+            // Reads the user input and calls the appropriate method
+            String s = scanner.nextLine();
+
+            if(s.equals("1"))
+            {
+                viewActivityMenu(proj);
+            }
+            else if(s.equals("2"))
+            {
+                editProjectMenu(proj);
+            }
+            else if(s.equals("3"))
+            {
+                if(proj.getProjectLeader() == null || proj.getProjectLeader().equals(this.signedIn))
+                {
+                    try
+                    {
+                    proj.makeReport(this.signedIn);
+                    //Prints that the report has been made
+                    System.out.println("Report has been made");
+                    return;
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Report could not be made");
+                    }
+                }
+                else
+                {
+                    //Ask for the id of the developer that should be the project leader
+                    System.out.println("Write the user id of the developer you want as project leader");
+                    String leaderID = scanner.nextLine();
+                    Developer dev = getDeveloper(leaderID);
+                    if(dev != null)
+                    {
+                        try
+                        {
+                            proj.updateLeader(dev, this.signedIn);
+                            return;
+                        }
+                        catch(Exception e){}
+                    }
+                }
+            }
+            else if(s.equals("4"))
+            {
+                menu1();
+                return;
+            }
+            else
+            {
+            System.out.println("Invalid input");
+            }
+
+
+
+            
+        }
+
+    }
+
+    private void editProjectMenu(Project proj) 
+    {
+        // Prints the menu options
+        System.out.println("Edit Project: " + proj.getName());
+    }
+
+    private void viewActivityMenu(Project proj) 
+    {
+        // Prints Activity Menu:
+        System.out.println("Activities: ");
+
+        // This only prints developers assigned to the activity so far.
+        // We can improve this.
+
+        // Developer list
+        for (int i = 0; i < proj.getActivities().size(); i++) 
+        {
+            if (proj.getActivities().get(i).getDeveloperList().size() == 0) 
+            {
+                String noDevelopersString = "No developers assigned to the activity: " + proj.getActivities().get(i).getName();
+                System.out.println(noDevelopersString);
+            }
+            else 
+            {
+                String developersAssignedString = "Developers assigned to the activity, " + proj.getActivities().get(i).getName() + ": ";
+                System.out.println(developersAssignedString);
+                for (int j = 0; j < proj.getActivities().get(i).getDeveloperList().size(); j++) 
+                {
+                    String developerName = "          " + (j + 1) + ") " + proj.getActivities().get(i).getDeveloperList().get(j).getName();
+                    System.out.println(developerName);
+                }
+            }
+        }
+        
     }
 
     public void logHoursMenu(Activity act)

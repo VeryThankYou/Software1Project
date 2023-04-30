@@ -62,7 +62,7 @@ public class LogPlan
 
     public void createProject(String name) throws Exception
     {
-        if(name == null)
+        if(name == null || name.equals(""))
         {
             throw new Exception("More information needed");
         }
@@ -80,7 +80,28 @@ public class LogPlan
                 projectList.add(p);
             }
         }
+    }
 
+        public void createProject(String name, Developer dev) throws Exception
+    {
+        if(name == null || name.equals(""))
+        {
+            throw new Exception("More information needed");
+        }
+        Date d = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(d);
+        int y = c.get(Calendar.YEAR);
+        
+        for (int i = projectList.size()-1; i >= 0; i--) {
+            int projID = projectList.get(i).getId();
+            int projYear = projID/1000; 
+            if (projYear == y) 
+            {
+                Project p = new Project(projID+1,name, dev);
+                projectList.add(p);
+            }
+        }
     }
 
     private void loadProject(int id, String name)
@@ -415,7 +436,7 @@ public class LogPlan
                     if(Integer.parseInt(s.substring(1,s.length())) - 1 < acts.size())
                     {
                         Activity act = acts.get(Integer.parseInt(s.substring(1,s.length())) - 1);
-                        viewProject(act.getProject());
+                        viewProjectMenu(act.getProject());
                         return;
                     }
                 }
@@ -483,7 +504,7 @@ public class LogPlan
             try
             {
                 Project proj = projs.get(Integer.parseInt(s) - 1);
-                viewProject(proj);
+                viewProjectMenu(proj);
                 return;
             }
             catch (Exception e)
@@ -493,7 +514,7 @@ public class LogPlan
         }
     }
     
-    public void viewProject(Project proj)
+    public void viewProjectMenu(Project proj)
     {
         System.out.println(proj.getName());
     }
@@ -511,6 +532,53 @@ public class LogPlan
     public void createProjectMenu()
     {
         System.out.println("Create project menu");
+        String name;
+        while(true)
+        {
+            System.out.println("Please enter a name for the project");
+            name = scanner.nextLine();
+            if(!(name.length() > 50) && (name.length() > 0))
+            {
+                break;
+            }
+            System.out.println("Name is too long or not given. Please try again");
+        }
+        while(true)
+        {
+            System.out.println("Do you want to specify a project leader?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+            String s = scanner.nextLine();
+            if(s.equals("2"))
+            {
+                try
+                {
+                    createProject(name);
+                    Project proj = getProjectList().get(getProjectList().size() - 1);
+                    viewProjectMenu(proj);
+                    return;
+                }
+                catch(Exception e)
+                {}  
+            }
+            if(s.equals("1"))
+            {
+                System.out.println("Write the user id of the developer you want as project leader");
+                String leaderID = scanner.nextLine();
+                Developer dev = getDeveloper(leaderID);
+                if(dev != null)
+                {
+                    try
+                    {
+                        createProject(name, dev);
+                        Project proj = getProjectList().get(getProjectList().size() - 1);
+                        viewProjectMenu(proj);
+                        return;
+                    }
+                    catch(Exception e){}
+                }
+            }
+        }
     }
 
     public int currentWeeknum()

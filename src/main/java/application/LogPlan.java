@@ -763,7 +763,176 @@ public class LogPlan
                 }
             }
         }
-        
+        while(true) // Loops until the user enters a valid input. Mark activity as finished, add activity, delete activity, edit activity, or back.
+        {
+            System.out.println("1. Mark activity as finished");
+            System.out.println("2. Add activity");
+            System.out.println("3. Delete activity");
+            System.out.println("4. Edit activity");
+            System.out.println("5. Go back");
+            String s = scanner.nextLine();
+
+            if(s.equals("1"))
+            {
+                // Mark activity as finished. Creates a menu for the user to choose which activity to mark as finished.
+                markActivityAsFinishedMenu(proj);
+                return;
+            }
+            else if(s.equals("2"))
+            {
+                addActivityMenu(proj);
+                return;
+            }
+            else if(s.equals("3"))
+            {
+                deleteActivityMenu(proj);
+                return;
+            }
+            else if(s.equals("4"))
+            {
+                editActivityMenu(proj);
+                return;
+            }
+            else if(s.equals("5"))
+            {
+                menu1();
+                return;
+            }
+            else
+            {
+                System.out.println("Invalid input");
+            }
+        }
+    }
+
+    private void addActivityMenu(Project proj) 
+    // This functions adds a new activity to the project. 
+    //  It asks for the name, start date, end date, estimated hours, and if any developers should be assigned.
+    {
+        System.out.println("Add activity to project: " + proj.getName() + "(" + proj.getId() + ")");
+        String name;
+        while(true) // Loops until the user enters a valid name
+        {
+            System.out.println("Please enter a name for the activity");
+            name = scanner.nextLine();
+            if(!(name.length() > 50) && (name.length() > 0))
+            {
+                break;
+            }
+            System.out.println("Name is too long or not given. Please try again");
+        }
+        int startDate;
+        while (true) // Loops until the user enters a valid start date
+        {
+            System.out.println("Please enter a start week for the activity (in the week format):");
+            if (scanner.hasNextInt()) 
+            {
+                startDate = scanner.nextInt();
+                break;
+            } 
+            else 
+            {
+                scanner.nextLine(); // consume the invalid input
+                System.out.println("Invalid start date. Please try again.");
+            }
+        }
+
+        int endDate;
+        while(true) // Loops until the user enters a valid end date
+        {
+            System.out.println("Please enter an end week for the activity (in the week format):");
+            if (scanner.hasNextInt()) 
+            {
+                endDate = scanner.nextInt();
+                if (endDate >= startDate) // Ensure end date is after start date
+                {
+                    break;
+                }
+            else
+            {
+                System.out.println("End date must be after start date. Please try again.");
+            }
+            } 
+            else 
+            {
+                scanner.nextLine(); // consume the invalid input
+                System.out.println("Invalid end date. Please try again.");
+            }
+        }
+
+        double hours;
+        while(true) // Loops until the user enters a valid estimated hours
+        {
+            System.out.println("Please enter an estimated amount of hours for the activity (in the format 0.0):");
+            String s = scanner.nextLine();
+            try
+            {
+                hours = Double.parseDouble(s);
+                break;
+            }
+            catch(Exception e)
+            {
+                System.out.println("Invalid input. Please try again");
+            }
+        }   
+        ArrayList<Developer> devList = new ArrayList<Developer>();
+        while(true) // Loops until the user enters a valid input. Add developer, or go back.
+        {
+            System.out.println("1. Add developer");
+            System.out.println("2. Do not add developer");
+            String s = scanner.nextLine();
+            if(s.equals("1"))
+            {
+               // ask for developer name
+               System.out.println("Please enter the name of the developer you want to add to the activity");
+                String devName = scanner.nextLine();
+                // check if developer exists from this.developerList()
+                boolean devExists = false;
+                for(int i = 0; i < this.developerList.size(); i++)
+                {
+                    if(this.developerList.get(i).getName().equals(devName))
+                    {
+                        devExists = true;
+                        devList.add(this.developerList.get(i));
+                        break;
+                    }
+                }
+                if(devExists) // if developer exists, add developer to devList
+                {
+                    System.out.println("Developer has been added");
+                }
+                else
+                {
+                    System.out.println("Developer does not exist");
+                }
+            }   
+            else if(s.equals("2"))
+            {
+                break;
+            }
+            else
+            {
+                System.out.println("Invalid input");
+            }
+        }
+        try
+        {
+            // adding activity to project with every developer in devList.
+            // Done in a for loop as the addActivity function only takes one developer at a time.
+            proj.addActivity(name, startDate, endDate, hours, this.activityNextId ,this.signedIn); // addActivity function from the Project class 
+            // adding activity to project with every developer in devList.
+            // Done in a for loop with the addDev function from the Activity class
+            for(int i = 0; i < devList.size(); i++)
+            {
+                proj.getActivities().get(proj.getActivities().size() - 1).addDev(devList.get(i)); // addDev function from the Activity class
+            }
+
+            System.out.println("Activity has been added");
+        }
+        catch(Exception e)
+        {
+            System.out.println("Activity could not be added");
+        }
     }
 
     public void logHoursMenu(Activity act)

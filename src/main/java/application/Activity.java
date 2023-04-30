@@ -29,6 +29,7 @@ public class Activity
         this.hourEstimate = hourEst;
         this.project = newProject;
         this.id = id;
+        this.processInfo = 0;
     }
 
     public Activity(String name, int sDate, int eDate, double hourEst, Project newProject, int id, int proc)

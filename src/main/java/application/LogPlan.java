@@ -609,7 +609,8 @@ public class LogPlan
 
         
         while(true)
-        {   int menu = 0;   // Variable to check which menu options to execute
+        {   
+            int menu = 0;   // Variable to check which menu options to execute
             if(proj.getProjectLeader().equals(this.signedIn)) // Checks if the user is the project leader
             {
                 System.out.println("1. View activity");
@@ -720,26 +721,44 @@ public class LogPlan
     private void viewActivityMenu(Project proj) 
     {
         // Prints Activity Menu:
-        System.out.println("Activities: ");
+        System.out.println("Activities assigned to the project, " + proj.getName() + ":");
 
-        // This only prints developers assigned to the activity so far.
-        // We can improve this.
+        // Activity list with developers assigned, start date, end date, and hours spent on activity so far compared to estimated hours.
 
-        // Developer list
         for (int i = 0; i < proj.getActivities().size(); i++) 
         {
+            String activityName = "     " + (i + 1) + ") " + proj.getActivities().get(i).getName();
+            System.out.println(activityName);
+
+            // Start date
+            String startDateString = "          Start date: " + proj.getActivities().get(i).getStartDate();
+            System.out.println(startDateString);
+
+            // End date
+            String endDateString = "          End date: " + proj.getActivities().get(i).getEndDate();
+            System.out.println(endDateString);
+
+            // Hours spent on activity so far
+            String hoursSpentString = "          Hours spent on activity so far: " + proj.getActivities().get(i).computeHoursSpent();
+            System.out.println(hoursSpentString);
+
+            // Estimated hours
+            String estHoursString = "          Estimated hours: " + proj.getActivities().get(i).getEstimatedHours();
+            System.out.println(estHoursString);
+
+            // Developers assigned to activity
             if (proj.getActivities().get(i).getDeveloperList().size() == 0) 
             {
-                String noDevelopersString = "No developers assigned to the activity: " + proj.getActivities().get(i).getName();
+                String noDevelopersString = "          No developers assigned to the activity";
                 System.out.println(noDevelopersString);
             }
             else 
             {
-                String developersAssignedString = "Developers assigned to the activity, " + proj.getActivities().get(i).getName() + ": ";
+                String developersAssignedString = "          Developers assigned to the activity: ";
                 System.out.println(developersAssignedString);
                 for (int j = 0; j < proj.getActivities().get(i).getDeveloperList().size(); j++) 
                 {
-                    String developerName = "          " + (j + 1) + ") " + proj.getActivities().get(i).getDeveloperList().get(j).getName();
+                    String developerName = "               " + (j + 1) + ") " + proj.getActivities().get(i).getDeveloperList().get(j).getName();
                     System.out.println(developerName);
                 }
             }

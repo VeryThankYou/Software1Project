@@ -1,5 +1,6 @@
 package application;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
@@ -937,9 +938,69 @@ public class LogPlan
         }
     }
 
-    public void logHoursMenu(Activity act)
+    public void logHoursMenu(Activity act) // This function logs hours to an activity
     {
-        System.out.println(act.getName());
+
+        System.out.println("Log hours menu for activity: " + act.getName() + "(" + act.getId() + ")");
+        LocalDate date = LocalDate.now();
+
+        while(true) // Loops until the user enters a valid input
+        {
+            System.out.println("Do you want to log hours for today or another day?");
+            System.out.println("1. Today");
+            System.out.println("2. Another day");
+            String s2 = scanner.nextLine();
+            if(s2.equals("1"))
+            {
+                    continue;
+            } else if(s2.equals("2"))
+            {
+                System.out.println("Please enter the date you want to log hours for (in the format dd/MM/yyyy):");
+                date = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
+            else
+            {
+                System.out.println("Invalid input");
+                continue;
+            }
+
+            System.out.println("Please enter the amount of hours you want to log (in the format 0.0):");
+            String s = scanner.nextLine();
+
+            try
+            {
+                boolean addMore = false;
+                do {
+
+                double hours = Double.parseDouble(s);
+                signedIn.markHours(act, date, hours); // markHours function from the Developer class
+                System.out.println("Hours have been logged, do you want to log more hours?");
+                
+                System.out.println("1. Yes");
+                System.out.println("2. No");
+                String s3 = scanner.nextLine();
+                if(s3.equals("1"))
+                {
+                    addMore = true;
+                }
+                else if(s3.equals("2"))
+                {
+                    addMore = false;
+                }
+                else
+                {
+                    System.out.println("Invalid input");
+                }
+                
+                } while (addMore);
+
+                break;
+            }
+            catch(Exception e)
+            {
+                System.out.println("Invalid input. Please try again");
+            }
+        }
     }
 
     public void sessionMenu()

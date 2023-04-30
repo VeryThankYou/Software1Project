@@ -609,7 +609,8 @@ public class LogPlan
 
         
         while(true)
-        {   
+        {
+            
             int menu = 0;   // Variable to check which menu options to execute
             if(proj.getProjectLeader().equals(this.signedIn)) // Checks if the user is the project leader
             {
@@ -634,6 +635,7 @@ public class LogPlan
                 System.out.println("2. Back");
                 menu = 3; // Sets the menu variable to 3
             }
+            System.out.println("null");
             // Reads the user input and calls the appropriate method
             String s = scanner.nextLine();
 
@@ -995,6 +997,21 @@ public class LogPlan
                 }
             }
         }
+    }
+
+    public void markActivityAsFinishedMenu(Project proj)
+    {
+
+    }
+
+    public void deleteActivityMenu(Project proj)
+    {
+
+    }
+
+    public void editActivityMenu(Project proj)
+    {
+
     }
 
     public int currentWeeknum()

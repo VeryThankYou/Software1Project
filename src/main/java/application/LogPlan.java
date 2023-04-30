@@ -607,60 +607,73 @@ public class LogPlan
         // Prints the menu options with a makeReport option if the user is a project leader and without if user is not the project leader. 
         // The makeReport option is also available if the user is not a project leader but the project has no project leader.
 
-        int menu = 0;
+        
         while(true)
-        {
-            if(proj.getProjectLeader() == null || proj.getProjectLeader().equals(this.signedIn)) // Checks if the user is the project leader or if the project has no project leader
+        {   int menu = 0;   // Variable to check which menu options to execute
+            if(proj.getProjectLeader().equals(this.signedIn)) // Checks if the user is the project leader
             {
                 System.out.println("1. View activity");
                 System.out.println("2. Edit project");
                 System.out.println("3. Make report");
                 System.out.println("4. Back");
-                menu = 1;
+                menu = 1; // Sets the menu variable to 1
             }
-            if(proj.getProjectLeader() == null && !proj.getProjectLeader().equals(this.signedIn)) // Checks if the project has no project leader and if the user is not the project leader
+            else if(proj.getProjectLeader() == null) // Checks if the project has no project leader
             {
                 System.out.println("1. View activity");
                 System.out.println("2. Edit project");
                 System.out.println("3. Make report");
                 System.out.println("4. Assign project leader");
                 System.out.println("5. Back");
-                menu = 2;
+                menu = 2; // Sets the menu variable to 2
             }
             else // If the user is not the project leader and the project has a project leader
             {
                 System.out.println("1. View activity");
                 System.out.println("2. Back");
-                menu = 3;
+                menu = 3; // Sets the menu variable to 3
             }
             // Reads the user input and calls the appropriate method
             String s = scanner.nextLine();
 
             if(s.equals("1"))
             {
-                viewActivityMenu(proj);
+                viewActivityMenu(proj); // Calls the view activity menu
+                return;
             }
             else if(s.equals("2"))
             {
-                editProjectMenu(proj);
+                if(menu == 1 || menu == 2) // Checks if the user is the project leader or if the project has no project leader
+                {
+                    editProjectMenu(proj); // Calls the edit project menu
+                    return;
+                }
+                else if(menu == 3) // Checks if the user is not the project leader and the project has a project leader
+                {
+                    menu1(); // Returns to the main menu
+                    return;
+                }
             }
             else if(s.equals("3"))
             {
-                if(proj.getProjectLeader() == null || proj.getProjectLeader().equals(this.signedIn))
+                if(menu == 1 || menu == 2) // Checks if the user is the project leader or if the project has no project leader
                 {
                     try
                     {
-                    proj.makeReport(this.signedIn);
-                    //Prints that the report has been made
-                    System.out.println("Report has been made");
-                    return;
+                        proj.makeReport(this.signedIn);
+                        //Prints that the report has been made
+                        System.out.println("Report has been made");
+                        return;
                     }
                     catch(Exception e)
                     {
                         System.out.println("Report could not be made");
                     }
                 }
-                else
+            }
+            else if(s.equals("4"))
+            {
+                if(menu == 2) // Checks if the project has no project leader
                 {
                     //Ask for the id of the developer that should be the project leader
                     System.out.println("Write the user id of the developer you want as project leader");
@@ -676,20 +689,24 @@ public class LogPlan
                         catch(Exception e){}
                     }
                 }
+                else if(menu == 1) // Checks if the user is the project leader
+                {
+                    menu1(); // Returns to the main menu
+                    return;
+                }
             }
-            else if(s.equals("4"))
+            else if(s.equals("5"))
             {
-                menu1();
-                return;
+                if(menu == 2) // Checks if the project has no project leader
+                {
+                    menu1();
+                    return;
+                }
             }
             else
             {
-            System.out.println("Invalid input");
-            }
-
-
-
-            
+                System.out.println("Invalid input");
+            } 
         }
 
     }

@@ -941,7 +941,7 @@ public class LogPlan
     public void logHoursMenu(Activity act) // This function logs hours to an activity
     {
 
-        System.out.println("Log hours menu for activity: " + act.getName() + "(" + act.getId() + ")");
+        System.out.println("Log hours menu for activity: " + act.getName() + "(ID: ebuc" + act.getId() + ")");
         LocalDate date = LocalDate.now();
 
         while(true) // Loops until the user enters a valid input
@@ -952,7 +952,7 @@ public class LogPlan
             String s2 = scanner.nextLine();
             if(s2.equals("1"))
             {
-                    continue;
+                System.out.println("Logging hours for today");
             } else if(s2.equals("2"))
             {
                 System.out.println("Please enter the date you want to log hours for (in the format dd/MM/yyyy):");

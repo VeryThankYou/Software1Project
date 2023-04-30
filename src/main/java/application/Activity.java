@@ -39,6 +39,7 @@ public class Activity
         this.hourEstimate = hourEst;
         this.project = newProject;
         this.id = id;
+        this.processInfo = proc;
     }
 
     public void addDev(Developer dev)
@@ -184,6 +185,11 @@ public class Activity
     public ArrayList<Developer> getDeveloperList() 
     {
         return devs;
+    }
+
+    public int getProcess()
+    {
+        return this.processInfo;
     }
 
 

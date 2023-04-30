@@ -307,27 +307,33 @@ public class LogPlan
             System.out.println("What would you like to do?");
             System.out.println("1. View your schedule");
             System.out.println("2. View a project");
-            System.out.println("3. Exit LogPlan");
+            System.out.println("3. Create new project");
+            System.out.println("4. Exit LogPlan");
             System.out.print("To select an option, write the corresponding number and press enter: ");
             s = scanner.nextLine();
-            if((s.equals("1") || s.equals("2")) || s.equals("3"))
+            if(s.equals("1"))
             {
-                break;
+                this.scheduleMenu(currentWeeknum());
+                return;
+            } 
+            if(s.equals("2"))
+            {
+                this.projectSearch();
+                return;
+            }
+            if(s.equals("3"))
+            {
+                createProjectMenu();
+                return;
+            }
+            if(s.equals("4"))
+            {
+                return;
             }
             System.out.println("Not a valid input, please try again.\n");
+            
         }
-        if(s.equals("1"))
-        {
-            this.scheduleMenu(currentWeeknum());
-        } 
-        else if(s.equals("2"))
-        {
-            this.projectSearch();
-        }
-        else if(s.equals("3"))
-        {
-            return;
-        }
+        
     }
 
     public void scheduleMenu(int weeknum)
@@ -500,6 +506,11 @@ public class LogPlan
     public void sessionMenu()
     {
         System.out.println("Session menu");
+    }
+
+    public void createProjectMenu()
+    {
+        System.out.println("Create project menu");
     }
 
     public int currentWeeknum()

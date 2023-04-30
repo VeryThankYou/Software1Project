@@ -721,7 +721,7 @@ public class LogPlan
     private void viewActivityMenu(Project proj) 
     {
         // Prints Activity Menu:
-        System.out.println("Activities assigned to the project, " + proj.getName() + ":");
+        System.out.println("Activities assigned to the project, " + proj.getName() + "(" + proj.getId() + ")" + ":");
 
         // Activity list with developers assigned, start date, end date, and hours spent on activity so far compared to estimated hours.
 

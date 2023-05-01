@@ -198,4 +198,9 @@ public class Activity
         this.name = newName;
     }
 
+    public void setHourEst(double newHours)
+    {
+        this.hourEstimate = newHours;
+    }
+
 }

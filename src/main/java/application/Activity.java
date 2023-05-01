@@ -193,5 +193,9 @@ public class Activity
         return this.processInfo;
     }
 
+    public void setName(String newName)
+    {
+        this.name = newName;
+    }
 
 }

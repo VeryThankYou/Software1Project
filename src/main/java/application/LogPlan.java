@@ -806,8 +806,8 @@ public class LogPlan
                 System.out.print(i+1 + ":- ");
                 System.out.println("Date: " + ses.getDate() + "Length: " + ses.getLength() );
             }
-            System.out.println("11: Go back");
-            System.out.println("12: Search by month");
+            System.out.println("g: Go back");
+            System.out.println("s: Search by month");
             name = scanner.nextLine();
             int inputInt;
             try
@@ -825,12 +825,12 @@ public class LogPlan
             {
                 editSessionMenu(sess.get(inputInt));
             }
-            if(inputInt == 11)
+            if(name.equals("g"))
             {
                 scheduleMenu(currentWeeknum());
                 return;
             }
-            if(inputInt == 12)
+            if(name.equals("s"))
             {
                 while(true)
                 {

@@ -1398,7 +1398,43 @@ public class LogPlan
 
     public void deleteDeveloperMenu(Activity act)
     {
-        
+        while(true)
+        {
+            System.out.println("Current developers assigned to activity " + act.getName());
+            ArrayList<Developer> devs = act.getDeveloperList();
+            if (devs.size() == 0) 
+            {
+                String noDevelopersString = "No developers assigned to the activity";
+                System.out.println(noDevelopersString);
+            }
+            else 
+            {
+                for (int j = 0; j < devs.size(); j++) 
+                {
+                    String developerName = devs.get(j).getName();
+                    String developerId = devs.get(j).getId();
+                    System.out.println(Integer.toString( + 1) + ". " + developerName + " (" + developerId + ")");
+
+                }
+                System.out.println("Write the number of the developer you want to unassign from activity");
+            }
+            System.out.println("Write " + Integer.toString(devs.size() + 1) + " to go back");
+            String s = scanner.nextLine();
+            if(s.equals(Integer.toString(devs.size() + 1)))
+            {
+                editActivityMenu(act);
+                return;
+            }
+            try
+            {
+                Developer dev = devs.get(Integer.parseInt(s) - 1);
+                act.removeDev(dev);
+                deleteDeveloperMenu(act);
+                return;
+            }
+            catch(Exception e){}
+            System.out.println("Invalid input. Please try again");
+        }
     }
 
     public int currentWeeknum()

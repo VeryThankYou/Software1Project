@@ -100,4 +100,9 @@ public class Developer
 
         return monthSessions;
     }
+
+    public void removeActivity(Activity act)
+    {
+        activities.remove(act);
+    }
 }

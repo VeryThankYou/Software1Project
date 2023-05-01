@@ -52,6 +52,15 @@ public class Activity
             }
     }
 
+    public void removeDev(Developer dev)
+    {
+        if (devs.contains(dev) == true) 
+            {
+            dev.removeActivity(this);
+            devs.remove(dev);
+            }
+    }
+
 
     public void addSession(Session session)
     {

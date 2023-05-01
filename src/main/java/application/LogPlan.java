@@ -1367,6 +1367,24 @@ public class LogPlan
                     for (Map.Entry<Integer,Developer> entry : mappings.entrySet()) 
                         System.out.println("Other activities in activity period = " + entry.getKey() +
                                         ", developer = " + entry.getValue().getName() + " (" + entry.getValue().getId() + ")");
+                    System.out.println("Write the user ID of the developer you want to add");
+                    System.out.println("Write 'q' to go back");
+                    String s2 = scanner.nextLine();
+                    if(s2.equals("q"))
+                    {
+                        addDeveloperMenu(act);
+                        return;
+                    }
+                    try
+                    {
+                        Developer dev = getDeveloper(s2);
+                        act.addDev(dev);
+                        addDeveloperMenu(act);
+                        return;
+                    }
+                    catch(Exception e)
+                    {}
+                    System.out.println("Invalid input. Please try again");
                 }
             }
             if(s.equals("3"))

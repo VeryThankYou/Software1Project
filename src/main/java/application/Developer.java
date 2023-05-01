@@ -3,6 +3,8 @@ package application;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import io.cucumber.java.en_old.Ac;
+
 public class Developer 
 
 {
@@ -102,6 +104,23 @@ public class Developer
     }
 
     public void removeActivity(Activity act)
+    {
+        activities.remove(act);
+    }
+
+    public void addVacation(int startDate, int endDate, Project vacProj, int neextActId)
+    {
+        Activity vacAct = new Activity("Vacation", endDate, endDate, 0, vacProj, neextActId);
+        vacProj.addActivity(vacAct);
+        vacAct.addDev(this);
+    }
+
+    public ArrayList<Activity> getActivities()
+    {
+        return activities;
+    }
+
+    public void deleteActivity(Activity act)
     {
         activities.remove(act);
     }

@@ -132,6 +132,7 @@ public class LogPlan
 
     public ArrayList<Project> searchProjects(String searchString)
     {
+        Project vacation = getProject(9999999);
         ArrayList<Project> projects = new ArrayList<Project>();
         String lowercaseSearchString = searchString.toLowerCase();             // convert input to lowercase
         for (int i = 0; i < projectList.size(); i++)
@@ -143,6 +144,10 @@ public class LogPlan
             {
                 projects.add(projectList.get(i));
             }       
+        }
+        if(projects.contains(vacation))
+        {
+            projects.remove(vacation);
         }
         return projects;
     }
@@ -385,7 +390,9 @@ public class LogPlan
             System.out.println("\nWhat do you want to do?");
             System.out.println("1. View schedule for another week");
             System.out.println("2. View/edit your work sessions");
-            System.out.println("3. Go back");
+            System.out.println("3. Add vacation");
+            System.out.println("4. Delete vacation");
+            System.out.println("5. Go back");
             System.out.println("l. Log hours on any of the activities above. To log hours, write 'l' plus the corresponding activity number. Eg: l1");
             System.out.println("a. View project for one of the activities above. To view project, write 'a' plus the corresponding activity number. Eg: a1");
             s = scanner.nextLine();
@@ -422,6 +429,16 @@ public class LogPlan
             }
             if(s.equals("3"))
             {
+                addVacationMenu();
+                return;
+            }
+            if(s.equals("4"))
+            {
+                deleteVacationMenu();
+                return;
+            }
+            if(s.equals("5"))
+            {
                 menu1();
                 return;
             }
@@ -456,6 +473,114 @@ public class LogPlan
             System.out.println("Invalid input. Try again.");
         }
         
+    }
+
+    public void addVacationMenu()
+    {
+        int startDate;
+        while (true) // Loops until the user enters a valid start date
+        {
+            System.out.println("Please enter a start time for the vacation in the form of a year and week numbar");
+            System.out.println("Do this in the format yyyyww. Eg: 202304");
+            System.out.println("Write q to go back");
+            String sdateString = scanner.nextLine();
+            if(sdateString.equals("q"))
+            {
+                scheduleMenu(currentWeeknum());
+                return;
+            }
+            try
+            {
+                startDate = Integer.parseInt(sdateString);
+                int[] yearweek = yearSlashWeek(startDate);
+                Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                calendar.set(yearweek[0], 11, 31);
+                int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                if(sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0))
+                {
+                    break;
+                }
+            }
+            catch(Exception e){}
+            System.out.println("Invalid input. Please try again.");
+        }
+
+        int endDate;
+        while(true) // Loops until the user enters a valid end date
+        {
+            System.out.println("Please enter an end time for the vacation in the form of a year and week numbar");
+            System.out.println("Do this in the format yyyyww. Eg: 202304. It has to be later than " + Integer.toString(startDate));
+            System.out.println("Write q to go back");
+            String edateString = scanner.nextLine();
+            if(edateString.equals("q"))
+            {
+                scheduleMenu(currentWeeknum());
+                return;
+            }
+            try
+            {
+                endDate = Integer.parseInt(edateString);
+                int[] yearweek = yearSlashWeek(endDate);
+                Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                calendar.set(yearweek[0], 11, 31);
+                int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                if(startDate <= endDate && (edateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
+                {
+                    break;                    
+                }
+            }
+            catch(Exception e){}
+            System.out.println("Invalid input. Please try again.");
+        }
+        getSignedIn().addVacation(startDate, endDate, getProject(9999999), getActivityNextId());
+        System.out.println("Vacation added successfully.");
+        scheduleMenu(currentWeeknum());
+        return;
+    }
+
+    public void deleteVacationMenu()
+    {
+        ArrayList<Activity> vacList = new ArrayList<Activity>();
+        for(int i = 0; i < signedIn.getActivities().size(); i ++)
+        {
+            if(signedIn.getActivities().get(i).getProject().getId() == 9999999)
+            {
+                Activity act = signedIn.getActivities().get(i);
+                vacList.add(act);
+                
+            }
+        }
+        while(true)
+        {
+            for(int i = 0; i < vacList.size(); i++)
+            {
+                Activity act = vacList.get(i);
+                int[] startYearWeek = yearSlashWeek(act.getStartDate());
+                int[] endYearWeek = yearSlashWeek(act.getEndDate());
+                System.out.println(Integer.toString(i + 1) + ") Vacation with start time week" + Integer.toString(startYearWeek[1]) + ", " + Integer.toString(startYearWeek[0]));
+                System.out.println("       and with end time week " + Integer.toString(endYearWeek[1]) + ", " + Integer.toString(endYearWeek[0])); 
+            }
+            System.out.println("Select the number of the vacation you want to delete");
+            System.out.println("Write " + Integer.toString(vacList.size() + 1) + " to go back");
+            String s = scanner.nextLine();
+            if(s.equals(Integer.toString(vacList.size() + 1)))
+            {
+                scheduleMenu(currentWeeknum());
+                return;
+            }
+            try
+            {
+                Activity act = vacList.get(Integer.parseInt(s) - 1);
+                Project vacProj = getProject(9999999);
+                vacProj.deleteActivity(act);
+                System.out.println("Vacation deleted successfully");
+                scheduleMenu(currentWeeknum());
+                return;
+            }
+            catch(Exception e){}
+            System.out.println("Invalid input. Please try again");
+        }
+
     }
 
     public void projectSearchMenu()
@@ -525,6 +650,12 @@ public class LogPlan
     
     public void viewProjectMenu(Project proj)
     {
+        if(proj.getId() == 9999999)
+        {
+            System.out.println("Vacation isn't part of a project");
+            scheduleMenu(currentWeeknum());
+            return;
+        }
         if(proj.isProjectLeader(signedIn))
         {
             viewProjectMenuAsLeader(proj);

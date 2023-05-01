@@ -313,6 +313,11 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
 
     public void deleteActivity(Activity act)
     {
+        for(int i = 0; i < act.getDeveloperList().size(); i ++)
+        {
+            Developer dev = act.getDeveloperList().get(i);
+            dev.deleteActivity(act);
+        }
         activities.remove(act);
     }
 }

@@ -29,6 +29,7 @@ public class Activity
         this.hourEstimate = hourEst;
         this.project = newProject;
         this.id = id;
+        this.processInfo = 0;
     }
 
     public Activity(String name, int sDate, int eDate, double hourEst, Project newProject, int id, int proc)
@@ -192,5 +193,9 @@ public class Activity
         return this.processInfo;
     }
 
+    public void setName(String newName)
+    {
+        this.name = newName;
+    }
 
 }

@@ -41,17 +41,20 @@ public class LogPlan
 
     public void signIn(String id) 
     {
+        String lowercaseId = id.toLowerCase();                                  // convert input to lowercase
         for (int i = 0; i < developerList.size(); i++)
         {
-            if (developerList.get(i).getId().equals(id))
+            String lowercaseDevId = developerList.get(i).getId().toLowerCase(); // convert ID to lowercase
+            if (lowercaseDevId.equals(lowercaseId))
             {
                 this.signedIn = developerList.get(i);
-                System.out.println(id);
+                //System.out.println(id);                                       // for testing
                 return;
             }
         }
         System.out.println("Invalid user ID. Please try again.\n");
     }
+
 
     public void addDeveloper(String credentials, String name)
     {
@@ -126,20 +129,24 @@ public class LogPlan
             }
         }
     }
-    
+
     public ArrayList<Project> searchProjects(String searchString)
     {
         ArrayList<Project> projects = new ArrayList<Project>();
+        String lowercaseSearchString = searchString.toLowerCase();             // convert input to lowercase
         for (int i = 0; i < projectList.size(); i++)
         {
+            String lowercaseName = projectList.get(i).getName().toLowerCase(); // convert name to lowercase
             String idAsString = Integer.toString(projectList.get(i).getId());
-            if (projectList.get(i).getName().contains(searchString) || idAsString.contains(searchString))
+            String lowercaseId = idAsString.toLowerCase();                     // convert ID to lowercase
+            if (lowercaseName.contains(lowercaseSearchString) || lowercaseId.contains(lowercaseSearchString))
             {
                 projects.add(projectList.get(i));
             }       
         }
         return projects;
     }
+
 
     private void addCsvDevelopers() throws FileNotFoundException, IOException
     {
@@ -341,7 +348,7 @@ public class LogPlan
             } 
             if(s.equals("2"))
             {
-                this.projectSearch();
+                this.projectSearchMenu();
                 return;
             }
             if(s.equals("3"))
@@ -451,7 +458,7 @@ public class LogPlan
         
     }
 
-    public void projectSearch()
+    public void projectSearchMenu()
     {
         System.out.println("Which project are you looking for?");
         ArrayList<Project> projs;
@@ -470,7 +477,7 @@ public class LogPlan
                     s = scanner.nextLine();
                     if(s.equals("1"))
                     {
-                        projectSearch();
+                        projectSearchMenu();
                         return;
                     }
                     if(s.equals("2"))
@@ -495,7 +502,7 @@ public class LogPlan
             s = scanner.nextLine();
             if(s.equals(Integer.toString(projs.size() + 1)))
             {
-                projectSearch();
+                projectSearchMenu();
                 return;
             }
             if(s.equals(Integer.toString(projs.size() + 2)))
@@ -622,9 +629,166 @@ public class LogPlan
         }
     }
 
-    public void logHoursMenu(Activity act)
+
+    private void addActivityMenu(Project proj) 
+    // This functions adds a new activity to the project. 
+    //  It asks for the name, start date, end date, estimated hours, and if any developers should be assigned.
     {
-        System.out.println(act.getName());
+        System.out.println("Add activity to project: " + proj.getName() + "(" + proj.getId() + ")");
+        String name;
+        while(true) // Loops until the user enters a valid name
+        {
+            System.out.println("Please enter a name for the activity");
+            name = scanner.nextLine();
+            if(!(name.length() > 50) && (name.length() > 0))
+            {
+                break;
+            }
+            System.out.println("Name is too long or not given. Please try again");
+        }
+        int startDate;
+        while (true) // Loops until the user enters a valid start date
+        {
+            System.out.println("Please enter a start time for the activity in the form of a year and week numbar");
+            System.out.println("Do this in the format yyyyww. Eg: 202304");
+            String sdateString = scanner.nextLine();
+            try
+            {
+                startDate = Integer.parseInt(sdateString);
+                int[] yearweek = yearSlashWeek(startDate);
+                Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                calendar.set(yearweek[0], 11, 31);
+                int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                if(sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0))
+                {
+                    break;
+                }
+            }
+            catch(Exception e){}
+            System.out.println("Invalid start date. Please try again.");
+        }
+
+        int endDate;
+        while(true) // Loops until the user enters a valid end date
+        {
+            System.out.println("Please enter an end time for the activity in the form of a year and week numbar");
+            System.out.println("Do this in the format yyyyww. Eg: 202304. It has to be later than " + Integer.toString(startDate));
+            String edateString = scanner.nextLine();
+            try
+            {
+                endDate = Integer.parseInt(edateString);
+                int[] yearweek = yearSlashWeek(endDate);
+                Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                calendar.set(yearweek[0], 11, 31);
+                int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                if(startDate < endDate && (edateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
+                {
+                    break;
+                }
+            }
+            catch(Exception e){}
+            System.out.println("Invalid end date. Please try again.");
+        }
+
+        double hours;
+        while(true) // Loops until the user enters a valid estimated hours
+        {
+            System.out.println("Please enter an estimated amount of hours for the activity (as a positive number the format 0.0. Eg. 1.5 for one and a half hour):");
+            String s = scanner.nextLine();
+            try
+            {
+                hours = (double) Double.parseDouble(s);
+                if(hours > 0) // Checks if the hours are positive
+                {
+                    break;
+                } // If the hours are not valid, the user is asked to try again
+                System.out.println("Invalid input. Please enter a positive number");
+            }
+            catch(Exception e)
+            {
+                System.out.println("Invalid input. Please try again");
+            }
+        }
+        Activity act = new Activity(name, startDate, endDate, hours, proj, this.getActivityNextId());
+        try
+        {
+            proj.addActivity(act, signedIn);
+            // Prints that the activity has been added
+            System.out.println("The activity, " + act.getName() + ", has been added to the project, " + proj.getName() + ", successfully!");
+            viewActivityMenu(proj);
+            return;
+        }
+        catch(Exception e){}
+    }
+
+    public void logHoursMenu(Activity act) // This function logs hours to an activity
+    {
+
+        System.out.println("Log hours menu for activity: " + act.getName() + "(ID: ebuc" + act.getId() + ")");
+        LocalDate date = LocalDate.now();
+
+        while(true) // Loops until the user enters a valid input
+        {
+            System.out.println("Do you want to log hours for today or another day?");
+            System.out.println("1. Today");
+            System.out.println("2. Another day");
+            System.out.println("3. Go back");
+            String s2 = scanner.nextLine();
+            if(s2.equals("1"))
+            {
+                System.out.println("Logging hours for today");
+            } else if(s2.equals("2"))
+            {
+                System.out.println("Please enter the date you want to log hours for (in the format dd/MM/yyyy):");
+                date = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
+            else if(s2.equals("3"))
+            {
+                viewActivityMenu(act.getProject());
+                return;
+            }
+            else
+            {
+                System.out.println("Invalid input");
+                continue;
+            }
+
+            System.out.println("Please enter the amount of hours you want to log (as a positiv number between 0-24 hours in the format 0.0. Eg. 1.5 for one and a half hour):");
+            String s = scanner.nextLine();
+            try
+            {
+                boolean addMore = false;
+                do {
+
+                double hours = (double) Double.parseDouble(s);
+                signedIn.markHours(act, date, hours); // markHours function from the Developer class
+                System.out.println("Hours have been logged, do you want to log more hours?");
+                
+                System.out.println("1. Yes");
+                System.out.println("2. No");
+                String s3 = scanner.nextLine();
+                if(s3.equals("1"))
+                {
+                    addMore = true;
+                }
+                else if(s3.equals("2"))
+                {
+                    addMore = false;
+                }
+                else
+                {
+                    System.out.println("Invalid input");
+                }
+                
+                } while (addMore);
+
+                break;
+            }
+            catch(Exception e)
+            {
+                System.out.println("Invalid input. Please try again");
+            }
+        }
     }
 
     public void sessionMenu()
@@ -855,13 +1019,231 @@ public class LogPlan
             }
             System.out.println("Invalid input. Please try again");
         }
-        
     }
 
     public void viewActivityMenuAsLeader(Project proj)
     {
         System.out.println(proj.getName() + " Activity menu");
         printActivitiesOverview(proj);
+        System.out.println("");
+        while(true)
+        {
+            System.out.println("1. Log hours on activity");
+            System.out.println("2. Add activity");
+            System.out.println("3. Delete activity");
+            System.out.println("4. Edit activity");
+            System.out.println("5. Go back");
+            System.out.println("Choose option by its corresponding number");
+            String s = scanner.nextLine();
+            ArrayList<Activity> acts = proj.getActivities();
+            if(s.equals("1"))
+            {
+                while(true)
+                {
+                    for(int i = 0; i < acts.size(); i++)
+                    {
+                        System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
+                    }
+                    System.out.println("");
+                    System.out.println("Choose activity you want to mark hours on by its number");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        int i = Integer.parseInt(s2) - 1;
+                        Activity act = acts.get(i);
+                        logHoursMenu(act);
+                        return;
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please try again");
+                    }
+                }
+            }
+            if(s.equals("2"))
+            {
+                addActivityMenu(proj);
+                return;
+            }
+            if(s.equals("3"))
+            {
+                while(true)
+                {
+                    for(int i = 0; i < acts.size(); i++)
+                    {
+                        System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
+                    }
+                    System.out.println("");
+                    System.out.println("Choose activity you want to delete by its number");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        int i = Integer.parseInt(s2) - 1;
+                        Activity act = acts.get(i);
+                        proj.deleteActivity(act);
+                        viewActivityMenu(proj);
+                        return;
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please try again");
+                    }
+                }
+            }
+            if(s.equals("4"))
+            {
+                while(true)
+                {
+                    for(int i = 0; i < acts.size(); i++)
+                    {
+                        System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
+                    }
+                    System.out.println("");
+                    System.out.println("Choose activity you want to edit by its number");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        int i = Integer.parseInt(s2) - 1;
+                        Activity act = acts.get(i);
+                        editActivityMenu(act);
+                        return;
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please try again");
+                    }
+                }
+            }
+            if(s.equals("5"))
+            {
+                viewProjectMenu(proj);
+                return;
+            }
+            System.out.println("Invalid input. Please try again");
+        }
+    }
+
+    public void editActivityMenu(Activity act)
+    {
+        System.out.println("Edit activity: " + act.getName());
+        System.out.println("Current activity details:");
+        System.out.println("From project " + act.getProject().getName() + " (" + Integer.toString(act.getProject().getId()) + ")");
+        int[] start = yearSlashWeek(act.getStartDate());
+        System.out.println("Start date: Week " + Integer.toString(start[1]) + ", " + Integer.toString(start[1]));
+        int[] end = yearSlashWeek(act.getEndDate());
+        System.out.println("End date: Week " + Integer.toString(end[1]) + ", " + Integer.toString(end[1]));
+        System.out.println("Estimated hours of work: " + Double.toString(act.getHourEstimate()));
+        System.out.println("Hours of work done on the activity: " + Double.toString(act.computeHoursSpent()));
+        ArrayList<Developer> devs = act.getDeveloperList();
+        System.out.println("Assigned developers:");
+        if(devs.size() == 0)
+        {
+            System.out.println("    No developers assigned to activity");
+        }
+        for(int i = 0; i < devs.size(); i++)
+        {
+            Developer dev = devs.get(i);
+            System.out.println("    " + dev.getName() + " (" + dev.getId() + ")");
+        }
+        int proc = act.getProcess();
+        String s = "";
+        switch(proc)
+        {
+            case 0: s = "Activity is planned";
+                    break;
+            case 1: s = "Activity is under development";
+                    break;
+            case 2: s = "Activity is done";
+                    break;
+        }
+        System.out.println("Activity status: " + s);
+        while(true)
+        {
+            System.out.println("1. Edit name");
+            System.out.println("2. Edit start date");
+            System.out.println("3. Edit end date");
+            System.out.println("4. Edit estimated hours");
+            System.out.println("5. Edit activity status");
+            System.out.println("6. Add developer to activity");
+            System.out.println("7. Unassign developer from activity");
+            System.out.println("8. Go back");
+            System.out.println("Choose option by its corresponding number");
+            s = scanner.nextLine();
+            if(s.equals("1"))
+            {
+                String name;
+                while(true) // Loops until the user enters a valid name
+                {
+                    System.out.println("Please enter a new name for the activity");
+                    name = scanner.nextLine();
+                    if(!(name.length() > 50) && (name.length() > 0))
+                    {
+                        break;
+                    }
+                    System.out.println("Name is too long or not given. Please try again");
+                }
+                act.setName(name);
+                editActivityMenu(act);
+                return;
+            }
+            if(s.equals("2"))
+            {
+                int startDate;
+                while (true) // Loops until the user enters a valid start date
+                {
+                    System.out.println("Please enter a start time for the activity in the form of a year and week numbar");
+                    System.out.println("Do this in the format yyyyww. Eg: 202304");
+                    String sdateString = scanner.nextLine();
+                    try
+                    {
+                        startDate = Integer.parseInt(sdateString);
+                        int[] yearweek = yearSlashWeek(startDate);
+                        Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                        calendar.set(yearweek[0], 11, 31);
+                        int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                        if(startDate < act.getEndDate() && (sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
+                        {
+                            break;
+                        }
+                    }
+                    catch(Exception e){}
+                    System.out.println("Invalid start date. Please try again.");
+                }
+            }
+            if(s.equals("3"))
+            {
+                int endDate;
+                while (true) // Loops until the user enters a valid start date
+                {
+                    System.out.println("Please enter a end time for the activity in the form of a year and week numbar");
+                    System.out.println("Do this in the format yyyyww. Eg: 202304");
+                    String sdateString = scanner.nextLine();
+                    try
+                    {
+                        endDate = Integer.parseInt(sdateString);
+                        int[] yearweek = yearSlashWeek(endDate);
+                        Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                        calendar.set(yearweek[0], 11, 31);
+                        int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                        if(endDate > act.getStartDate() && (sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
+                        {
+                            break;
+                        }
+                    }
+                    catch(Exception e){}
+                    System.out.println("Invalid end date. Please try again.");
+                }
+            }
+            if(s.equals("4"))
+            {
+                double hourEst;
+                while(true)
+                {
+                    System.out.println("s");
+                }
+            }
+        }
+
     }
 
     public int currentWeeknum()

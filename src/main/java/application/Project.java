@@ -56,6 +56,7 @@ public class Project
         if(isProjectLeader(loggedIn))
         {
             activities.add(act);
+            return;
         }
         throw new UserNotLeaderException("Not project leader error");
     }
@@ -308,5 +309,10 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
     public Developer getProjectLeader()
     {
         return projectLeader;
+    }
+
+    public void deleteActivity(Activity act)
+    {
+        activities.remove(act);
     }
 }

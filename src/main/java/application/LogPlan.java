@@ -41,17 +41,20 @@ public class LogPlan
 
     public void signIn(String id) 
     {
+        String lowercaseId = id.toLowerCase();                                  // convert input to lowercase
         for (int i = 0; i < developerList.size(); i++)
         {
-            if (developerList.get(i).getId().equals(id))
+            String lowercaseDevId = developerList.get(i).getId().toLowerCase(); // convert ID to lowercase
+            if (lowercaseDevId.equals(lowercaseId))
             {
                 this.signedIn = developerList.get(i);
-                System.out.println(id);
+                //System.out.println(id);                                       // for testing
                 return;
             }
         }
         System.out.println("Invalid user ID. Please try again.\n");
     }
+
 
     public void addDeveloper(String credentials, String name)
     {
@@ -130,20 +133,24 @@ public class LogPlan
             }
         }
     }
-    
+
     public ArrayList<Project> searchProjects(String searchString)
     {
         ArrayList<Project> projects = new ArrayList<Project>();
+        String lowercaseSearchString = searchString.toLowerCase();             // convert input to lowercase
         for (int i = 0; i < projectList.size(); i++)
         {
+            String lowercaseName = projectList.get(i).getName().toLowerCase(); // convert name to lowercase
             String idAsString = Integer.toString(projectList.get(i).getId());
-            if (projectList.get(i).getName().contains(searchString) || idAsString.contains(searchString))
+            String lowercaseId = idAsString.toLowerCase();                     // convert ID to lowercase
+            if (lowercaseName.contains(lowercaseSearchString) || lowercaseId.contains(lowercaseSearchString))
             {
                 projects.add(projectList.get(i));
             }       
         }
         return projects;
     }
+
 
     private void addCsvDevelopers() throws FileNotFoundException, IOException
     {
@@ -345,7 +352,7 @@ public class LogPlan
             } 
             if(s.equals("2"))
             {
-                this.projectSearch();
+                this.projectSearchMenu();
                 return;
             }
             if(s.equals("3"))
@@ -455,7 +462,7 @@ public class LogPlan
         
     }
 
-    public void projectSearch()
+    public void projectSearchMenu()
     {
         System.out.println("Which project are you looking for?");
         ArrayList<Project> projs;
@@ -474,7 +481,7 @@ public class LogPlan
                     s = scanner.nextLine();
                     if(s.equals("1"))
                     {
-                        projectSearch();
+                        projectSearchMenu();
                         return;
                     }
                     if(s.equals("2"))
@@ -499,7 +506,7 @@ public class LogPlan
             s = scanner.nextLine();
             if(s.equals(Integer.toString(projs.size() + 1)))
             {
-                projectSearch();
+                projectSearchMenu();
                 return;
             }
             if(s.equals(Integer.toString(projs.size() + 2)))
@@ -690,12 +697,16 @@ public class LogPlan
         double hours;
         while(true) // Loops until the user enters a valid estimated hours
         {
-            System.out.println("Please enter an estimated amount of hours for the activity (in the format 0.0):");
+            System.out.println("Please enter an estimated amount of hours for the activity (as a positive number the format 0.0. Eg. 1.5 for one and a half hour):");
             String s = scanner.nextLine();
             try
             {
-                hours = Double.parseDouble(s);
-                break;
+                hours = (double) Double.parseDouble(s);
+                if(hours > 0) // Checks if the hours are positive
+                {
+                    break;
+                } // If the hours are not valid, the user is asked to try again
+                System.out.println("Invalid input. Please enter a positive number");
             }
             catch(Exception e)
             {
@@ -706,6 +717,10 @@ public class LogPlan
         try
         {
             proj.addActivity(act, signedIn);
+            // Prints that the activity has been added
+            System.out.println("The activity, " + act.getName() + ", has been added to the project, " + proj.getName() + "successfully!");
+            viewActivityMenu(proj);
+            return;
         }
         catch(Exception e){}
     }
@@ -744,7 +759,7 @@ public class LogPlan
                 boolean addMore = false;
                 do {
 
-                double hours = Double.parseDouble(s);
+                double hours = (double) Double.parseDouble(s);
                 signedIn.markHours(act, date, hours); // markHours function from the Developer class
                 System.out.println("Hours have been logged, do you want to log more hours?");
                 

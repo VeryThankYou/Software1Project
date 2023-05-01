@@ -1,4 +1,4 @@
-Project Report for LogPlan
+Project Report for LogPlan Test Name
 Project ID: 2023001
 Project Leader:  Sophus Theilvig Strømsborg
 Start Date: Week 4, 2023

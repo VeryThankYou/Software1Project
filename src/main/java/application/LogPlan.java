@@ -718,7 +718,7 @@ public class LogPlan
         {
             proj.addActivity(act, signedIn);
             // Prints that the activity has been added
-            System.out.println("The activity, " + act.getName() + ", has been added to the project, " + proj.getName() + "successfully!");
+            System.out.println("The activity, " + act.getName() + ", has been added to the project, " + proj.getName() + ", successfully!");
             viewActivityMenu(proj);
             return;
         }
@@ -736,6 +736,7 @@ public class LogPlan
             System.out.println("Do you want to log hours for today or another day?");
             System.out.println("1. Today");
             System.out.println("2. Another day");
+            System.out.println("3. Go back");
             String s2 = scanner.nextLine();
             if(s2.equals("1"))
             {
@@ -745,15 +746,19 @@ public class LogPlan
                 System.out.println("Please enter the date you want to log hours for (in the format dd/MM/yyyy):");
                 date = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             }
+            else if(s2.equals("3"))
+            {
+                viewActivityMenu(act.getProject());
+                return;
+            }
             else
             {
                 System.out.println("Invalid input");
                 continue;
             }
 
-            System.out.println("Please enter the amount of hours you want to log (in the format 0.0):");
+            System.out.println("Please enter the amount of hours you want to log (as a positiv number between 0-24 hours in the format 0.0. Eg. 1.5 for one and a half hour):");
             String s = scanner.nextLine();
-
             try
             {
                 boolean addMore = false;

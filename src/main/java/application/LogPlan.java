@@ -1202,7 +1202,9 @@ public class LogPlan
                         int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
                         if(startDate < act.getEndDate() && (sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
                         {
-                            break;
+                            act.setStartEndDate(startDate, act.getEndDate());
+                            editActivityMenu(act);
+                            return;
                         }
                     }
                     catch(Exception e){}
@@ -1226,7 +1228,9 @@ public class LogPlan
                         int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
                         if(endDate > act.getStartDate() && (sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
                         {
-                            break;
+                            act.setStartEndDate(act.getStartDate(), endDate);
+                            editActivityMenu(act);
+                            return;
                         }
                     }
                     catch(Exception e){}
@@ -1235,14 +1239,127 @@ public class LogPlan
             }
             if(s.equals("4"))
             {
-                double hourEst;
-                while(true)
+                double hours;
+                while(true) // Loops until the user enters a valid estimated hours
                 {
-                    System.out.println("s");
+                    System.out.println("Please enter an estimated amount of hours for the activity (as a positive number the format 0.0. Eg. 1.5 for one and a half hour):");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        hours = (double) Double.parseDouble(s2);
+                        if(hours > 0) // Checks if the hours are positive
+                        {
+                            act.setHourEst(hours);
+                            editActivityMenu(act);
+                            return;
+                        } // If the hours are not valid, the user is asked to try again
+                        System.out.println("Invalid input. Please enter a positive number");
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please try again");
+                    }
                 }
             }
+            if(s.equals("5"))
+            {
+                int status;
+                while(true) // Loops until the user enters a valid estimated hours
+                {
+                    
+                    System.out.println("Please select what you want to update the status to by selecting its corresponding number");
+                    System.out.println("1. Planned");
+                    System.out.println("2. Under development");
+                    System.out.println("3. Done");
+                    String s2 = scanner.nextLine();
+                    try
+                    {
+                        if(s2.equals("1") || (s2.equals("2") || s2.equals("3"))) // Checks if the hours are positive
+                        {
+                            status = Integer.parseInt(s2) - 1;
+                            act.setProcessInfo(status);
+                            editActivityMenu(act);
+                            return;
+                        } // If the hours are not valid, the user is asked to try again
+                    }
+                    catch(Exception e){}
+                    System.out.println("Invalid input. Please try again");
+                }
+            }
+            if(s.equals("6"))
+            {
+                addDeveloperMenu(act);
+                return;
+            }
+            if(s.equals("7"))
+            {
+                deleteDeveloperMenu(act);
+            }
+            if(s.equals("8"))
+            {
+                viewActivityMenu(act.getProject());
+                return;
+            }
+            System.out.println("Invalid input. Please try again");
         }
+    }
 
+    public void addDeveloperMenu(Activity act)
+    {
+        while(true)
+        {
+            System.out.println("Current developers assigned to activity " + act.getName());
+            ArrayList<Developer> devs = act.getDeveloperList();
+            if (devs.size() == 0) 
+            {
+                String noDevelopersString = "No developers assigned to the activity";
+                System.out.println(noDevelopersString);
+            }
+            else 
+            {
+                for (int j = 0; j < devs.size(); j++) 
+                {
+                    String developerName = devs.get(j).getName();
+                    String developerId = devs.get(j).getId();
+                    System.out.println(developerName + " (" + developerId + ")");
+                }
+            }
+            System.out.println("1. Add specific developer");
+            System.out.println("2. View available developers to add");
+            System.out.println("3. Go back");
+            System.out.println("Choose option by selecting the corresponding number");
+            String s = scanner.nextLine();
+            if(s.equals("1"))
+            {
+                while(true)
+                {
+                    System.out.println("Write the user ID of the developer you want to add");
+                    System.out.println("Write 'q' to go back");
+                    String s2 = scanner.nextLine();
+                    if(s2.equals("q"))
+                    {
+                        addDeveloperMenu(act);
+                        return;
+                    }
+                    try
+                    {
+                        Developer dev = getDeveloper(s2);
+                        act.addDev(dev);
+                        addDeveloperMenu(act);
+                        return;
+                    }
+                    catch(Exception e)
+                    {}
+                    System.out.println("Invalid input. Please try again");
+                }
+            }
+            
+        }
+    }
+
+    public void deleteDeveloperMenu(Activity act)
+    {
+        
     }
 
     public int currentWeeknum()

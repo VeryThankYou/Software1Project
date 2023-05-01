@@ -41,17 +41,20 @@ public class LogPlan
 
     public void signIn(String id) 
     {
+        String lowercaseId = id.toLowerCase();                                  // convert input to lowercase
         for (int i = 0; i < developerList.size(); i++)
         {
-            if (developerList.get(i).getId().equals(id))
+            String lowercaseDevId = developerList.get(i).getId().toLowerCase(); // convert ID to lowercase
+            if (lowercaseDevId.equals(lowercaseId))
             {
                 this.signedIn = developerList.get(i);
-                System.out.println(id);
+                //System.out.println(id);                                       // for testing
                 return;
             }
         }
         System.out.println("Invalid user ID. Please try again.\n");
     }
+
 
     public void addDeveloper(String credentials, String name)
     {

@@ -17,6 +17,8 @@ import java.util.Scanner;
 import java.util.*;
 import javax.naming.directory.SearchResult;
 
+import io.cucumber.docstring.DocStringTypeRegistryDocStringConverter;
+
 public class LogPlan 
 {
     private ArrayList<Developer> developerList;
@@ -775,7 +777,130 @@ public class LogPlan
 
     public void sessionMenu()
     {
-        System.out.println("Session menu");
+        System.out.println("View and edit sessions menu");
+        String name;
+        ArrayList<Session> sess = signedIn.getSessions();
+
+
+        while(true)
+        {
+            for (int i = 0; i < 10 && i < sess.size(); i++)
+            {
+                Session ses = sess.get(i);
+                System.out.print(i+1 + ":- ");
+                System.out.println("Date: " + ses.getDate() + "Length: " + ses.getLength() );
+            }
+            System.out.println("11: Go back");
+            System.out.println("12: Search by month");
+            name = scanner.nextLine();
+            int inputInt;
+            try
+            {
+                inputInt = Integer.parseInt(name);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Please enter a number");
+                continue;
+            }
+
+
+            if(inputInt > 0 && inputInt < sess.size())
+            {
+                editSessionMenu(sess.get(inputInt));
+            }
+            if(inputInt == 11)
+            {
+                scheduleMenu(currentWeeknum());
+                return;
+            }
+            if(inputInt == 12)
+            {
+                while(true)
+                {
+                    System.out.println("Enter the number of the month, e.g. 3 or 12, to search for sessions in that month");
+                    name = scanner.nextLine();
+                    if (inputInt < 0 || inputInt > 12)
+                    {
+                        continue;
+                    }
+                    ArrayList<Session> searchedSess = signedIn.searchSessionsByMonth(inputInt);
+                    for(int i = 0; i < searchedSess.size(); i++)
+                    {
+                        Session ses = searchedSess.get(i);
+                        System.out.print(i+1 + ":- ");
+                        System.out.println("Date: " + ses.getDate() + "Length: " + ses.getLength() );
+                    }
+                    name = scanner.nextLine();
+                    int searchInputInt;
+                    try
+                    {
+                        searchInputInt = Integer.parseInt(name);
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Please enter a number");
+                        continue;
+                    }
+                    if(searchInputInt > 0 && searchInputInt < sess.size())
+                    {
+                        editSessionMenu(sess.get(searchInputInt));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void editSessionMenu(Session theSes)
+    {
+        String name;
+        while(true)
+        {
+            System.out.println("1: Change length");
+            System.out.println("2: Change date");
+            name = scanner.nextLine();
+            if(name.equals("1"))
+            {
+                System.out.println("Enter new length");
+                name = scanner.nextLine();
+                float newLength;
+                try
+                {
+                    newLength = Float.parseFloat(name);  
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Please enter a multiple of 0.5");
+                    continue;
+                }
+                if (newLength % 0.5 == 0)
+                {
+                    System.out.println("Please enter a multiple of 0.5");
+                    continue;
+                }
+                theSes.setLength(newLength);
+                break;
+            }
+            if (name.equals("2"))
+            {
+                System.out.println("Enter new date in d/m/yyyy");
+                name = scanner.nextLine();
+                LocalDate date;
+                try
+                {
+                    date = dateInput(name);  
+                }
+                catch(Exception e)
+                {
+                    System.out.println("Please enter a number with format d/m/yyyy");
+                    continue;
+                }
+                theSes.setDate(date);
+                break;
+            }
+        }
+        System.out.println("Date: " + theSes.getDate() + "Length: " + theSes.getLength() );
     }
 
     public void createProjectMenu()
@@ -1010,6 +1135,13 @@ public class LogPlan
         return new int[]{year, week};
     }
 
+    public LocalDate dateInput(String userInput)
+    {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("m/d/yyyy");
+        LocalDate date = LocalDate.parse(userInput, dateFormat);
+        return date;
+    }
+    
     public void printProjectOverview(Project proj)
     {
         // Prints the menu for a project

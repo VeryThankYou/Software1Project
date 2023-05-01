@@ -1129,9 +1129,9 @@ public class LogPlan
         System.out.println("Current activity details:");
         System.out.println("From project " + act.getProject().getName() + " (" + Integer.toString(act.getProject().getId()) + ")");
         int[] start = yearSlashWeek(act.getStartDate());
-        System.out.println("Start date: Week " + Integer.toString(start[1]) + ", " + Integer.toString(start[1]));
+        System.out.println("Start date: Week " + Integer.toString(start[1]) + ", " + Integer.toString(start[0]));
         int[] end = yearSlashWeek(act.getEndDate());
-        System.out.println("End date: Week " + Integer.toString(end[1]) + ", " + Integer.toString(end[1]));
+        System.out.println("End date: Week " + Integer.toString(end[1]) + ", " + Integer.toString(end[0]));
         System.out.println("Estimated hours of work: " + Double.toString(act.getHourEstimate()));
         System.out.println("Hours of work done on the activity: " + Double.toString(act.computeHoursSpent()));
         ArrayList<Developer> devs = act.getDeveloperList();
@@ -1354,7 +1354,27 @@ public class LogPlan
                     System.out.println("Invalid input. Please try again");
                 }
             }
-            
+            if(s.equals("2"))
+            {
+                Map<Integer, Developer> mappings = act.showAvailableDevs(getDeveloperList());
+                while(true)
+                {
+                    System.out.println("Here are the most available developers for the activity period which aren't currently assigned to it");
+                    if(mappings.size() == 0)
+                    {
+                        System.out.println("No available developers");
+                    }
+                    for (Map.Entry<Integer,Developer> entry : mappings.entrySet()) 
+                        System.out.println("Other activities in activity period = " + entry.getKey() +
+                                        ", developer = " + entry.getValue().getName() + " (" + entry.getValue().getId() + ")");
+                }
+            }
+            if(s.equals("3"))
+            {
+                editActivityMenu(act);
+                return;
+            }
+            System.out.println("Invalid input. Please try again");
         }
     }
 

@@ -33,7 +33,6 @@ public class Project
 
     public void updateLeader(Developer dev, Developer loggedIn) throws UserNotLeaderException
     {
-        System.out.println("hej");
         if (isProjectLeader(loggedIn))
         {
             this.projectLeader = dev;

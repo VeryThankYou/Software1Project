@@ -115,10 +115,6 @@ public class LogPlan
         Project proj = new Project(id, name);
         projectList.add(proj);
     }
-    public void viewSchedule(Developer dev)
-    {
-        // TODO implement here
-    }
 
     public void getReport(Project project) throws UserNotLeaderException
     {

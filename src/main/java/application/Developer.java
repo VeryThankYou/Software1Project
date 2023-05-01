@@ -75,4 +75,29 @@ public class Developer
     {
         activities.add(act);
     }
+
+    public ArrayList<Session> getSessions()
+    {
+        return sessions;
+    }
+
+    public ArrayList<Session> searchSessionsByMonth(int searchMonth)
+    {
+
+        ArrayList<Session> monthSessions = new ArrayList<>();
+        if(searchMonth < 1 || searchMonth > 12)
+        {
+            return monthSessions;
+        }
+        
+        for (int i = 0; i< sessions.size() ; i++)
+        {
+            if( sessions.get(i).getDate().getMonthValue() == searchMonth)
+            {
+                monthSessions.add(sessions.get(i));
+            }
+        }
+
+        return monthSessions;
+    }
 }

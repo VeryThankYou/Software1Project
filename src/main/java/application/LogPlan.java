@@ -984,7 +984,14 @@ public class LogPlan
 
     public void editActivityMenu(Activity act)
     {
-        System.out.println("Edit " + act.getName());
+        System.out.println("Edit activity: " + act.getName());
+        System.out.println("Current activity details:");
+        System.out.println("From project " + act.getProject().getName() + " (" + Integer.toString(act.getProject().getId()) + ")");
+        int[] start = yearSlashWeek(act.getStartDate());
+        System.out.println("Start date: Week " + Integer.toString(start[1]) + ", " + Integer.toString(start[1]));
+        int[] end = yearSlashWeek(act.getStartDate());
+        System.out.println("Start date: Week " + Integer.toString(end[1]) + ", " + Integer.toString(end[1]));
+        
     }
 
     public int currentWeeknum()

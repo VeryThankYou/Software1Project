@@ -128,20 +128,24 @@ public class LogPlan
             }
         }
     }
-    
+
     public ArrayList<Project> searchProjects(String searchString)
     {
         ArrayList<Project> projects = new ArrayList<Project>();
+        String lowercaseSearchString = searchString.toLowerCase();             // convert input to lowercase
         for (int i = 0; i < projectList.size(); i++)
         {
+            String lowercaseName = projectList.get(i).getName().toLowerCase(); // convert name to lowercase
             String idAsString = Integer.toString(projectList.get(i).getId());
-            if (projectList.get(i).getName().contains(searchString) || idAsString.contains(searchString))
+            String lowercaseId = idAsString.toLowerCase();                     // convert ID to lowercase
+            if (lowercaseName.contains(lowercaseSearchString) || lowercaseId.contains(lowercaseSearchString))
             {
                 projects.add(projectList.get(i));
             }       
         }
         return projects;
     }
+
 
     private void addCsvDevelopers() throws FileNotFoundException, IOException
     {
@@ -343,7 +347,7 @@ public class LogPlan
             } 
             if(s.equals("2"))
             {
-                this.projectSearch();
+                this.projectSearchMenu();
                 return;
             }
             if(s.equals("3"))
@@ -453,7 +457,7 @@ public class LogPlan
         
     }
 
-    public void projectSearch()
+    public void projectSearchMenu()
     {
         System.out.println("Which project are you looking for?");
         ArrayList<Project> projs;
@@ -472,7 +476,7 @@ public class LogPlan
                     s = scanner.nextLine();
                     if(s.equals("1"))
                     {
-                        projectSearch();
+                        projectSearchMenu();
                         return;
                     }
                     if(s.equals("2"))
@@ -497,7 +501,7 @@ public class LogPlan
             s = scanner.nextLine();
             if(s.equals(Integer.toString(projs.size() + 1)))
             {
-                projectSearch();
+                projectSearchMenu();
                 return;
             }
             if(s.equals(Integer.toString(projs.size() + 2)))

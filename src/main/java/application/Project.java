@@ -57,6 +57,7 @@ public class Project
         if(isProjectLeader(loggedIn))
         {
             activities.add(act);
+            return;
         }
         throw new UserNotLeaderException("Not project leader error");
     }

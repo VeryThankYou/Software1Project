@@ -697,12 +697,16 @@ public class LogPlan
         double hours;
         while(true) // Loops until the user enters a valid estimated hours
         {
-            System.out.println("Please enter an estimated amount of hours for the activity (in the format 0.0):");
+            System.out.println("Please enter an estimated amount of hours for the activity (as a positive number the format 0.0. Eg. 1.5 for one and a half hour):");
             String s = scanner.nextLine();
             try
             {
-                hours = Double.parseDouble(s);
-                break;
+                hours = (double) Double.parseDouble(s);
+                if(hours > 0) // Checks if the hours are positive
+                {
+                    break;
+                } // If the hours are not valid, the user is asked to try again
+                System.out.println("Invalid input. Please enter a positive number");
             }
             catch(Exception e)
             {
@@ -713,6 +717,10 @@ public class LogPlan
         try
         {
             proj.addActivity(act, signedIn);
+            // Prints that the activity has been added
+            System.out.println("The activity, " + act.getName() + ", has been added to the project, " + proj.getName() + "successfully!");
+            viewActivityMenu(proj);
+            return;
         }
         catch(Exception e){}
     }
@@ -751,7 +759,7 @@ public class LogPlan
                 boolean addMore = false;
                 do {
 
-                double hours = Double.parseDouble(s);
+                double hours = (double) Double.parseDouble(s);
                 signedIn.markHours(act, date, hours); // markHours function from the Developer class
                 System.out.println("Hours have been logged, do you want to log more hours?");
                 

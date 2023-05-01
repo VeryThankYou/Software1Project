@@ -352,8 +352,6 @@ public class StepDefinitions {
 	{
 		ArrayList<Activity> acts = new ArrayList<Activity>();
 		acts.add(activity);
-		System.out.println(acts.toString());
-		System.out.println(schedule.toString());
 		assertTrue(schedule.equals(acts));
 	}
 
@@ -379,6 +377,21 @@ public class StepDefinitions {
 		activity.addDev(developer);
         this.schedule = developer.viewSchedule(date.getYear() * 100 + weeknum);
     }
+
+	@When("changes week for their view")
+	public void changes_week_for_their_view()
+	{
+		this.schedule = developer.viewSchedule(202304);
+	}
+
+	@Then("a new view of their schedule is show")
+	public void a_new_view_of_their_schedule_is_show()
+	{
+		ArrayList<Activity> acts = new ArrayList<Activity>();
+		project = logPlan.searchProjects("LogPlan").get(0);
+		acts = project.getActivities();
+		assertTrue(schedule.equals(acts.subList(0, 1)));
+	}
 
     @Then("the system displays the hours worked on each activity and the expected rest work on the project.")
     public void the_system_displays_the_hours_worked_on_each_activity_and_the_expected_rest_work_on_the_project() 

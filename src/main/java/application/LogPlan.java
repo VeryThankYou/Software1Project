@@ -1134,9 +1134,120 @@ public class LogPlan
         System.out.println("From project " + act.getProject().getName() + " (" + Integer.toString(act.getProject().getId()) + ")");
         int[] start = yearSlashWeek(act.getStartDate());
         System.out.println("Start date: Week " + Integer.toString(start[1]) + ", " + Integer.toString(start[1]));
-        int[] end = yearSlashWeek(act.getStartDate());
-        System.out.println("Start date: Week " + Integer.toString(end[1]) + ", " + Integer.toString(end[1]));
-        
+        int[] end = yearSlashWeek(act.getEndDate());
+        System.out.println("End date: Week " + Integer.toString(end[1]) + ", " + Integer.toString(end[1]));
+        System.out.println("Estimated hours of work: " + Double.toString(act.getHourEstimate()));
+        System.out.println("Hours of work done on the activity: " + Double.toString(act.computeHoursSpent()));
+        ArrayList<Developer> devs = act.getDeveloperList();
+        System.out.println("Assigned developers:");
+        if(devs.size() == 0)
+        {
+            System.out.println("    No developers assigned to activity");
+        }
+        for(int i = 0; i < devs.size(); i++)
+        {
+            Developer dev = devs.get(i);
+            System.out.println("    " + dev.getName() + " (" + dev.getId() + ")");
+        }
+        int proc = act.getProcess();
+        String s = "";
+        switch(proc)
+        {
+            case 0: s = "Activity is planned";
+                    break;
+            case 1: s = "Activity is under development";
+                    break;
+            case 2: s = "Activity is done";
+                    break;
+        }
+        System.out.println("Activity status: " + s);
+        while(true)
+        {
+            System.out.println("1. Edit name");
+            System.out.println("2. Edit start date");
+            System.out.println("3. Edit end date");
+            System.out.println("4. Edit estimated hours");
+            System.out.println("5. Edit activity status");
+            System.out.println("6. Add developer to activity");
+            System.out.println("7. Unassign developer from activity");
+            System.out.println("8. Go back");
+            System.out.println("Choose option by its corresponding number");
+            s = scanner.nextLine();
+            if(s.equals("1"))
+            {
+                String name;
+                while(true) // Loops until the user enters a valid name
+                {
+                    System.out.println("Please enter a new name for the activity");
+                    name = scanner.nextLine();
+                    if(!(name.length() > 50) && (name.length() > 0))
+                    {
+                        break;
+                    }
+                    System.out.println("Name is too long or not given. Please try again");
+                }
+                act.setName(name);
+                editActivityMenu(act);
+                return;
+            }
+            if(s.equals("2"))
+            {
+                int startDate;
+                while (true) // Loops until the user enters a valid start date
+                {
+                    System.out.println("Please enter a start time for the activity in the form of a year and week numbar");
+                    System.out.println("Do this in the format yyyyww. Eg: 202304");
+                    String sdateString = scanner.nextLine();
+                    try
+                    {
+                        startDate = Integer.parseInt(sdateString);
+                        int[] yearweek = yearSlashWeek(startDate);
+                        Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                        calendar.set(yearweek[0], 11, 31);
+                        int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                        if(startDate < act.getEndDate() && (sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
+                        {
+                            break;
+                        }
+                    }
+                    catch(Exception e){}
+                    System.out.println("Invalid start date. Please try again.");
+                }
+            }
+            if(s.equals("3"))
+            {
+                int endDate;
+                while (true) // Loops until the user enters a valid start date
+                {
+                    System.out.println("Please enter a end time for the activity in the form of a year and week numbar");
+                    System.out.println("Do this in the format yyyyww. Eg: 202304");
+                    String sdateString = scanner.nextLine();
+                    try
+                    {
+                        endDate = Integer.parseInt(sdateString);
+                        int[] yearweek = yearSlashWeek(endDate);
+                        Calendar calendar = Calendar.getInstance(new Locale("dan", "dk"));
+                        calendar.set(yearweek[0], 11, 31);
+                        int checkWeek = calendar.get(Calendar.WEEK_OF_YEAR);
+                        if(endDate > act.getStartDate() && (sdateString.length() == 6 && (yearweek[1] <= checkWeek && yearweek[1] > 0)))
+                        {
+                            break;
+                        }
+                    }
+                    catch(Exception e){}
+                    System.out.println("Invalid end date. Please try again.");
+                }
+            }
+            if(s.equals("4"))
+            {
+                double hourEst;
+                while(true)
+                {
+                    System.out.println("s");
+                }
+            }
+        }
+
     }
 
     public int currentWeeknum()

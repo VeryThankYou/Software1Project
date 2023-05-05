@@ -89,6 +89,7 @@ public class LogPlan
             {
                 Project p = new Project(projID+1,name);
                 projectList.add(p);
+                return;
             }
         }
     }
@@ -111,6 +112,7 @@ public class LogPlan
             {
                 Project p = new Project(projID+1,name, dev);
                 projectList.add(p);
+                return;
             }
         }
     }
@@ -127,7 +129,7 @@ public class LogPlan
         {
             Project proj = projectList.get(i);
             String s = Integer.toString(proj.getId()) + "," + proj.getName() + ",";
-            if(proj.getProjectLeader() != null){s = s + proj.getProjectLeader().getName();}
+            if(proj.getProjectLeader() != null){s = s + proj.getProjectLeader().getId();}
             writer.write(s + "\n");
         }
         FileWriter writer3 = new FileWriter("txtfiles/developers.txt");
@@ -141,7 +143,7 @@ public class LogPlan
             {
                 Session sesh = dev.getSessions().get(i2);
                 LocalDate date = sesh.getDate();
-                String s2 = Double.toString(sesh.getLength()) + "," + Integer.toString(date.getYear()) + "&" + Integer.toString(date.getMonthValue()) + "&" + Integer.toString(date.getDayOfMonth()) + "," + dev.getId() + Integer.toString(sesh.getActId());
+                String s2 = Double.toString(sesh.getLength()) + "," + Integer.toString(date.getYear()) + "&" + Integer.toString(date.getMonthValue()) + "&" + Integer.toString(date.getDayOfMonth()) + "," + dev.getId() + "," + Integer.toString(sesh.getActId());
                 writer2.write(s2 + "\n");
             }
         }
@@ -738,7 +740,7 @@ public class LogPlan
         printProjectOverview(proj);
         while(true)
         {
-            System.out.println("1. View activity");
+            System.out.println("1. View activities");
             System.out.println("2. Back");
             System.out.println("Choose option by its corresponding number");
             String s = scanner.nextLine();
@@ -761,7 +763,7 @@ public class LogPlan
         printProjectOverview(proj);
         while(true)
         {
-            System.out.println("1. View activity");
+            System.out.println("1. View or add activities");
             System.out.println("2. Edit project name");
             System.out.println("3. Make report");
             System.out.println("4. Assign project leader");
@@ -843,9 +845,9 @@ public class LogPlan
         String name;
         while(true) // Loops until the user enters a valid name
         {
-            System.out.println("Please enter a name for the activity");
+            System.out.println("Please enter a name for the activity. Cannot contain commas");
             name = scanner.nextLine();
-            if(!(name.length() > 50) && (name.length() > 0))
+            if(!name.contains(",") && (!(name.length() > 50) && (name.length() > 0)))
             {
                 break;
             }
@@ -1130,9 +1132,9 @@ public class LogPlan
         String name;
         while(true)
         {
-            System.out.println("Please enter a name for the project");
+            System.out.println("Please enter a name for the project. Cannot contain commas");
             name = scanner.nextLine();
-            if(!(name.length() > 50) && (name.length() > 0))
+            if(!name.contains(",") && (!(name.length() > 50) && (name.length() > 0)))
             {
                 break;
             }

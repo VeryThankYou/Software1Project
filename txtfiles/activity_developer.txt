@@ -1,4 +1,9 @@
+5,ebuc
+5,waca
+5,mbic
+5,stst
 1,ebuc
 1,waca
 2,mbic
 3,mbic
+4,stst

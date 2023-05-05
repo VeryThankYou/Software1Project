@@ -34,7 +34,7 @@ public class StepDefinitions {
 	private Project project;
 	private String message;
 	private ArrayList<Activity> schedule;
-	private Map<Integer, Developer> avdevs;
+	private Map<Integer, ArrayList<Developer>> avdevs;
 
 	public StepDefinitions(LogPlan logplan) throws FileNotFoundException, IOException 
 	{
@@ -151,13 +151,21 @@ public class StepDefinitions {
 	public void theSystemOutputsAListOfDevelopers()
 	{
 		boolean contains = false;
-		for(Developer dev: avdevs.values())
+		SortedSet<Integer> keys = new TreeSet<>(avdevs.keySet());
+        
+        for (int key: keys)
 		{
-			if(dev.getId().equals("sjul"))
+			ArrayList<Developer> devlist = avdevs.get(key);
+			for(int i = 0; i < devlist.size(); i++)
 			{
-				contains = true;
+				Developer dev = devlist.get(i);
+				if(dev.getId().equals("sjul"))
+				{
+					contains = true;
+				}
 			}
 		}
+		
 		assertTrue(contains);
 	}
 
@@ -350,9 +358,7 @@ public class StepDefinitions {
     @Then("the system displays the schedule")
     public void the_system_displays_the_schedule() 
 	{
-		ArrayList<Activity> acts = new ArrayList<Activity>();
-		acts.add(activity);
-		assertTrue(schedule.equals(acts));
+		assertTrue(schedule.contains(activity));
 	}
 
     @When("the developer views their daily schedule")

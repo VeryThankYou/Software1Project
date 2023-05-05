@@ -1016,22 +1016,6 @@ public class LogPlan
             System.out.println("g: Go back");
             System.out.println("s: Search by month");
             name = scanner.nextLine();
-            int inputInt;
-            try
-            {
-                inputInt = Integer.parseInt(name);
-            }
-            catch(Exception e)
-            {
-                System.out.println("Please enter a number");
-                continue;
-            }
-
-
-            if(inputInt > 0 && inputInt < sess.size())
-            {
-                editSessionMenu(sess.get(inputInt));
-            }
             if(name.equals("g"))
             {
                 scheduleMenu(currentWeeknum());
@@ -1042,9 +1026,26 @@ public class LogPlan
                 while(true)
                 {
                     System.out.println("Enter the number of the month, e.g. 3 or 12, to search for sessions in that month");
+                    System.out.println("Enter g to go back.");
                     name = scanner.nextLine();
+                    if(name.equals("g"))
+                    {
+                        sessionMenu();
+                        return;
+                    }
+                    int inputInt;
+                    try
+                    {
+                        inputInt = Integer.parseInt(name);
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input, please enter an integer");
+                        continue;
+                    }
                     if (inputInt < 0 || inputInt > 12)
                     {
+                        System.out.println("Invalid input, please enter an integer between 1 and 12");
                         continue;
                     }
                     ArrayList<Session> searchedSess = signedIn.searchSessionsByMonth(inputInt);
@@ -1068,10 +1069,28 @@ public class LogPlan
                     if(searchInputInt > 0 && searchInputInt < sess.size())
                     {
                         editSessionMenu(sess.get(searchInputInt));
-                        break;
+                        return;
                     }
                 }
             }
+            int inputInt;
+            try
+            {
+                inputInt = Integer.parseInt(name);
+            }
+            catch(Exception e)
+            {
+                System.out.println("Please enter a number");
+                continue;
+            }
+
+
+            if(inputInt > 0 && inputInt < sess.size())
+            {
+                editSessionMenu(sess.get(inputInt));
+                return;
+            }
+            
         }
     }
 
@@ -1563,7 +1582,8 @@ public class LogPlan
             }
             if(s.equals("2"))
             {
-                Map<Integer, Developer> mappings = act.showAvailableDevs(getDeveloperList());
+                Map<Integer, ArrayList<Developer>> mappings = act.showAvailableDevs(getDeveloperList());
+                SortedSet<Integer> keys = new TreeSet<>(mappings.keySet());
                 while(true)
                 {
                     System.out.println("Here are the most available developers for the activity period which aren't currently assigned to it");
@@ -1571,9 +1591,16 @@ public class LogPlan
                     {
                         System.out.println("No available developers");
                     }
-                    for (Map.Entry<Integer,Developer> entry : mappings.entrySet()) 
-                        System.out.println("Other activities in activity period = " + entry.getKey() +
-                                        ", developer = " + entry.getValue().getName() + " (" + entry.getValue().getId() + ")");
+                    for (int key: keys) 
+                    {
+                        ArrayList<Developer> devlist = mappings.get(key);
+                        for(int i = 0; i < devlist.size(); i++)
+                        {
+                            System.out.println("Other activities in activity period = " + key +
+                                ", developer = " + devlist.get(i).getName() + " (" + devlist.get(i).getId() + ")");
+                        }
+                        
+                    }
                     System.out.println("Write the user ID of the developer you want to add");
                     System.out.println("Write 'q' to go back");
                     String s2 = scanner.nextLine();
@@ -1795,7 +1822,7 @@ public class LogPlan
                     dAct = doneActivities.get(i);
                     System.out.println(dAct.getName());
                 }
-                catch(Exception e){};
+                catch(Exception e){System.out.println("");};
             }
         }
     }

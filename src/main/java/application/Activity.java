@@ -107,10 +107,10 @@ public class Activity
         }
     }
 
-    public Map<Integer, Developer> showAvailableDevs(ArrayList<Developer> devList)
+    public Map<Integer, ArrayList<Developer>> showAvailableDevs(ArrayList<Developer> devList)
     {
         // inits map of week and most available devs that week
-        Map<Integer, Developer> devAvailability = new HashMap<Integer, Developer>();
+        Map<Integer, ArrayList<Developer>> devAvailability = new HashMap<Integer, ArrayList<Developer>>();
         // inits temp list of devs to add to the map at end of loop
         // loops over each week of Activity
         for (int i1 = 0; i1 < devList.size(); i1++)
@@ -130,30 +130,65 @@ public class Activity
                     maxactivities = tempactivities;
                 }
             }
-            devAvailability.put(maxactivities, dev);
+            if(devAvailability.containsKey(maxactivities))
+            {
+                devAvailability.get(maxactivities).add(dev);
+            }
+            else
+            {
+                ArrayList<Developer> devlist = new ArrayList<Developer>();
+                devlist.add(dev);
+                devAvailability.put(maxactivities, devlist);
+            }
         }
         
         SortedSet<Integer> keys = new TreeSet<>(devAvailability.keySet());
         
         for (int key: keys)
         {
-            Developer dev = devAvailability.get(key);
-            if(this.devs.contains(dev))
+            ArrayList<Developer> devlist = devAvailability.get(key);
+            int originalSize = devlist.size();
+            int numDels = 0;
+            for(int i = 0; i < originalSize; i++)
             {
-                devAvailability.remove(key);
+                Developer dev = devlist.get(i - numDels);
+                if(this.devs.contains(dev))
+                {
+                    numDels = numDels + 1;
+                    devlist.remove(dev);
+                    if(devlist.size() == 0)
+                    {
+                        devAvailability.remove(key);
+                        break;
+                    }
+                }
             }
+            
         }
+        
         keys = new TreeSet<>(devAvailability.keySet());
         int numchosen = 0;
         for (int key: keys)
         {
-            if(numchosen > 10)
+            ArrayList<Developer> devlist = devAvailability.get(key);
+            int originalSize = devlist.size();
+            int numDels = 0;
+            for(int i = 0; i < originalSize; i++)
             {
-                devAvailability.remove(key);
+                Developer dev = devlist.get(i - numDels);
+                if(numchosen > 10)
+                {
+                    numDels = numDels + 1;
+                    devlist.remove(dev);
+                    if(devlist.size() == 0)
+                    {
+                        devAvailability.remove(key);
+                        break;
+                    }
+                }
+                numchosen = numchosen + 1;
             }
-            numchosen = numchosen + 1;
         }
-
     return devAvailability;
     }
     

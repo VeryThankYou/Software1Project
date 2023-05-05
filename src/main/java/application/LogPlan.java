@@ -1011,10 +1011,11 @@ public class LogPlan
             {
                 Session ses = sess.get(i);
                 System.out.print(i+1 + ":- ");
-                System.out.println("Date: " + ses.getDate() + "Length: " + ses.getLength() );
+                System.out.println("Date: " + ses.getDate() + ", Length: " + ses.getLength() + ", Activity: " + findActivity(ses.getActId()).getName());
             }
             System.out.println("g: Go back");
-            System.out.println("s: Search by month");
+            System.out.println("s: Search by year and month");
+            System.out.println("Write the number of the session you want to edit, or the letters corresponding to one of the other options");
             name = scanner.nextLine();
             if(name.equals("g"))
             {
@@ -1025,51 +1026,82 @@ public class LogPlan
             {
                 while(true)
                 {
-                    System.out.println("Enter the number of the month, e.g. 3 or 12, to search for sessions in that month");
-                    System.out.println("Enter g to go back.");
-                    name = scanner.nextLine();
-                    if(name.equals("g"))
+                    System.out.println("Enter the year you want to search in");
+                    String syear = scanner.nextLine();
+                    int year;
+                    try
                     {
+                        year = Integer.parseInt(syear);
+                        if(year < 0 || year > 9999)
+                        {
+                            System.out.println("Invalid input, please write an integer between 0 and 9999");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    System.out.println("Enter the month you want to search in as a number between 1 and 12");
+                    String smonth = scanner.nextLine();
+                    int month;
+                    try
+                    {
+                        month = Integer.parseInt(smonth);
+                        if(month < 1 || month > 12)
+                        {
+                            System.out.println("Invalid input, please write an integer between 1 and 12");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    ArrayList<Session> sessionlist = new ArrayList<Session>();
+                    for(int i = 0; i < sess.size(); i++)
+                    {
+                        Session thisSession = sess.get(i);
+                        if(thisSession.getDate().getYear() == year && thisSession.getDate().getMonthValue() == month)
+                        {
+                            sessionlist.add(thisSession);
+                        }
+                    }
+                    if(sessionlist.size() == 0)
+                    {
+                        System.out.println("No sessions in the specified month");
                         sessionMenu();
                         return;
                     }
-                    int inputInt;
-                    try
+                    
+                    while(true)
                     {
-                        inputInt = Integer.parseInt(name);
-                    }
-                    catch(Exception e)
-                    {
-                        System.out.println("Invalid input, please enter an integer");
-                        continue;
-                    }
-                    if (inputInt < 0 || inputInt > 12)
-                    {
-                        System.out.println("Invalid input, please enter an integer between 1 and 12");
-                        continue;
-                    }
-                    ArrayList<Session> searchedSess = signedIn.searchSessionsByMonth(inputInt);
-                    for(int i = 0; i < searchedSess.size(); i++)
-                    {
-                        Session ses = searchedSess.get(i);
-                        System.out.print(i+1 + ":- ");
-                        System.out.println("Date: " + ses.getDate() + "Length: " + ses.getLength() );
-                    }
-                    name = scanner.nextLine();
-                    int searchInputInt;
-                    try
-                    {
-                        searchInputInt = Integer.parseInt(name);
-                    }
-                    catch(Exception e)
-                    {
-                        System.out.println("Please enter a number");
-                        continue;
-                    }
-                    if(searchInputInt > 0 && searchInputInt < sess.size())
-                    {
-                        editSessionMenu(sess.get(searchInputInt));
-                        return;
+                        for(int i = 0; i < sessionlist.size(); i++)
+                        {
+                            Session thisSession = sessionlist.get(i);
+                            System.out.print(i+1 + ":- ");
+                            System.out.println("Date: " + thisSession.getDate() + ", Length: " + thisSession.getLength() + ", Activity: " + findActivity(thisSession.getActId()).getName());
+                        }
+                        System.out.println("Select the session you want to edit by writing its corresponding number");
+                        System.out.println("Write g to go back");
+                        String s = scanner.nextLine();
+                        if(s.equals("g"))
+                        {
+                            sessionMenu();
+                            return;
+                        }
+                        try
+                        {
+                            Session thisSession = sessionlist.get(Integer.parseInt(s) - 1);
+                            editSessionMenu(thisSession);
+                            return;
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("Invalid input, please try again");
+                        }
                     }
                 }
             }
@@ -1085,9 +1117,9 @@ public class LogPlan
             }
 
 
-            if(inputInt > 0 && inputInt < sess.size())
+            if(inputInt > 0 && inputInt <= sess.size())
             {
-                editSessionMenu(sess.get(inputInt));
+                editSessionMenu(sess.get(inputInt - 1));
                 return;
             }
             
@@ -1099,50 +1131,115 @@ public class LogPlan
         String name;
         while(true)
         {
+            System.out.println("Session for activity: " + findActivity(theSes.getActId()).getName());
+            System.out.println("Current length: " + theSes.getLength());
+            System.out.println("Current date: " + theSes.getDate().toString());
+
             System.out.println("1: Change length");
             System.out.println("2: Change date");
+            System.out.println("3: Go back");
             name = scanner.nextLine();
             if(name.equals("1"))
             {
-                System.out.println("Enter new length");
+                System.out.println("Enter new length. The input will be rounded down to nearest half hour.");
                 name = scanner.nextLine();
-                float newLength;
+                double newLength;
                 try
                 {
-                    newLength = Float.parseFloat(name);  
+                    newLength = Double.parseDouble(name);  
                 }
                 catch(Exception e)
                 {
-                    System.out.println("Please enter a multiple of 0.5");
+                    System.out.println("Invalid input. Please try again");
                     continue;
                 }
-                if (newLength % 0.5 == 0)
+                if ((newLength - (newLength % 0.5)) >= 0.5)
                 {
-                    System.out.println("Please enter a multiple of 0.5");
-                    continue;
+                    theSes.setLength(newLength - (newLength % 0.5));
+                    editSessionMenu(theSes);
+                    return;
                 }
-                theSes.setLength(newLength);
-                break;
+                System.out.println("Invalid input. Please enter a positive number at least as big as 0.5");
+                editSessionMenu(theSes);
+                return;
             }
             if (name.equals("2"))
             {
-                System.out.println("Enter new date in d/m/yyyy");
-                name = scanner.nextLine();
-                LocalDate date;
-                try
+                while(true)
                 {
-                    date = dateInput(name);  
+                    System.out.println("Enter the year for the new date");
+                    String syear = scanner.nextLine();
+                    int year;
+                    try
+                    {
+                        year = Integer.parseInt(syear);
+                        if(year < 0 || year > 9999)
+                        {
+                            System.out.println("Invalid input, please write an integer between 0 and 9999");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    System.out.println("Enter the month for the new date as a number");
+                    String smonth = scanner.nextLine();
+                    int month;
+                    try
+                    {
+                        month = Integer.parseInt(smonth);
+                        if(month < 1 || month > 12)
+                        {
+                            System.out.println("Invalid input, please write an integer between 1 and 12");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    System.out.println("Enter the day for the new date as a number");
+                    String sday = scanner.nextLine();
+                    int day;
+                    try
+                    {
+                        day = Integer.parseInt(sday);
+                        if(day < 1 || day > 31)
+                        {
+                            System.out.println("Invalid input, please write an integer between 1 and 31");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    LocalDate date;
+                    try
+                    {
+                        date = LocalDate.of(year, month, day);  
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid inputs, your values were not compatible with the calendar");
+                        continue;
+                    }
+                    theSes.setDate(date);
+                    editSessionMenu(theSes);
+                    return;
                 }
-                catch(Exception e)
-                {
-                    System.out.println("Please enter a number with format d/m/yyyy");
-                    continue;
-                }
-                theSes.setDate(date);
-                break;
             }
+            if(name.equals("3"))
+            {
+                sessionMenu();
+                return;
+            }
+            System.out.println("Invalid input, please try again");
         }
-        System.out.println("Date: " + theSes.getDate() + "Length: " + theSes.getLength() );
     }
 
     public void createProjectMenu()

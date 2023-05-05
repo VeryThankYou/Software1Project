@@ -53,7 +53,7 @@ public class Developer
         {
             throw new Exception("Error: Hours field is empty");
         }
-        Session session = new Session(time, date);
+        Session session = new Session(time, date, activity.getId());
         activity.addSession(session);
         sessions.add(session);
     }

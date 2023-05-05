@@ -7,11 +7,13 @@ public class Session
 {
     private Double length;
     private LocalDate date;
+    private int actid;
 
-    public Session(Double newTime, LocalDate newDate)
+    public Session(Double newTime, LocalDate newDate, int newActid)
     {
         length = newTime;
         date = newDate;
+        actid = newActid;
     }
 
     public void setDate(LocalDate newDate)
@@ -32,5 +34,10 @@ public class Session
     public LocalDate getDate()
     {
         return date;
+    }
+
+    public int getActId()
+    {
+        return actid;
     }
 }

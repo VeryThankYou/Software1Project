@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.io.FileWriter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,11 +34,11 @@ public class LogPlan
         developerList = new ArrayList<Developer>();
         projectList = new ArrayList<Project>();
         signedIn = null;
-        addCsvDevelopers();
-        addCsvProjects();
-        addCsvActivities();
+        addtxtDevelopers();
+        addtxtProjects();
+        addtxtActivities();
         activityUserConnection();
-        addCsvSessions();
+        addtxtSessions();
     }
 
     public void signIn(String id) 
@@ -113,9 +115,70 @@ public class LogPlan
         }
     }
 
+    private void writeTotxt() throws IOException
+    {
+        File dir = new File("txtfiles");
+        dir.delete();
+        dir = new File("txtfiles");
+        dir.mkdirs();
+        // Create a FileWriter object to write to a file
+        FileWriter writer = new FileWriter("txtfiles/projects.txt");
+        for(int i = 0; i < projectList.size(); i++)
+        {
+            Project proj = projectList.get(i);
+            String s = Integer.toString(proj.getId()) + "," + proj.getName() + ",";
+            if(proj.getProjectLeader() != null){s = s + proj.getProjectLeader().getName();}
+            writer.write(s + "\n");
+        }
+        FileWriter writer3 = new FileWriter("txtfiles/developers.txt");
+        FileWriter writer2 = new FileWriter("txtfiles/session.txt");
+        for(int i = 0; i < developerList.size(); i++)
+        {
+            Developer dev = developerList.get(i);
+            String s = dev.getId() + "," + dev.getName();
+            writer3.write(s + "\n");
+            for(int i2 = 0; i2 < dev.getSessions().size(); i2++)
+            {
+                Session sesh = dev.getSessions().get(i2);
+                LocalDate date = sesh.getDate();
+                String s2 = Double.toString(sesh.getLength()) + "," + Integer.toString(date.getYear()) + "&" + Integer.toString(date.getMonthValue()) + "&" + Integer.toString(date.getDayOfMonth()) + "," + dev.getId() + Integer.toString(sesh.getActId());
+                writer2.write(s2 + "\n");
+            }
+        }
+        FileWriter writer4 = new FileWriter("txtfiles/activities.txt");
+        FileWriter writer5 = new FileWriter("txtfiles/activity_developer.txt");
+        for(int i = 0; i < projectList.size(); i++)
+        {
+            Project proj = projectList.get(i);
+            for(int i2 = 0; i2 < proj.getActivities().size(); i2 ++)
+            {
+                Activity act = proj.getActivities().get(i2);
+                String s = act.getName() + "," + Integer.toString(act.getStartDate()) + "," + Integer.toString(act.getEndDate()) + "," + Double.toString(act.getHourEstimate()) + "," + Integer.toString(proj.getId()) + "," + Integer.toString(act.getId()) + "," + Integer.toString(act.getProcess());
+                writer4.write(s + "\n");
+                for(int i3 = 0; i3 < act.getDeveloperList().size(); i3++)
+                {
+                    Developer dev = act.getDeveloperList().get(i3);
+                    String s2 = Integer.toString(act.getId()) + "," + dev.getId();
+                    writer5.write(s2 + "\n");
+                }
+            }
+        }
+        writer.close();
+        writer2.close();
+        writer3.close();
+        writer4.close();
+        writer5.close();
+    }
+
     private void loadProject(int id, String name)
     {
         Project proj = new Project(id, name);
+        projectList.add(proj);
+    }
+
+    private void loadProject(int id, String name, Developer dev)
+    {
+        Project proj = new Project(id, name, dev);
         projectList.add(proj);
     }
 
@@ -153,18 +216,18 @@ public class LogPlan
     }
 
 
-    private void addCsvDevelopers() throws FileNotFoundException, IOException
+    private void addtxtDevelopers() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles/developers.csv");
-        BufferedReader csvReader = new BufferedReader(new FileReader(file));
-        String row = csvReader.readLine();
+        File file = new File("txtfiles/developers.txt");
+        BufferedReader txtReader = new BufferedReader(new FileReader(file));
+        String row = txtReader.readLine();
         while (row != null)
         {
             String[] line = row.split(",");
             addDeveloper(line[0], line[1]);
-            row = csvReader.readLine();
+            row = txtReader.readLine();
         }
-        csvReader.close();
+        txtReader.close();
     }
 
     public ArrayList<Developer> getDeveloperList()
@@ -182,25 +245,32 @@ public class LogPlan
         return signedIn;
     }
 
-    private void addCsvProjects() throws FileNotFoundException, IOException
+    private void addtxtProjects() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles/projects.csv");
-        BufferedReader csvReader = new BufferedReader(new FileReader(file));
-        String row = csvReader.readLine();
+        File file = new File("txtfiles/projects.txt");
+        BufferedReader txtReader = new BufferedReader(new FileReader(file));
+        String row = txtReader.readLine();
         while (row != null)
         {
             String[] line = row.split(",");
-            loadProject(Integer.parseInt(line[0]), line[1]);
-            row = csvReader.readLine();
+            if(line.length == 2)
+            {
+                loadProject(Integer.parseInt(line[0]), line[1]);    
+            }
+            else
+            {
+                loadProject(Integer.parseInt(line[0]), line[1], getDeveloper(line[2]));
+            }
+            row = txtReader.readLine();
         }
-        csvReader.close();
+        txtReader.close();
     }
 
-    private void addCsvActivities() throws FileNotFoundException, IOException
+    private void addtxtActivities() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles/activities.csv");
-        BufferedReader csvReader = new BufferedReader(new FileReader(file));
-        String row = csvReader.readLine();
+        File file = new File("txtfiles/activities.txt");
+        BufferedReader txtReader = new BufferedReader(new FileReader(file));
+        String row = txtReader.readLine();
         while (row != null)
         {
             String[] line = row.split(",");
@@ -211,25 +281,25 @@ public class LogPlan
             {
                 activityNextId = act.getId() + 1;
             }
-            row = csvReader.readLine();
+            row = txtReader.readLine();
         }
-        csvReader.close();
+        txtReader.close();
     }
 
     private void activityUserConnection() throws FileNotFoundException, IOException
     {
-        File file = new File("csvfiles/activity_developer.csv");
-        BufferedReader csvReader = new BufferedReader(new FileReader(file));
-        String row = csvReader.readLine();
+        File file = new File("txtfiles/activity_developer.txt");
+        BufferedReader txtReader = new BufferedReader(new FileReader(file));
+        String row = txtReader.readLine();
         while (row != null)
         {
             String[] line = row.split(",");
             Activity act = findActivity(Integer.parseInt(line[0]));
             Developer dev = getDeveloper(line[1]);
             act.addDev(dev);
-            row = csvReader.readLine();
+            row = txtReader.readLine();
         }
-        csvReader.close();
+        txtReader.close();
     }
 
     public Project getProject(int id)
@@ -256,24 +326,24 @@ public class LogPlan
         return null;
     }
 
-    private void addCsvSessions() throws FileNotFoundException, IOException, NumberFormatException
+    private void addtxtSessions() throws FileNotFoundException, IOException, NumberFormatException
     {
-        File file = new File("csvfiles/session.csv");
-        BufferedReader csvReader = new BufferedReader(new FileReader(file));
-        String row = csvReader.readLine();
+        File file = new File("txtfiles/session.txt");
+        BufferedReader txtReader = new BufferedReader(new FileReader(file));
+        String row = txtReader.readLine();
         while (row != null)
         {
             String[] line = row.split(",");
             String[] datedate = line[1].split("&");
             LocalDate date = LocalDate.of(Integer.parseInt(datedate[0]), Integer.parseInt(datedate[1]), Integer.parseInt(datedate[2]));
-            Session sess = new Session(Double.parseDouble(line[0]), date);
+            Session sess = new Session(Double.parseDouble(line[0]), date, Integer.parseInt(line[3]));
             Activity act = findActivity(Integer.parseInt(line[3]));
             Developer dev = getDeveloper(line[2]);
             act.addSession(sess);
             dev.addSession(sess);
-            row = csvReader.readLine();
+            row = txtReader.readLine();
         } 
-        csvReader.close();
+        txtReader.close();
     }
 
     private Activity findActivity(int id)
@@ -363,6 +433,10 @@ public class LogPlan
             }
             if(s.equals("4"))
             {
+                try
+                {
+                    writeTotxt();
+                } catch (Exception e){System.out.println("hej");}
                 return;
             }
             System.out.println("Not a valid input, please try again.\n");

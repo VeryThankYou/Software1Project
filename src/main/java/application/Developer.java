@@ -19,22 +19,40 @@ public class Developer
         name = newName;
     }
 
-    public ArrayList<Activity> viewSchedule(int weeknum) //prepost
+    // Preconditions:
+    // - weeknum is a valid week number (between 1 and 52)
+    // Postconditions:
+    // - the returned ArrayList is not null
+    // - the returned ArrayList contains only non-null Activity objects
+    // - the returned ArrayList contains all Activity objects with a frame that includes weeknum
+    public ArrayList<Activity> viewSchedule(int weeknum)
     {
+        assert weeknum >= 1 && weeknum <= 52 : "weeknum is not a valid week number";
         ArrayList<Activity> weekActs = new ArrayList<>();
         for (int i = 0 ; i < activities.size() ; i++)
         {
+            assert activities.get(i) != null : "activity " + i + " is null";
             int[] frame = activities.get(i).getDates();
             if(weeknum >= frame[0] && weeknum <= frame[1])
             {
                 weekActs.add(activities.get(i));
             }    
         }
+        assert weekActs != null : "returned ArrayList is null";
+        for (Activity act : weekActs)
+        {
+            assert act != null : "returned ArrayList contains null Activity objects";
+        }
+        for (Activity act : activities)
+        {
+            int[] frame = act.getDates();
+            if (weeknum >= frame[0] && weeknum <= frame[1])
+            {
+                assert weekActs.contains(act) : "returned ArrayList does not contain all Activity objects with a frame that includes weeknum";
+            }
+        }
         return weekActs;
     }
-
-    
-    
 
     public void markHours(Activity activity, LocalDate date, Double time) throws Exception
     { 

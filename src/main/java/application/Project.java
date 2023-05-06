@@ -51,14 +51,26 @@ public class Project
         throw new UserNotLeaderException("Not project leader error");
     }
 
+    // Preconditions:
+    // - act is not null
+    // - loggedIn is not null
+    // Postconditions:
+    // - the activity is added to the list of activities if the logged-in user is the project leader
+    // - otherwise, a UserNotLeaderException is thrown
+    
     public void addActivity(Activity act, Developer loggedIn) throws UserNotLeaderException
-    {// prepost
+    {
+        assert act != null : "Activity is null";
+        assert loggedIn != null : "Logged-in user is null";
         if(isProjectLeader(loggedIn))
         {
+            int prevSize = activities.size();
             activities.add(act);
-            return;
+            assert activities.size() == prevSize + 1 : "Activity was not added to the list of activities";
         }
-        throw new UserNotLeaderException("Not project leader error");
+        else {
+            throw new UserNotLeaderException("Not project leader error");
+        }
     }
 
     public void addActivity(Activity act)

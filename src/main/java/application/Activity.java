@@ -73,13 +73,26 @@ public class Activity
         return out;
     }
 
-    public double computeHoursSpent() //prepost
+    // Preconditions:
+    // - sessions is not null
+    // - all elements in sessions are not null
+    // - all sessions have a non-negative length
+    // Postconditions:
+    // - the returned value is a positive double
+    // - the returned value is equal to the sum of all session lengths
+
+    public double computeHoursSpent()
     {
+        assert sessions != null : "sessions is null";
         double hoursSpent = 0; 
         for(int i = 0; i < sessions.size(); i++)
         {
+            assert sessions.get(i) != null : "session " + i + " is null";
+            assert sessions.get(i).getLength() >= 0 : "session " + i + " has negative length";
             hoursSpent += sessions.get(i).getLength();
         }
+        assert hoursSpent >= 0 : "total hours spent is negative";
+        assert hoursSpent > 0 : "total hours spent is not positive";
         return hoursSpent;
     }
 

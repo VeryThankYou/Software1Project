@@ -33,22 +33,11 @@ public class Developer
         return weekActs;
     }
 
-    public ArrayList<Project> viewProjects(int weeknum) //prepost
-    {
-        ArrayList<Project> projects = new ArrayList<Project>();
-        for (int i = 0; i < viewSchedule(weeknum).size(); i++)
-        {
-            Project proj = viewSchedule(weeknum).get(i).getProject();
-            if (!projects.contains(proj))
-            {
-                projects.add(proj);
-            }
-        }
-        return projects;
-    }
+    
+    
 
     public void markHours(Activity activity, LocalDate date, Double time) throws Exception
-    { //prepost
+    { 
         if(time == null)
         {
             throw new Exception("Error: Hours field is empty");
@@ -83,32 +72,14 @@ public class Developer
         return sessions;
     }
 
-    public ArrayList<Session> searchSessionsByMonth(int searchMonth) //prepost
-    {
-
-        ArrayList<Session> monthSessions = new ArrayList<>();
-        if(searchMonth < 1 || searchMonth > 12)
-        {
-            return monthSessions;
-        }
-        
-        for (int i = 0; i< sessions.size() ; i++)
-        {
-            if( sessions.get(i).getDate().getMonthValue() == searchMonth)
-            {
-                monthSessions.add(sessions.get(i));
-            }
-        }
-
-        return monthSessions;
-    }
+    
 
     public void removeActivity(Activity act)
     {
         activities.remove(act);
     }
 
-    public void addVacation(int startDate, int endDate, Project vacProj, int neextActId) //prepost maybe
+    public void addVacation(int startDate, int endDate, Project vacProj, int neextActId) 
     {
         Activity vacAct = new Activity("Vacation", endDate, endDate, 0, vacProj, neextActId);
         vacProj.addActivity(vacAct);

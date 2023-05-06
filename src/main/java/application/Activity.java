@@ -83,7 +83,7 @@ public class Activity
         return hoursSpent;
     }
 
-    public void setStartEndDate(int start, int end) //prepost
+    public void setStartEndDate(int start, int end) 
     {
         if (start > -1 && start < 54 && end > -1 && end < 54) 
         {
@@ -96,7 +96,7 @@ public class Activity
         }
     }
 
-    public void setProcessInfo(int i) //prepost
+    public void setProcessInfo(int i) 
     {
         //0 is to-do
         //1 is doing

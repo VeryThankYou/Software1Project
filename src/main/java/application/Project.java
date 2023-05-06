@@ -32,7 +32,7 @@ public class Project
     }
 
     public void updateLeader(Developer dev, Developer loggedIn) throws UserNotLeaderException
-    { // prepost
+    { 
         if (isProjectLeader(loggedIn))
         {
             this.projectLeader = dev;
@@ -66,7 +66,7 @@ public class Project
         activities.add(act);
     }
 
-    public void updateName(Developer loggedIn, String newName) // prepost
+    public void updateName(Developer loggedIn, String newName)
     {
         if (isProjectLeader(loggedIn))
         {
@@ -311,7 +311,7 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
         return projectLeader;
     }
 
-    public void deleteActivity(Activity act) //prepost
+    public void deleteActivity(Activity act) 
     {
         for(int i = 0; i < act.getDeveloperList().size(); i ++)
         {

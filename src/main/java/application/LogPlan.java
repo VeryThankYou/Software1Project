@@ -6,8 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.time.LocalDate;
 import java.io.FileWriter;
 
 import java.io.BufferedReader;
@@ -17,9 +15,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.*;
-import javax.naming.directory.SearchResult;
-
-import io.cucumber.docstring.DocStringTypeRegistryDocStringConverter;
 
 public class LogPlan 
 {
@@ -372,8 +367,7 @@ public class LogPlan
 
     public void addActivityToProject(Project proj, Activity act) throws UserNotLeaderException
     {
-        Developer loggedIn = this.signedIn;
-        proj.addActivity(act, signedIn);
+        proj.addActivity(act, this.signedIn);
         this.activityNextId = this.activityNextId + 1;
     }
 
@@ -1774,8 +1768,7 @@ public class LogPlan
                         addDeveloperMenu(act);
                         return;
                     }
-                    catch(Exception e)
-                    {}
+                    catch(Exception e){}
                     System.out.println("Invalid input. Please try again");
                 }
             }

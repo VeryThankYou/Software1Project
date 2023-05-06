@@ -19,7 +19,7 @@ public class Developer
         name = newName;
     }
 
-    public ArrayList<Activity> viewSchedule(int weeknum)
+    public ArrayList<Activity> viewSchedule(int weeknum) //prepost
     {
         ArrayList<Activity> weekActs = new ArrayList<>();
         for (int i = 0 ; i < activities.size() ; i++)
@@ -33,7 +33,7 @@ public class Developer
         return weekActs;
     }
 
-    public ArrayList<Project> viewProjects(int weeknum)
+    public ArrayList<Project> viewProjects(int weeknum) //prepost
     {
         ArrayList<Project> projects = new ArrayList<Project>();
         for (int i = 0; i < viewSchedule(weeknum).size(); i++)
@@ -48,7 +48,7 @@ public class Developer
     }
 
     public void markHours(Activity activity, LocalDate date, Double time) throws Exception
-    {
+    { //prepost
         if(time == null)
         {
             throw new Exception("Error: Hours field is empty");
@@ -83,7 +83,7 @@ public class Developer
         return sessions;
     }
 
-    public ArrayList<Session> searchSessionsByMonth(int searchMonth)
+    public ArrayList<Session> searchSessionsByMonth(int searchMonth) //prepost
     {
 
         ArrayList<Session> monthSessions = new ArrayList<>();
@@ -108,7 +108,7 @@ public class Developer
         activities.remove(act);
     }
 
-    public void addVacation(int startDate, int endDate, Project vacProj, int neextActId)
+    public void addVacation(int startDate, int endDate, Project vacProj, int neextActId) //prepost maybe
     {
         Activity vacAct = new Activity("Vacation", endDate, endDate, 0, vacProj, neextActId);
         vacProj.addActivity(vacAct);

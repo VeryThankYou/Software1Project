@@ -73,7 +73,7 @@ public class Activity
         return out;
     }
 
-    public double computeHoursSpent()
+    public double computeHoursSpent() //prepost
     {
         double hoursSpent = 0; 
         for(int i = 0; i < sessions.size(); i++)
@@ -83,7 +83,7 @@ public class Activity
         return hoursSpent;
     }
 
-    public void setStartEndDate(int start, int end)
+    public void setStartEndDate(int start, int end) //prepost
     {
         if (start > -1 && start < 54 && end > -1 && end < 54) 
         {
@@ -96,7 +96,7 @@ public class Activity
         }
     }
 
-    public void setProcessInfo(int i)
+    public void setProcessInfo(int i) //prepost
     {
         //0 is to-do
         //1 is doing

@@ -32,7 +32,7 @@ public class Project
     }
 
     public void updateLeader(Developer dev, Developer loggedIn) throws UserNotLeaderException
-    {
+    { // prepost
         if (isProjectLeader(loggedIn))
         {
             this.projectLeader = dev;
@@ -52,7 +52,7 @@ public class Project
     }
 
     public void addActivity(Activity act, Developer loggedIn) throws UserNotLeaderException
-    {
+    {// prepost
         if(isProjectLeader(loggedIn))
         {
             activities.add(act);
@@ -66,7 +66,7 @@ public class Project
         activities.add(act);
     }
 
-    public void updateName(Developer loggedIn, String newName)
+    public void updateName(Developer loggedIn, String newName) // prepost
     {
         if (isProjectLeader(loggedIn))
         {
@@ -76,7 +76,7 @@ public class Project
 
 
 public void makeReport(Developer loggedIn) throws UserNotLeaderException 
-{
+{ // prepost
     if (isProjectLeader(loggedIn))
     {
         // Create a FileWriter object to write to a file
@@ -311,7 +311,7 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
         return projectLeader;
     }
 
-    public void deleteActivity(Activity act)
+    public void deleteActivity(Activity act) //prepost
     {
         for(int i = 0; i < act.getDeveloperList().size(); i ++)
         {

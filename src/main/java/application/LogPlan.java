@@ -779,9 +779,9 @@ public class LogPlan
             {
                 while(true)
                 {
-                    System.out.println("What name do you want to give the project? (Max 50 chars, min 1)");
+                    System.out.println("What name do you want to give the project? (Max 50 chars, min 1, no commas)");
                     String s2 = scanner.nextLine();
-                    if(s2.length() <= 50 && s2.length() > 1)
+                    if(!s2.contains(",") && (s2.length() <= 50 && s2.length() > 1))
                     {
                         proj.updateName(signedIn, s2);
                         viewProjectMenu(proj);
@@ -933,7 +933,7 @@ public class LogPlan
 
         System.out.println("Log hours menu for activity: " + act.getName() + "(ID: ebuc" + act.getId() + ")");
         LocalDate date = LocalDate.now();
-
+        double hours;
         while(true) // Loops until the user enters a valid input
         {
             System.out.println("Do you want to log hours for today or another day?");
@@ -946,8 +946,70 @@ public class LogPlan
                 System.out.println("Logging hours for today");
             } else if(s2.equals("2"))
             {
-                System.out.println("Please enter the date you want to log hours for (in the format dd/MM/yyyy):");
-                date = LocalDate.parse(scanner.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                while(true)
+                {
+                    System.out.println("Enter the year for the date");
+                    String syear = scanner.nextLine();
+                    int year;
+                    try
+                    {
+                        year = Integer.parseInt(syear);
+                        if(year < 0 || year > 9999)
+                        {
+                            System.out.println("Invalid input, please write an integer between 0 and 9999");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    System.out.println("Enter the month for the date as a number");
+                    String smonth = scanner.nextLine();
+                    int month;
+                    try
+                    {
+                        month = Integer.parseInt(smonth);
+                        if(month < 1 || month > 12)
+                        {
+                            System.out.println("Invalid input, please write an integer between 1 and 12");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    System.out.println("Enter the day for the date as a number");
+                    String sday = scanner.nextLine();
+                    int day;
+                    try
+                    {
+                        day = Integer.parseInt(sday);
+                        if(day < 1 || day > 31)
+                        {
+                            System.out.println("Invalid input, please write an integer between 1 and 31");
+                            continue;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.out.println("Invalid input, please write an integer");
+                        continue;
+                    }
+                    try
+                    {
+                        date = LocalDate.of(year, month, day);  
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid inputs, your values were not compatible with the calendar");
+                        continue;
+                    }
+                    break;
+                }
             }
             else if(s2.equals("3"))
             {
@@ -959,41 +1021,31 @@ public class LogPlan
                 System.out.println("Invalid input");
                 continue;
             }
-
-            System.out.println("Please enter the amount of hours you want to log (as a positiv number between 0-24 hours in the format 0.0. Eg. 1.5 for one and a half hour):");
-            String s = scanner.nextLine();
-            try
+            while(true)
             {
-                boolean addMore = false;
-                do {
-
-                double hours = (double) Double.parseDouble(s);
-                signedIn.markHours(act, date, hours); // markHours function from the Developer class
-                System.out.println("Hours have been logged, do you want to log more hours?");
-                
-                System.out.println("1. Yes");
-                System.out.println("2. No");
+                System.out.println("Enter how many hours you want to log. The input will be rounded down to nearest half hour.");
                 String s3 = scanner.nextLine();
-                if(s3.equals("1"))
+                try
                 {
-                    addMore = true;
+                    hours = Double.parseDouble(s3);  
                 }
-                else if(s3.equals("2"))
+                catch(Exception e)
                 {
-                    addMore = false;
+                    System.out.println("Invalid input. Please try again");
+                    continue;
                 }
-                else
+                if ((hours - (hours % 0.5)) >= 0.5)
                 {
-                    System.out.println("Invalid input");
+                    try
+                    {
+                        signedIn.markHours(act, date, (hours - (hours % 0.5)));
+                        System.out.println("Hours have been logged successfully");
+                        logHoursMenu(act);
+                        return;
+                    }
+                    catch(Exception e){}
                 }
-                
-                } while (addMore);
-
-                break;
-            }
-            catch(Exception e)
-            {
-                System.out.println("Invalid input. Please try again");
+                System.out.println("Invalid input. Please enter a positive number at least as big as 0.5");
             }
         }
     }
@@ -1137,7 +1189,8 @@ public class LogPlan
 
             System.out.println("1: Change length");
             System.out.println("2: Change date");
-            System.out.println("3: Go back");
+            System.out.println("3: Delete session");
+            System.out.println("4: Go back");
             name = scanner.nextLine();
             if(name.equals("1"))
             {
@@ -1234,6 +1287,14 @@ public class LogPlan
                 }
             }
             if(name.equals("3"))
+            {
+                Activity act = findActivity(theSes.getActId());
+                signedIn.deleteSession(theSes, act);
+                System.out.println("Session deleted successfully");
+                sessionMenu();
+                return;
+            }
+            if(name.equals("4"))
             {
                 sessionMenu();
                 return;

@@ -247,4 +247,8 @@ public class Activity
         this.hourEstimate = newHours;
     }
 
+    public void deleteSession(Session session)
+    {
+        this.sessions.remove(session);
+    }
 }

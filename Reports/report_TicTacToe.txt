@@ -1,4 +1,16 @@
 Project Report for TicTacToe
 Project ID: 2022001
 Project Leader: None
-No activities in project
+Start Date: Week 18, 2023
+End Date: Week 20, 2023
+Hours estimated for project: 5.0
+Hours spent on project: 0.0
+Planned Activities:                               Current Activities:                               Done Activities:
+Place cross                                                                                         
+Hours spent on activity: 
+          1) Place cross: 0.0
+Developers assigned to the activity, Place cross: 
+          1) Erik Buur Christensen
+          2) William Allerup Carlsen
+          3) Marcus Bignut Christiansen
+          4) Sophus Theilvig Strømsborg

@@ -124,4 +124,10 @@ public class Developer
     {
         activities.remove(act);
     }
+
+    public void deleteSession(Session session, Activity act)
+    {
+        act.deleteSession(session);
+        this.sessions.remove(session);
+    }
 }

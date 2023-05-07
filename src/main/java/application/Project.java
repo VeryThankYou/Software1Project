@@ -57,7 +57,7 @@ public class Project
     // Postconditions:
     // - the activity is added to the list of activities if the logged-in user is the project leader
     // - otherwise, a UserNotLeaderException is thrown
-    
+
     public void addActivity(Activity act, Developer loggedIn) throws UserNotLeaderException
     {
         assert act != null : "Activity is null";
@@ -87,13 +87,32 @@ public class Project
     }
 
 
+    // Preconditions:
+    // - Check if the loggedIn Developer object is not null. (This ensures that there is a valid user attempting to generate a report.)
+    // Postconditions:
+    // - A report is generated for the project and written to a file. (Check if the file has been created successfully.)
+    // Assertions:
+    // - Check if the activities ArrayList is not null.
+    // - Check if the projectID is not negative.
+    // - Check if the name is not null.
+
 public void makeReport(Developer loggedIn) throws UserNotLeaderException 
-{ // prepost
+{ 
+
+    // Preconditions
+    assert loggedIn != null : "loggedIn should not be null";
+
     if (isProjectLeader(loggedIn))
     {
         // Create a FileWriter object to write to a file
         try 
         {
+            // Assertions
+            assert activities != null : "activities should not be null";
+            assert projectID >= 0 : "projectID should not be negative";
+            assert name != null : "name should not be null";
+
+
             // Directory for reports
             File dir = new File("Reports");
             dir.mkdir();
@@ -283,6 +302,9 @@ public void makeReport(Developer loggedIn) throws UserNotLeaderException
                 }
             }
             writer.close();
+            // Postconditions
+            File reportFile = new File("Reports/report_" + name + ".txt");
+            assert reportFile.exists() && !reportFile.isDirectory() : "Report file should have been created successfully";
         }
         catch (IOException e) 
         {

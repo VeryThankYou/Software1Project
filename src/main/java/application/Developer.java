@@ -29,7 +29,6 @@ public class Developer
     {
         int year = weeknum / 100;
         int week = weeknum - 100 * year;
-        System.out.println("Hej" + week);
         assert ((week >= 1) && (week <= 52)) : "week is not a valid week number";
         ArrayList<Activity> weekActs = new ArrayList<>();
         for (int i = 0 ; i < activities.size() ; i++)

@@ -260,4 +260,9 @@ public class Activity
     {
         this.sessions.remove(session);
     }
+
+    public ArrayList<Session> getSessions()
+    {
+        return sessions;
+    }
 }

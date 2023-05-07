@@ -255,7 +255,7 @@ public class StepDefinitions {
 		LocalDate date = LocalDate.now();
 		try
 		{
-			developer.markHours(activity, date, (double) hours);
+			developer.logHours(activity, date, (double) hours);
 		}
 		catch (Exception e)
 		{
@@ -276,7 +276,7 @@ public class StepDefinitions {
 		LocalDate date = LocalDate.now();
 		try
 		{
-			developer.markHours(activity, date, null);
+			developer.logHours(activity, date, null);
 		}
 		catch (Exception e)
 		{

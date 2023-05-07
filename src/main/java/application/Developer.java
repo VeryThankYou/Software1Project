@@ -56,7 +56,7 @@ public class Developer
         return weekActs;
     }
 
-    public void markHours(Activity activity, LocalDate date, Double time) throws Exception
+    public void logHours(Activity activity, LocalDate date, Double time) throws Exception
     { 
         if(time == null)
         {

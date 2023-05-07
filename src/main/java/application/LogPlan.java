@@ -1031,7 +1031,7 @@ public class LogPlan
                 {
                     try
                     {
-                        signedIn.markHours(act, date, (hours - (hours % 0.5)));
+                        signedIn.logHours(act, date, (hours - (hours % 0.5)));
                         System.out.println("Hours have been logged successfully");
                         logHoursMenu(act);
                         return;
@@ -1373,7 +1373,7 @@ public class LogPlan
                         System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
                     }
                     System.out.println("");
-                    System.out.println("Choose activity you want to mark hours on by its number");
+                    System.out.println("Choose activity you want to log hours on by its number");
                     String s2 = scanner.nextLine();
                     try
                     {
@@ -1422,7 +1422,7 @@ public class LogPlan
                         System.out.println(Integer.toString(i + 1) + ". " + acts.get(i).getName());
                     }
                     System.out.println("");
-                    System.out.println("Choose activity you want to mark hours on by its number");
+                    System.out.println("Choose activity you want to log hours on by its number");
                     String s2 = scanner.nextLine();
                     try
                     {

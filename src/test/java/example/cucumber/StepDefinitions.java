@@ -326,7 +326,7 @@ public class StepDefinitions {
     @Given("the project has been created")
     public void the_project_has_been_created() {
         // Write code here that turns the phrase above into concrete actions
-		project = new Project(0, devID);
+		project = new Project(0, "newProject");
 
 
     }

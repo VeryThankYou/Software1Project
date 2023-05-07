@@ -6,7 +6,7 @@ End Date: Week 0, 0
 Hours estimated for project: 0.0
 Hours spent on project: 0.0
 Planned Activities:                               Current Activities:                               Done Activities:
-null                                                                                                    
+New activity                                                                                        
 Hours spent on activity: 
-          1) null: 0.0
-No developers assigned to the activity: null
+          1) New activity: 0.0
+No developers assigned to the activity: New activity

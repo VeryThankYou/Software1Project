@@ -27,7 +27,10 @@ public class Developer
     // - the returned ArrayList contains all Activity objects with a frame that includes weeknum
     public ArrayList<Activity> viewSchedule(int weeknum)
     {
-        assert weeknum >= 1 && weeknum <= 52 : "weeknum is not a valid week number";
+        int year = weeknum / 100;
+        int week = weeknum - 100 * year;
+        System.out.println("Hej" + week);
+        assert ((week >= 1) && (week <= 52)) : "week is not a valid week number";
         ArrayList<Activity> weekActs = new ArrayList<>();
         for (int i = 0 ; i < activities.size() ; i++)
         {

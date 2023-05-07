@@ -1,11 +1,8 @@
 package application;
-
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class Activity
@@ -92,7 +89,6 @@ public class Activity
             hoursSpent += sessions.get(i).getLength();
         }
         assert hoursSpent >= 0 : "total hours spent is negative";
-        assert hoursSpent > 0 : "total hours spent is not positive";
         return hoursSpent;
     }
 

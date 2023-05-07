@@ -114,6 +114,7 @@ public class StepDefinitions {
 	@Given("the developer who is logged in is project leader for the project")
 	public void theLoggedInDeveloperIsProjectLeader()
 	{
+		logPlan.signIn("ebuc");
 		assertTrue(project.isProjectLeader(logPlan.getSignedIn()));
 	}
 
@@ -179,7 +180,7 @@ public class StepDefinitions {
 		try
 		{
 			activity = new Activity("newActivity", date.getYear() * 100 + weeknum, date.getYear() * 100 + weeknum, 2.0, project, logPlan.getActivityNextId());
-			project.addActivity(activity, developer);
+			project.addActivity(activity, logPlan.getSignedIn());
 		} catch (Exception e){}
 		for(int i = 0; i < logPlan.getDeveloperList().size(); i++)
 		{
@@ -304,7 +305,7 @@ public class StepDefinitions {
     public void they_have_selected_an_activity() 
 	{
         // Write code here that turns the phrase above into concrete actions
-		this.activity = new Activity("TestActivity", 0, 0, 0, project, 0);
+		this.activity = new Activity("TestActivity", 202318, 202319, 0, project, 0);
     }
 
     @When("clicked on ”Generate Report”")
@@ -324,7 +325,7 @@ public class StepDefinitions {
     @Given("activities have been assigned to the project")
     public void activities_have_been_assigned_to_the_project() {
         // Write code here that turns the phrase above into concrete actions
-		activity = new Activity(devID, 0, 0, 0, project, 0);
+		activity = new Activity("New activity", 0, 0, 0, project, 0);
 		project.addActivity(activity);
     }
 

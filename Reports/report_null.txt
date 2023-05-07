@@ -1,8 +1,8 @@
 Project Report for null
 Project ID: 0
 Project Leader: None
-Start Date: Week 0, 0
-End Date: Week 0, 0
+Start Date: Week 1, 0
+End Date: Week 1, 0
 Hours estimated for project: 0.0
 Hours spent on project: 0.0
 Planned Activities:                               Current Activities:                               Done Activities:

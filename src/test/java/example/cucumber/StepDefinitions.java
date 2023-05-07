@@ -325,7 +325,7 @@ public class StepDefinitions {
     @Given("activities have been assigned to the project")
     public void activities_have_been_assigned_to_the_project() {
         // Write code here that turns the phrase above into concrete actions
-		activity = new Activity("New activity", 0, 0, 0, project, 0);
+		activity = new Activity("New activity", 1, 1, 0, project, 0);
 		project.addActivity(activity);
     }
 
@@ -423,5 +423,5 @@ public class StepDefinitions {
 		{ 
 			assertTrue(true);
     	}
-}
+	}
 }

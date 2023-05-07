@@ -302,7 +302,7 @@ public class StepDefinitions {
 		this.activity = new Activity("TestActivity", 202318, 202319, 0, project, 0);
     }
 
-    @When("clicked on ”Generate Report”")
+    @When("'Make Report' is choosen from the menu")
     public void clicked_on_Generate_Report() {
         // Write code here that turns the phrase above into concrete actions
 		try

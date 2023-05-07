@@ -1,6 +1,7 @@
 package example.cucumber;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.longThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import io.cucumber.java.en.When;
 import application.Developer;
 import application.LogPlan;
 import application.Project;
+import application.Session;
 import application.UserNotLeaderException;
 import application.Activity;
 import application.Developer;
@@ -29,12 +31,15 @@ public class StepDefinitions {
 
 	private LogPlan logPlan;
 	private Activity activity;
+	private Activity act1;
+	private Activity act2;
 	private Developer developer;
 	private String devID;
 	private Project project;
 	private String message;
 	private ArrayList<Activity> schedule;
 	private Map<Integer, ArrayList<Developer>> avdevs;
+	private double doublereturn;
 
 	public StepDefinitions(LogPlan logplan) throws FileNotFoundException, IOException 
 	{
@@ -197,25 +202,14 @@ public class StepDefinitions {
 
 
 
-
-	@Then("the activity is added to the project")
-	public void theActivityIsAddedToTheProject()
-	{
-		boolean b = false;
-		ArrayList<Activity> actList = project.getActivities();
-		for (int i = 0; i < actList.size(); i++) 
-		{
-			if (actList.get(i).getId() == activity.getId()) 
-			{
-				b = true;
-			}
-		}
-		assertTrue(b);
-	}
-
 	@Given("there is no project leader")
 	public void thereIsNoProjectLeader()
 	{
+		try
+		{
+			project.updateLeader(null, project.getProjectLeader());
+		}
+		catch(Exception e){}
 		assertTrue(project.getProjectLeader() == null);
 	}
 
@@ -449,4 +443,144 @@ public class StepDefinitions {
 		project.addActivity(activity2);
 		project.addActivity(activity3);
     }
+
+	@Given("the activity has no sessions logged")
+	public void the_activity_has_no_sessions_logged()
+	{
+		assertTrue(activity.getSessions().size() == 0);
+	}
+
+	@When("they call computeHours for the activity")
+	public void they_call_computeHours_for_the_activity()
+	{
+		this.doublereturn = activity.computeHoursSpent();
+	}
+
+	@Then("the return is {float}")
+	public void then_the_return_is(float f)
+	{
+		double checkValue = (double) f;
+		assertTrue(checkValue == doublereturn);
+	}
+
+	@Given("the activity has one session with length {float} logged")
+	public void the_activity_has_one_session_with_length(float f)
+	{
+		Session sesh = new Session((double) f, null, activity.getId());
+		activity.addSession(sesh);
+	}
+
+	@Given("assigned to one activity with startdate {int} and end date {int}")
+	public void assigned_to_one_activity(int s1, int s2)
+	{
+		for(int i = 0; i < logPlan.getSignedIn().getActivities().size(); i++)
+		{
+			logPlan.getSignedIn().removeActivity(logPlan.getSignedIn().getActivities().get(i));
+		}
+		act1 = new Activity("act1", s1, s2, 0.0, project, 0);
+		act1.addDev(logPlan.getSignedIn());
+	}
+
+	@Given("not assigned to any activities")
+	public void not_assigned_to_any_activities()
+	{
+		for(int i = 0; i < logPlan.getSignedIn().getActivities().size(); i++)
+		{
+			logPlan.getSignedIn().removeActivity(logPlan.getSignedIn().getActivities().get(i));
+		}
+	}
+
+	@Given("assigned to two activities with startdate {int} and end date {int}")
+	public void assigned_to_two_activities(int s1, int s2)
+	{
+		for(int i = 0; i < logPlan.getSignedIn().getActivities().size(); i++)
+		{
+			logPlan.getSignedIn().removeActivity(logPlan.getSignedIn().getActivities().get(i));
+		}
+		act1 = new Activity("act1", s1, s2, 0.0, project, 0);
+		act2 = new Activity("act2", s1, s2, 0.0, project, 0);
+		act1.addDev(logPlan.getSignedIn());
+		act2.addDev(logPlan.getSignedIn());
+	}
+
+	@When("viewSchedule for weeknum {int} is called")
+	public void viewSchedule_for_weeknum(int s)
+	{
+		schedule = logPlan.getSignedIn().viewSchedule(s);
+	}
+
+	@Then("the return is an empty arraylist")
+	public void the_return_is_an_empty_arraylist()
+	{
+		assertTrue(schedule.size() == 0);
+	}
+
+	@Then("the return is an arraylist with the single activity")
+	public void the_return_is_an_arraylist_with_the_single_activity()
+	{
+		assertTrue(act1.equals(schedule.get(0)));
+	}
+
+	@Then("the return is an arraylist with both activities")
+	public void the_return_is_an_arraylist_with_both_activities()
+	{
+		Boolean bool1 = (act1.equals(schedule.get(0)) && act2.equals(schedule.get(1)));
+		Boolean bool2 = (act1.equals(schedule.get(1)) && act2.equals(schedule.get(0)));
+		assertTrue(bool1 || bool2);
+	}
+
+	@Given("the activity is not null")
+	public void the_activity_is_not_null()
+	{
+		activity = new Activity("newAct", 1, 1, 5.0, project, 0);
+	}
+
+	@Given("the activity is null")
+	public void the_activity_is_null()
+	{
+		activity = null;
+	}
+
+	@When("addActivity for the project is called with the chosen activity")
+	public void addActivity_for_the_project_is_called_with_the_chosen_activity()
+	{
+		try
+		{
+			project.addActivity(activity, logPlan.getSignedIn());
+		}
+		catch(Exception e)
+		{
+			this.message = e.getMessage();
+		}
+	}
+
+	@Then("the null activity is added to the project")
+	public void the_null_activity_is_added_to_the_project()
+	{
+		Boolean b1 = false;
+		for(int i = 0; i < project.getActivities().size(); i++)
+		{
+			Activity a = project.getActivities().get(i);
+			if(a == null)
+			{
+				b1 = true;
+			}
+		}
+		assertTrue(b1);
+	}
+
+	@Then("the activity is added to the project")
+	public void the_activity_is_added_to_the_projecthaha()
+	{
+		Boolean b1 = false;
+		for(int i = 0; i < project.getActivities().size(); i++)
+		{
+			Activity a = project.getActivities().get(i);
+			if(a == activity)
+			{
+				b1 = true;
+			}
+		}
+		assertTrue(b1);
+	}
 }

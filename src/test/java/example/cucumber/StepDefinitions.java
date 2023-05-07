@@ -442,6 +442,8 @@ public class StepDefinitions {
         // Write code here that turns the phrase above into concrete actions
 		activity = new Activity("New activity", 1, 1, 0, project, 0);
 		Activity activity2 = new Activity("New activity2", 1, 1, 0, project, 0, 1);
+		Developer dev2 = logPlan.getDeveloper("mbic");
+		activity2.addDev(dev2);
 		Activity activity3 = new Activity("New activity3", 1, 1, 0, project, 0, 2);
 		project.addActivity(activity);
 		project.addActivity(activity2);

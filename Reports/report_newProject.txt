@@ -12,5 +12,6 @@ Hours spent on activity:
           2) New activity2: 0.0
           3) New activity3: 0.0
 No developers assigned to the activity: New activity
-No developers assigned to the activity: New activity2
+Developers assigned to the activity, New activity2: 
+          1) Marcus Bignut Christiansen
 No developers assigned to the activity: New activity3

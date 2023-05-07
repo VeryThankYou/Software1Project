@@ -1,0 +1,16 @@
+Project Report for newProject
+Project ID: 0
+Project Leader: Erik Buur Christensen
+Start Date: Week 1, 0
+End Date: Week 1, 0
+Hours estimated for project: 0.0
+Hours spent on project: 0.0
+Planned Activities:                               Current Activities:                               Done Activities:
+New activity                                      New activity2                                     New activity3
+Hours spent on activity: 
+          1) New activity: 0.0
+          2) New activity2: 0.0
+          3) New activity3: 0.0
+No developers assigned to the activity: New activity
+No developers assigned to the activity: New activity2
+No developers assigned to the activity: New activity3

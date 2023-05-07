@@ -424,4 +424,27 @@ public class StepDefinitions {
 			assertTrue(true);
     	}
 	}
+
+	@Given("no activities have been assigned to the project")
+    public void no_activities_have_been_assigned_to_the_project() {
+        // Write code here that turns the phrase above into concrete actions
+		assertTrue(project.getActivities().size() == 0);
+    }
+
+	@Given("the project has been created and has a project leader")
+    public void the_project_has_been_created_and_has_a_project_leader() {
+        // Write code here that turns the phrase above into concrete actions
+		project = new Project(0, "newProject", logPlan.getDeveloper("ebuc"));
+    }
+
+	@Given("specific activities have been assigned to the project")
+    public void specific_activities_have_been_assigned_to_the_project() {
+        // Write code here that turns the phrase above into concrete actions
+		activity = new Activity("New activity", 1, 1, 0, project, 0);
+		Activity activity2 = new Activity("New activity2", 1, 1, 0, project, 0, 1);
+		Activity activity3 = new Activity("New activity3", 1, 1, 0, project, 0, 2);
+		project.addActivity(activity);
+		project.addActivity(activity2);
+		project.addActivity(activity3);
+    }
 }

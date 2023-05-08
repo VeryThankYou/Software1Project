@@ -1898,7 +1898,7 @@ public class LogPlan
             }
 
             // converts the latest date to a year and week
-            temp = yearSlashWeek(earliestDate);
+            temp = yearSlashWeek(latestDate);
             int latestDateYear = temp[0];
             int latestDateWeek = temp[1];
 

@@ -110,7 +110,7 @@ public class Activity
         //0 is to-do
         //1 is doing
         //2 is done
-        if (i < -1 && i > 3)
+        if (i > -1 && i < 3)
         {
             processInfo = i;
         }
